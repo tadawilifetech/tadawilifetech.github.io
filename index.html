@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tadawi Life Tech | Muscat, Oman</title>
+    <style>
+      @font-face {
+        font-family: "SBC";
+        src: url("fonts/sbc.otf") format("opentype");
+        font-display: swap;
+      }
+
+      :root {
+        --text-main: #eef5f7;
+        --text-soft: #c3d3d8;
+        --text-muted: #aebfc5;
+        --panel-bg: linear-gradient(
+          155deg,
+          rgba(255, 255, 255, 0.2),
+          rgba(255, 255, 255, 0.06)
+        );
+        --panel-border: rgba(227, 238, 241, 0.28);
+        --panel-shadow: 0 22px 46px rgba(0, 19, 25, 0.3);
+        --accent: #9dc9d2;
+        --accent-2: #7fb2bd;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: "SBC", "Segoe UI", Tahoma, sans-serif;
+        color: var(--text-main);
+        background: url("back.jpeg") center center / cover no-repeat fixed;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          linear-gradient(135deg, rgba(5, 20, 24, 0.72), rgba(12, 34, 40, 0.62)),
+          radial-gradient(circle at 17% 16%, rgba(128, 180, 193, 0.16), transparent 48%),
+          radial-gradient(circle at 82% 84%, rgba(145, 199, 186, 0.1), transparent 52%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: clamp(20px, 4.4vw, 50px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .layout {
+        width: min(1020px, 100%);
+        display: grid;
+        grid-template-columns: minmax(330px, 1.25fr) minmax(280px, 1fr);
+        grid-template-areas:
+          "hero info"
+          "hero social";
+        gap: 16px;
+      }
+
+      .panel {
+        position: relative;
+        border-radius: 24px;
+        border: 1px solid var(--panel-border);
+        background: var(--panel-bg);
+        box-shadow: var(--panel-shadow);
+        backdrop-filter: blur(14px) saturate(126%);
+        -webkit-backdrop-filter: blur(14px) saturate(126%);
+        padding: clamp(18px, 2.4vw, 28px);
+        overflow: hidden;
+        isolation: isolate;
+        --rx: 0deg;
+        --ry: 0deg;
+        transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+        transition: transform 380ms cubic-bezier(0.2, 0.7, 0.2, 1),
+          border-color 320ms ease, box-shadow 320ms ease;
+      }
+
+      .panel::before {
+        content: "";
+        position: absolute;
+        inset: -40% -55%;
+        background:
+          radial-gradient(circle at var(--glow-x, 24%) var(--glow-y, 30%), rgba(175, 216, 226, 0.3), transparent 38%),
+          radial-gradient(circle at calc(100% - var(--glow-x, 24%)) calc(100% - var(--glow-y, 30%)), rgba(152, 206, 189, 0.2), transparent 44%);
+        filter: blur(20px);
+        opacity: 0.28;
+        animation: fluid-drift 12s ease-in-out infinite alternate;
+        z-index: -1;
+      }
+
+      .panel:hover {
+        border-color: rgba(233, 245, 248, 0.42);
+        box-shadow: 0 26px 50px rgba(0, 19, 25, 0.35);
+      }
+
+      .panel.tap-hit {
+        animation: tap-hit 520ms cubic-bezier(0.21, 0.61, 0.3, 1);
+      }
+
+      .hero {
+        grid-area: hero;
+        display: grid;
+        align-content: center;
+        gap: 16px;
+        min-height: 400px;
+      }
+
+      .status {
+        width: fit-content;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        letter-spacing: 0.2px;
+        color: #e9f4f6;
+        background: rgba(141, 185, 194, 0.18);
+        border: 1px solid rgba(205, 227, 233, 0.35);
+      }
+
+      .status-dot {
+        width: 7px;
+        aspect-ratio: 1;
+        border-radius: 999px;
+        background: #9fd4c0;
+        animation: status-pulse 2.4s ease-in-out infinite;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.5rem, 3vw, 2.45rem);
+        line-height: 1.35;
+        letter-spacing: 0.1px;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 36ch;
+        color: var(--text-soft);
+        font-size: clamp(0.9rem, 1.4vw, 1rem);
+        line-height: 1.95;
+      }
+
+      .meta-row {
+        margin-top: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+      }
+
+      .soft-line {
+        width: min(360px, 92%);
+        height: 7px;
+        border-radius: 999px;
+        position: relative;
+        overflow: hidden;
+        background: rgba(201, 222, 228, 0.22);
+        border: 1px solid rgba(220, 236, 240, 0.28);
+      }
+
+      .soft-line::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 38%;
+        transform: translateX(-180%);
+        background: linear-gradient(
+          90deg,
+          rgba(195, 226, 235, 0),
+          rgba(195, 226, 235, 0.86),
+          rgba(195, 226, 235, 0)
+        );
+        animation: line-wave 3.6s linear infinite;
+      }
+
+      .info {
+        grid-area: info;
+      }
+
+      .social {
+        grid-area: social;
+      }
+
+      .title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(1rem, 1.8vw, 1.2rem);
+        font-weight: 600;
+      }
+
+      .tiny {
+        color: var(--text-muted);
+        font-size: 0.72rem;
+      }
+
+      .list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 9px;
+      }
+
+      .item {
+        display: grid;
+        grid-template-columns: 36px 1fr;
+        align-items: center;
+        gap: 10px;
+        padding: 9px;
+        border-radius: 14px;
+        border: 1px solid rgba(215, 232, 237, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        transition: border-color 260ms ease, background-color 260ms ease,
+          transform 260ms ease;
+      }
+
+      .item:hover {
+        border-color: rgba(225, 239, 242, 0.34);
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateY(-2px);
+      }
+
+      .icon-shell {
+        width: 36px;
+        aspect-ratio: 1;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: rgba(175, 205, 214, 0.2);
+        border: 1px solid rgba(219, 234, 239, 0.28);
+        animation: icon-float 4.5s ease-in-out infinite;
+      }
+
+      .line-icon {
+        width: 19px;
+        height: 19px;
+        fill: none;
+        stroke: #d9eaee;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .line-icon * {
+        stroke-dasharray: 120;
+        stroke-dashoffset: 120;
+        animation: draw-line 1s ease forwards;
+      }
+
+      .item:nth-child(1) .line-icon * {
+        animation-delay: 0.08s;
+      }
+
+      .item:nth-child(2) .line-icon * {
+        animation-delay: 0.18s;
+      }
+
+      .item:nth-child(3) .line-icon * {
+        animation-delay: 0.28s;
+      }
+
+      .item:nth-child(4) .line-icon * {
+        animation-delay: 0.38s;
+      }
+
+      .label {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+      }
+
+      .value {
+        margin: 0;
+        font-size: 0.88rem;
+        line-height: 1.6;
+        color: var(--text-main);
+      }
+
+      .latin {
+        direction: ltr;
+        unicode-bidi: plaintext;
+        display: inline-block;
+      }
+
+      a {
+        color: #d5edf2;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #edf9fb;
+      }
+
+      .tap-ring {
+        position: absolute;
+        width: 16px;
+        aspect-ratio: 1;
+        border-radius: 999px;
+        border: 1px solid rgba(220, 242, 247, 0.8);
+        transform: translate(-50%, -50%) scale(0.1);
+        opacity: 0.8;
+        pointer-events: none;
+        animation: ring-out 650ms ease-out forwards;
+      }
+
+      @keyframes fluid-drift {
+        from {
+          transform: translate3d(-2%, -2%, 0);
+        }
+        to {
+          transform: translate3d(2%, 2%, 0);
+        }
+      }
+
+      @keyframes tap-hit {
+        0% {
+          transform: perspective(900px) scale(1);
+        }
+        45% {
+          transform: perspective(900px) scale(0.992);
+        }
+        100% {
+          transform: perspective(900px) scale(1);
+        }
+      }
+
+      @keyframes ring-out {
+        to {
+          transform: translate(-50%, -50%) scale(13);
+          opacity: 0;
+        }
+      }
+
+      @keyframes status-pulse {
+        0%,
+        100% {
+          opacity: 0.85;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.45;
+          transform: scale(0.8);
+        }
+      }
+
+      @keyframes line-wave {
+        from {
+          transform: translateX(-180%);
+        }
+        to {
+          transform: translateX(320%);
+        }
+      }
+
+      @keyframes icon-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-2px);
+        }
+      }
+
+      @keyframes draw-line {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @media (max-width: 920px) {
+        .layout {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "hero"
+            "info"
+            "social";
+        }
+
+        .hero {
+          min-height: auto;
+        }
+
+        .hero p {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .panel {
+          border-radius: 20px;
+          padding: 16px;
+        }
+
+        .item {
+          grid-template-columns: 34px 1fr;
+          gap: 9px;
+          padding: 8px;
+        }
+
+        .icon-shell {
+          width: 34px;
+          border-radius: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="layout">
+        <section class="panel hero liquid-card">
+          <span class="status"><span class="status-dot"></span> Under Construction</span>
+          <h1>The official Tadawi Life Tech website is in final development</h1>
+          <p>
+            Our new website is being prepared with a premium design, better
+            performance, and a refined user experience. Until launch, please
+            contact us through the details below.
+          </p>
+          <div class="soft-line" aria-hidden="true"></div>
+          <div class="meta-row">Muscat, Oman | Premium Care & Sleep Solutions</div>
+        </section>
+
+        <section class="panel info liquid-card">
+          <div class="title-row">
+            <h2>Contact Information</h2>
+            <span class="tiny">Direct Channels</span>
+          </div>
+          <ul class="list">
+            <li class="item">
+              <span class="icon-shell" aria-hidden="true">
+                <svg class="line-icon" viewBox="0 0 24 24">
+                  <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z" />
+                  <circle cx="12" cy="10" r="2.4" />
+                </svg>
+              </span>
+              <div>
+                <span class="label">Shop Address</span>
+                <p class="value latin">Al Ghubrah, Muscat, Oman</p>
+              </div>
+            </li>
+
+            <li class="item">
+              <span class="icon-shell" aria-hidden="true">
+                <svg class="line-icon" viewBox="0 0 24 24">
+                  <rect x="3.5" y="6" width="17" height="12" rx="2.4" />
+                  <path d="M4.5 7l7.5 6 7.5-6" />
+                </svg>
+              </span>
+              <div>
+                <span class="label">Email</span>
+                <p class="value latin">
+                  <a href="mailto:info@tadawilifetech.com">info@tadawilifetech.com</a>
+                </p>
+              </div>
+            </li>
+
+            <li class="item">
+              <span class="icon-shell" aria-hidden="true">
+                <svg class="line-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M6.2 4.2c0-1 1.1-1.6 1.9-1l2.3 1.8c.8.6.9 1.7.3 2.5l-1 1.4a14 14 0 0 0 5.8 5.8l1.4-1c.8-.6 1.9-.5 2.5.3l1.8 2.3c.6.8 0 1.9-1 1.9-8.1 0-14.6-6.5-14.6-14.6z"
+                  />
+                </svg>
+              </span>
+              <div>
+                <span class="label">Contact No</span>
+                <p class="value latin"><a href="tel:+96891235160">+968 91235160</a></p>
+              </div>
+            </li>
+
+            <li class="item">
+              <span class="icon-shell" aria-hidden="true">
+                <svg class="line-icon" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8" />
+                  <path d="M12 8v4l2.8 2" />
+                </svg>
+              </span>
+              <div>
+                <span class="label">Working Hours</span>
+                <p class="value latin">9-13 and 16 to 19</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="panel social liquid-card">
+          <div class="title-row">
+            <h2>Instagram</h2>
+            <span class="tiny">Official Accounts</span>
+          </div>
+          <ul class="list">
+            <li class="item">
+              <span class="icon-shell" aria-hidden="true">
+                <svg class="line-icon" viewBox="0 0 24 24">
+                  <rect x="4" y="4" width="16" height="16" rx="5" />
+                  <circle cx="12" cy="12" r="3.4" />
+                  <circle cx="17.3" cy="6.8" r="1" />
+                </svg>
+              </span>
+              <div>
+                <span class="label">Account 1</span>
+                <p class="value latin">
+                  <a href="https://instagram.com/Ortino_arabic" target="_blank" rel="noreferrer noopener">
+                    @Ortino_arabic
+                  </a>
+                </p>
+              </div>
+            </li>
+
+            <li class="item">
+              <span class="icon-shell" aria-hidden="true">
+                <svg class="line-icon" viewBox="0 0 24 24">
+                  <rect x="4" y="4" width="16" height="16" rx="5" />
+                  <circle cx="12" cy="12" r="3.4" />
+                  <circle cx="17.3" cy="6.8" r="1" />
+                </svg>
+              </span>
+              <div>
+                <span class="label">Account 2</span>
+                <p class="value latin">
+                  <a
+                    href="https://instagram.com/sleeptimecare.oman"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    @sleeptimecare.oman
+                  </a>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const cards = document.querySelectorAll(".liquid-card");
+
+      cards.forEach((card) => {
+        let frameId = null;
+
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          const nx = x / rect.width - 0.5;
+          const ny = y / rect.height - 0.5;
+          const rotateY = nx * 4;
+          const rotateX = -ny * 3;
+
+          if (frameId) {
+            cancelAnimationFrame(frameId);
+          }
+
+          frameId = requestAnimationFrame(() => {
+            card.style.setProperty("--rx", `${rotateX}deg`);
+            card.style.setProperty("--ry", `${rotateY}deg`);
+            card.style.setProperty("--glow-x", `${20 + (x / rect.width) * 58}%`);
+            card.style.setProperty("--glow-y", `${16 + (y / rect.height) * 62}%`);
+          });
+        });
+
+        card.addEventListener("pointerleave", () => {
+          card.style.removeProperty("--rx");
+          card.style.removeProperty("--ry");
+          card.style.removeProperty("--glow-x");
+          card.style.removeProperty("--glow-y");
+        });
+
+        card.addEventListener("click", (event) => {
+          const rect = card.getBoundingClientRect();
+          const ring = document.createElement("span");
+          ring.className = "tap-ring";
+          ring.style.left = `${event.clientX - rect.left}px`;
+          ring.style.top = `${event.clientY - rect.top}px`;
+          card.appendChild(ring);
+
+          card.classList.remove("tap-hit");
+          void card.offsetWidth;
+          card.classList.add("tap-hit");
+
+          ring.addEventListener("animationend", () => ring.remove());
+        });
+      });
+    </script>
+  </body>
+</html>

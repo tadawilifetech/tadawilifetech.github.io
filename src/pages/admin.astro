@@ -8,13 +8,21 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="robots" content="noindex, nofollow" />
 		<link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
-		<title>لوحة المحتوى / Content Manager</title>
+		<title>Content Manager</title>
 		<style>
 			:root {
 				color-scheme: light;
 				font-family: "Roboto", "Segoe UI", sans-serif;
 				background: #f5f7fb;
 				color: #111827;
+				--auth-bg: #f3f6fb;
+				--auth-surface: rgba(255, 255, 255, 0.72);
+				--auth-border: rgba(148, 163, 184, 0.22);
+				--auth-shadow: 0 28px 90px rgba(15, 23, 42, 0.14);
+				--auth-text: #0f172a;
+				--auth-muted: #475569;
+				--auth-accent: #0f766e;
+				--auth-accent-strong: #115e59;
 			}
 
 			body {
@@ -34,15 +42,168 @@
 				box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
 				line-height: 1.7;
 			}
+
+			body[data-cms-auth="true"] {
+				background:
+					radial-gradient(circle at 12% 18%, rgba(15, 118, 110, 0.18), transparent 24%),
+					radial-gradient(circle at 88% 20%, rgba(37, 99, 235, 0.18), transparent 26%),
+					linear-gradient(180deg, #eef4ff 0%, var(--auth-bg) 45%, #edf3f8 100%);
+				overflow-x: hidden;
+			}
+
+			body[data-cms-auth="true"]::before,
+			body[data-cms-auth="true"]::after {
+				content: "";
+				position: fixed;
+				inset: auto;
+				pointer-events: none;
+				z-index: 0;
+				filter: blur(14px);
+			}
+
+			body[data-cms-auth="true"]::before {
+				width: 18rem;
+				height: 18rem;
+				top: 5rem;
+				left: -4rem;
+				background: rgba(14, 165, 233, 0.16);
+				border-radius: 999px;
+			}
+
+			body[data-cms-auth="true"]::after {
+				width: 20rem;
+				height: 20rem;
+				right: -5rem;
+				bottom: 2rem;
+				background: rgba(20, 184, 166, 0.14);
+				border-radius: 999px;
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f5"] {
+				position: relative;
+				z-index: 1;
+				box-sizing: border-box;
+				width: min(34rem, calc(100vw - 2rem));
+				min-height: auto;
+				margin: max(2rem, 7vh) auto;
+				padding: clamp(2rem, 4vw, 3rem);
+				gap: 1.25rem;
+				align-items: stretch;
+				justify-content: center;
+				border: 1px solid var(--auth-border);
+				border-radius: 1.75rem;
+				background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), var(--auth-surface));
+				box-shadow: var(--auth-shadow);
+				backdrop-filter: blur(18px);
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f5"] > p {
+				margin: 0;
+				padding: 0.875rem 1rem;
+				border-radius: 1rem;
+				background: rgba(239, 68, 68, 0.08);
+				color: #991b1b;
+				font-size: 0.95rem;
+				line-height: 1.6;
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f3"],
+			body[data-cms-auth="true"] [class*="exus10f2"] {
+				display: none !important;
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f4"] {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				margin: 0 0 0.5rem;
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f4"] img {
+				display: block;
+				width: min(14rem, 72%);
+				height: auto;
+				max-height: 4rem;
+				object-fit: contain;
+				filter: drop-shadow(0 10px 18px rgba(15, 23, 42, 0.12));
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f1"] {
+				justify-content: center;
+				width: 100%;
+				min-height: 3.75rem;
+				padding: 0 1.4rem;
+				border: 0;
+				border-radius: 1rem;
+				background: linear-gradient(135deg, var(--auth-accent) 0%, var(--auth-accent-strong) 100%);
+				box-shadow: 0 18px 40px rgba(15, 118, 110, 0.28);
+				color: #f8fafc;
+				font-size: 1rem;
+				font-weight: 700;
+				letter-spacing: 0.01em;
+				transition:
+					transform 160ms ease,
+					box-shadow 160ms ease,
+					filter 160ms ease;
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f1"]:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 22px 48px rgba(15, 118, 110, 0.32);
+				filter: saturate(1.05);
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f1"]:disabled {
+				transform: none;
+				box-shadow: none;
+				background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+				cursor: wait;
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f5"] a {
+				align-self: center;
+				margin-top: 0.25rem;
+				color: var(--auth-muted);
+				font-size: 0.94rem;
+				font-weight: 600;
+				text-decoration: none;
+				transition: color 160ms ease;
+			}
+
+			body[data-cms-auth="true"] [class*="exus10f5"] a:hover {
+				color: var(--auth-text);
+			}
+
+			@media (max-width: 640px) {
+				body[data-cms-auth="true"] [class*="exus10f5"] {
+					width: min(100vw - 1rem, 34rem);
+					margin: 0.5rem auto;
+					padding: 1.25rem;
+					border-radius: 1.25rem;
+				}
+			}
 		</style>
 	</head>
 	<body>
 		<noscript>
 			<div class="noscript">
-				JavaScript is required to load the CMS. Enable JavaScript and reload this page.<br />
-				يلزم تفعيل JavaScript لفتح لوحة المحتوى. فعّل JavaScript ثم أعد تحميل الصفحة.
+				JavaScript is required to load the CMS. Enable JavaScript and reload this page.
 			</div>
 		</noscript>
-		<script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+		<script>
+			import CMS from "decap-cms-app";
+
+			const syncAuthView = () => {
+				const isAuthView = Boolean(document.querySelector('[class*="exus10f5"]'));
+				document.body.dataset.cmsAuth = String(isAuthView);
+			};
+
+			const observer = new MutationObserver(syncAuthView);
+			observer.observe(document.body, { childList: true, subtree: true });
+
+			CMS.init();
+			syncAuthView();
+		</script>
 	</body>
 </html>

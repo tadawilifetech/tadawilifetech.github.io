@@ -14,8 +14,8 @@ site_url: https://tadawilifetech.github.io
 display_url: https://tadawilifetech.github.io
 
 logo:
-  src: /favicon/favicon-light-192.png
-  show_in_header: true
+  src: /logo-tadawi.svg
+  show_in_header: false
 
 locale: en
 show_preview_links: false
@@ -32,9 +32,9 @@ slug:
 
 collections:
   - name: posts
-    label: المقالات / Posts
-    label_singular: مقال / Post
-    description: إدارة مقالات الموقع / Manage site posts
+    label: Posts
+    label_singular: Post
+    description: Manage site posts
     folder: src/content/posts
     create: true
     delete: true
@@ -50,52 +50,52 @@ collections:
       - updated
       - title
     view_filters:
-      - label: المسودات / Drafts
+      - label: Drafts
         field: draft
         pattern: true
-      - label: المنشور / Published
+      - label: Published
         field: draft
         pattern: false
     fields:
-      - label: العنوان / Title
+      - label: Title
         name: title
         widget: string
-      - label: تاريخ النشر / Published At
+      - label: Published At
         name: published
         widget: datetime
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
-      - label: تاريخ التحديث / Updated At
+      - label: Updated At
         name: updated
         widget: datetime
         required: false
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
-      - label: وصف مختصر / Description
+      - label: Description
         name: description
         widget: text
         required: false
-      - label: صورة الغلاف / Cover Image
+      - label: Cover Image
         name: image
         widget: image
         required: false
-        hint: ارفع الصورة داخل المجلد نفسه للمقالة. / Upload the image into the same post folder.
-      - label: الوسوم / Tags
+        hint: Upload the image into the same post folder.
+      - label: Tags
         name: tags
         widget: list
         required: false
-      - label: التصنيف / Category
+      - label: Category
         name: category
         widget: string
         required: false
-      - label: حالة المسودة / Draft
+      - label: Draft
         name: draft
         widget: boolean
         default: true
         required: false
-      - label: رمز اللغة / Language Code
+      - label: Language Code
         name: lang
         widget: select
         required: false
@@ -105,20 +105,20 @@ collections:
             value: en
           - label: ar
             value: ar
-      - label: المحتوى / Content
+      - label: Content
         name: body
         widget: markdown
 
   - name: pages
-    label: الصفحات / Pages
-    label_singular: صفحة / Page
-    description: إدارة الصفحات الثابتة / Manage static pages
+    label: Pages
+    label_singular: Page
+    description: Manage static pages
     files:
-      - label: صفحة من نحن / About Page
+      - label: About Page
         name: about
         file: src/content/spec/about.md
         preview_path: about/
         fields:
-          - label: المحتوى / Content
+          - label: Content
             name: body
             widget: markdown

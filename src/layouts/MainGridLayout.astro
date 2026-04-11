@@ -22,6 +22,7 @@ interface Props {
 	lang?: string;
 	setOGTypeArticle?: boolean;
 	headings?: MarkdownHeading[];
+    disableEntranceAnimations?: boolean;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
 	lang,
 	setOGTypeArticle,
 	headings = [],
+    disableEntranceAnimations = false,
 } = Astro.props;
 const hasBannerCredit =
 	siteConfig.banner.enable && siteConfig.banner.credit.enable;
@@ -45,9 +47,12 @@ const mainPanelTop = siteConfig.banner.enable
 
 <!-- Navbar -->
 <slot slot="head" name="head"></slot>
-<div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto" class:list={[""]}>
-    <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all">
-        <Navbar></Navbar>
+<div id="top-row" class:list={[
+    "z-50 pointer-events-none relative max-w-[var(--page-width)] px-0 md:px-4 mx-auto",
+    {"transition-all duration-700": !disableEntranceAnimations},
+]}>
+    <div id="navbar-wrapper" class:list={["pointer-events-auto sticky top-0", {"transition-all": !disableEntranceAnimations}]}>
+        <Navbar disableEntranceAnimation={disableEntranceAnimations}></Navbar>
     </div>
 </div>
 
@@ -80,20 +85,20 @@ const mainPanelTop = siteConfig.banner.enable
             </a>}
 
 
-            <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
+            <SideBar class:list={["mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem]", {"onload-animation": !disableEntranceAnimations}]} headings={headings} disableEntranceAnimations={disableEntranceAnimations}></SideBar>
 
             <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden">
-                <div id="content-wrapper" class="onload-animation">
+                <div id="content-wrapper" class:list={{"onload-animation": !disableEntranceAnimations}}>
                     <!-- the overflow-hidden here prevent long text break the layout-->
                     <!-- make id different from windows.swup global property -->
                     <slot></slot>
-                    <div class="footer col-span-2 onload-animation hidden lg:block">
+                    <div class:list={["footer col-span-2 hidden lg:block", {"onload-animation": !disableEntranceAnimations}]}>
                         <Footer></Footer>
                     </div>
                 </div>
             </main>
 
-            <div class="footer col-span-2 onload-animation block lg:hidden">
+            <div class:list={["footer col-span-2 block lg:hidden", {"onload-animation": !disableEntranceAnimations}]}>
                 <Footer></Footer>
             </div>
         </div>

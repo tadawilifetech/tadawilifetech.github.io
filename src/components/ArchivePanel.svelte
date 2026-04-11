@@ -3,26 +3,16 @@ import { onMount } from "svelte";
 
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
+import type { PostForList } from "../utils/content-utils";
 import { getPostUrlBySlug } from "../utils/url-utils";
 
-export let tags: string[];
-export let categories: string[];
-export let sortedPosts: Post[] = [];
+export let tags: string[] = [];
+export let categories: string[] = [];
+export let sortedPosts: PostForList[] = [];
 
-const params = new URLSearchParams(window.location.search);
-tags = params.has("tag") ? params.getAll("tag") : [];
-categories = params.has("category") ? params.getAll("category") : [];
-const uncategorized = params.get("uncategorized");
+let uncategorized: string | null = null;
 
-interface Post {
-	slug: string;
-	data: {
-		title: string;
-		tags: string[];
-		category?: string;
-		published: Date;
-	};
-}
+type Post = PostForList;
 
 interface Group {
 	year: number;
@@ -30,6 +20,53 @@ interface Group {
 }
 
 let groups: Group[] = [];
+
+function buildGroups(postList: Post[]): Group[] {
+    const grouped = postList.reduce(
+        (acc, post) => {
+            const year = post.data.published.getFullYear();
+            if (!acc[year]) {
+                acc[year] = [];
+            }
+            acc[year].push(post);
+            return acc;
+        },
+        {} as Record<number, Post[]>,
+    );
+
+    return Object.keys(grouped)
+        .map((yearStr) => ({
+            year: Number.parseInt(yearStr, 10),
+            posts: grouped[Number.parseInt(yearStr, 10)],
+        }))
+        .sort((a, b) => b.year - a.year);
+}
+
+function getFilteredPosts(): Post[] {
+    let filteredPosts: Post[] = sortedPosts;
+
+    if (tags.length > 0) {
+        filteredPosts = filteredPosts.filter(
+            (post) =>
+                Array.isArray(post.data.tags) &&
+                post.data.tags.some((tag) => tags.includes(tag)),
+        );
+    }
+
+    if (categories.length > 0) {
+        filteredPosts = filteredPosts.filter(
+            (post) => post.data.category && categories.includes(post.data.category),
+        );
+    }
+
+    if (uncategorized) {
+        filteredPosts = filteredPosts.filter((post) => !post.data.category);
+    }
+
+    return filteredPosts;
+}
+
+$: groups = buildGroups(getFilteredPosts());
 
 function formatDate(date: Date) {
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -42,46 +79,10 @@ function formatTag(tagList: string[]) {
 }
 
 onMount(async () => {
-	let filteredPosts: Post[] = sortedPosts;
-
-	if (tags.length > 0) {
-		filteredPosts = filteredPosts.filter(
-			(post) =>
-				Array.isArray(post.data.tags) &&
-				post.data.tags.some((tag) => tags.includes(tag)),
-		);
-	}
-
-	if (categories.length > 0) {
-		filteredPosts = filteredPosts.filter(
-			(post) => post.data.category && categories.includes(post.data.category),
-		);
-	}
-
-	if (uncategorized) {
-		filteredPosts = filteredPosts.filter((post) => !post.data.category);
-	}
-
-	const grouped = filteredPosts.reduce(
-		(acc, post) => {
-			const year = post.data.published.getFullYear();
-			if (!acc[year]) {
-				acc[year] = [];
-			}
-			acc[year].push(post);
-			return acc;
-		},
-		{} as Record<number, Post[]>,
-	);
-
-	const groupedPostsArray = Object.keys(grouped).map((yearStr) => ({
-		year: Number.parseInt(yearStr, 10),
-		posts: grouped[Number.parseInt(yearStr, 10)],
-	}));
-
-	groupedPostsArray.sort((a, b) => b.year - a.year);
-
-	groups = groupedPostsArray;
+    const params = new URLSearchParams(window.location.search);
+    tags = params.has("tag") ? params.getAll("tag") : [];
+    categories = params.has("category") ? params.getAll("category") : [];
+    uncategorized = params.get("uncategorized");
 });
 </script>
 
@@ -138,7 +139,7 @@ onMount(async () => {
 
                         <!-- tag list -->
                         <div
-                                class="hidden md:block md:w-[15%] text-left text-sm transition
+                                class="hidden md:block md:w-[15%] text-left rtl:text-right text-sm transition
                      whitespace-nowrap overflow-ellipsis overflow-hidden text-30"
                         >
                             {formatTag(post.data.tags)}

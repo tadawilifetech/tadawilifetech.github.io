@@ -1,6 +1,8 @@
 ---
 title: Draft Example 1
-published: 2022-07-01
+published: 2026-04-11
+updated: 2026-04-11
+image: pexels-photo-2325446.jpeg
 tags:
   - Markdown
   - Blogging

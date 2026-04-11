@@ -171,7 +171,7 @@
 			import CMS from "decap-cms-app";
 
 			function cleanUI() {
-				const auth = document.querySelector('[class*="exus10f5"]');
+				const auth = document.querySelector<HTMLElement>('[class*="exus10f5"]');
 				if (!auth) {
 					document.body.classList.remove('auth');
 					return;
@@ -180,9 +180,9 @@
 				// Walk up from auth container to body:
 				// - hide every sibling that isn't an ancestor of auth
 				// - strip backgrounds from ancestor wrappers
-				let el: Element | null = auth;
+				let el: HTMLElement | null = auth;
 				while (el && el !== document.body) {
-					const parent = el.parentElement;
+					const parent: HTMLElement | null = el.parentElement;
 					if (parent) {
 						for (const s of parent.children) {
 							if (s !== el && !['SCRIPT','STYLE','NOSCRIPT'].includes(s.tagName)) {
@@ -190,7 +190,7 @@
 							}
 						}
 						if (parent !== document.body) {
-							const ps = (parent as HTMLElement).style;
+							const ps = parent.style;
 							ps.background = 'transparent';
 							ps.boxShadow = 'none';
 							ps.border = 'none';

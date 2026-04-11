@@ -1,0 +1,124 @@
+# For production outside Netlify, add your OAuth service values under backend:
+# base_url: https://your-oauth-service.example.com
+# auth_endpoint: auth
+
+backend:
+  name: github
+  repo: tadawilifetech/tadawilifetech.github.io
+  branch: main
+  squash_merges: true
+
+local_backend: true
+
+site_url: https://tadawilifetech.github.io
+display_url: https://tadawilifetech.github.io
+
+logo:
+  src: /favicon/favicon-light-192.png
+  show_in_header: true
+
+locale: en
+show_preview_links: false
+
+editor:
+  preview: false
+
+media_folder: public/uploads
+public_folder: /uploads
+
+slug:
+  encoding: unicode
+  clean_accents: true
+
+collections:
+  - name: posts
+    label: المقالات / Posts
+    label_singular: مقال / Post
+    description: إدارة مقالات الموقع / Manage site posts
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    preview_path: posts/{{slug}}/
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: المسودات / Drafts
+        field: draft
+        pattern: true
+      - label: المنشور / Published
+        field: draft
+        pattern: false
+    fields:
+      - label: العنوان / Title
+        name: title
+        widget: string
+      - label: تاريخ النشر / Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: تاريخ التحديث / Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: وصف مختصر / Description
+        name: description
+        widget: text
+        required: false
+      - label: صورة الغلاف / Cover Image
+        name: image
+        widget: image
+        required: false
+        hint: ارفع الصورة داخل المجلد نفسه للمقالة. / Upload the image into the same post folder.
+      - label: الوسوم / Tags
+        name: tags
+        widget: list
+        required: false
+      - label: التصنيف / Category
+        name: category
+        widget: string
+        required: false
+      - label: حالة المسودة / Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: رمز اللغة / Language Code
+        name: lang
+        widget: select
+        required: false
+        default: en
+        options:
+          - label: en
+            value: en
+          - label: ar
+            value: ar
+      - label: المحتوى / Content
+        name: body
+        widget: markdown
+
+  - name: pages
+    label: الصفحات / Pages
+    label_singular: صفحة / Page
+    description: إدارة الصفحات الثابتة / Manage static pages
+    files:
+      - label: صفحة من نحن / About Page
+        name: about
+        file: src/content/spec/about.md
+        preview_path: about/
+        fields:
+          - label: المحتوى / Content
+            name: body
+            widget: markdown

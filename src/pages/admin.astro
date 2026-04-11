@@ -108,7 +108,8 @@
 			}
 
 			body[data-cms-auth="true"] [class*="exus10f3"],
-			body[data-cms-auth="true"] [class*="exus10f2"] {
+			body[data-cms-auth="true"] [class*="exus10f2"],
+			[class*="exus10f2"] {
 				display: none !important;
 			}
 
@@ -197,6 +198,9 @@
 			const syncAuthView = () => {
 				const isAuthView = Boolean(document.querySelector('[class*="exus10f5"]'));
 				document.body.dataset.cmsAuth = String(isAuthView);
+				document.querySelectorAll('a[href*="decap"], a[href*="netlify"], [class*="exus10f2"]').forEach(el => {
+					(el as HTMLElement).style.display = 'none';
+				});
 			};
 
 			const observer = new MutationObserver(syncAuthView);

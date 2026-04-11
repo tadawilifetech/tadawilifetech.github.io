@@ -102,7 +102,13 @@
         font-weight: inherit;
 
         &:before {
-            @apply content-[''] absolute -left-1 block transition bg-[var(--btn-regular-bg)] h-full w-1 rounded-full;
+            @apply content-[''] absolute block transition bg-[var(--btn-regular-bg)] h-full w-1 rounded-full;
+            left: -0.25rem;
+        }
+
+        [dir="rtl"] &:before {
+            left: auto;
+            right: -0.25rem;
         }
 
         /* Remove the double quotes from default styles */

@@ -1,7 +1,9 @@
 import { siteConfig } from "../config";
 import type I18nKey from "./i18nKey";
+import { ar } from "./languages/ar";
 import { en } from "./languages/en";
 import { es } from "./languages/es";
+import { fa } from "./languages/fa";
 import { id } from "./languages/id";
 import { ja } from "./languages/ja";
 import { ko } from "./languages/ko";
@@ -18,11 +20,13 @@ export type Translation = {
 const defaultTranslation = en;
 
 const map: { [key: string]: Translation } = {
+	ar: ar,
 	es: es,
 	en: en,
 	en_us: en,
 	en_gb: en,
 	en_au: en,
+	fa: fa,
 	zh_cn: zh_CN,
 	zh_tw: zh_TW,
 	ja: ja,
@@ -38,6 +42,20 @@ const map: { [key: string]: Translation } = {
 	tr_tr: tr,
 };
 
+/** Languages supported by the site with display labels */
+export const supportedLanguages: { code: string; label: string; dir: "ltr" | "rtl" }[] = [
+	{ code: "en", label: "English", dir: "ltr" },
+	{ code: "ar", label: "العربية", dir: "rtl" },
+	{ code: "fa", label: "فارسی", dir: "rtl" },
+];
+
+/** RTL language codes */
+export const rtlLanguages = ["ar", "fa"];
+
+export function isRtlLang(lang: string): boolean {
+	return rtlLanguages.includes(lang.toLowerCase());
+}
+
 export function getTranslation(lang: string): Translation {
 	return map[lang.toLowerCase()] || defaultTranslation;
 }
@@ -45,4 +63,13 @@ export function getTranslation(lang: string): Translation {
 export function i18n(key: I18nKey): string {
 	const lang = siteConfig.lang || "en";
 	return getTranslation(lang)[key];
+}
+
+/** Get all translations as a JSON-serializable object for client-side use */
+export function getAllTranslations(): Record<string, Translation> {
+	return {
+		en,
+		ar,
+		fa,
+	};
 }

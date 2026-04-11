@@ -6,6 +6,8 @@ export type SiteConfig = {
 
 	lang:
 		| "en"
+		| "ar"
+		| "fa"
 		| "zh_CN"
 		| "zh_TW"
 		| "ja"
@@ -54,6 +56,7 @@ export type NavBarLink = {
 	name: string;
 	url: string;
 	external?: boolean;
+	i18nKey?: string;
 };
 
 export type NavBarConfig = {

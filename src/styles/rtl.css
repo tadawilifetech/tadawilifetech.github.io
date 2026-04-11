@@ -1,0 +1,87 @@
+/* ===================================
+   RTL (Right-to-Left) Support Styles
+   For Arabic (ar) and Persian/Farsi (fa)
+   =================================== */
+
+/* ===== Font Family for Arabic & Persian ===== */
+[dir="rtl"] body,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+[dir="rtl"] button {
+  font-family: "Vazirmatn", "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+/* ===== TOC position: flip to left side ===== */
+[dir="rtl"] #toc-wrapper {
+  right: auto !important;
+  left: calc(-1 * var(--toc-width));
+}
+
+/* ===== Post content: keep code blocks LTR ===== */
+[dir="rtl"] .prose pre,
+[dir="rtl"] .prose code,
+[dir="rtl"] .markdown-content pre,
+[dir="rtl"] .markdown-content code {
+  direction: ltr;
+  text-align: left;
+}
+
+/* ===== Copy button stays at top-right even in RTL ===== */
+[dir="rtl"] .custom-md .copy-btn {
+  right: 0.75rem;
+  left: auto;
+}
+
+/* ===== Blockquote & Admonition RTL ===== */
+
+/* Admonition title icon: flip margin to logical */
+[dir="rtl"] .custom-md blockquote.admonition .bdm-title::before {
+  margin-right: 0;
+  margin-left: 0.6rem;
+}
+
+/* ===== Markdown content RTL alignment ===== */
+[dir="rtl"] .markdown-content,
+[dir="rtl"] .custom-md {
+  text-align: right;
+}
+
+/* List markers align correctly in RTL */
+[dir="rtl"] .custom-md ul,
+[dir="rtl"] .custom-md ol {
+  padding-left: 0;
+  padding-right: 1.625em;
+}
+
+/* Heading anchor link: flip to start side */
+[dir="rtl"] .custom-md h1 .anchor,
+[dir="rtl"] .custom-md h2 .anchor,
+[dir="rtl"] .custom-md h3 .anchor,
+[dir="rtl"] .custom-md h4 .anchor,
+[dir="rtl"] .custom-md h5 .anchor,
+[dir="rtl"] .custom-md h6 .anchor {
+  margin-left: 0;
+  margin-right: 0.2ch;
+}
+
+/* GitHub card RTL */
+[dir="rtl"] a.card-github {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ===== Back to top button ===== */
+[dir="rtl"] .back-to-top-wrapper {
+  right: auto;
+  left: 0;
+}
+[dir="rtl"] .back-to-top-btn {
+  transform: translateX(-5rem);
+}
+[dir="rtl"] .back-to-top-btn.hide {
+  transform: translateX(-5rem) scale(0.9);
+}
+[dir="rtl"] .back-to-top-btn:active {
+  transform: translateX(-5rem) scale(0.9);
+}

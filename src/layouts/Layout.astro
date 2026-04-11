@@ -2,6 +2,7 @@
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import "../styles/rtl.css";
 
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import { profileConfig, siteConfig } from "@/config";
@@ -77,6 +78,18 @@ const bannerOffset =
 	  data-overlayscrollbars-initialize
 >
 	<head>
+		<!-- Apply stored language direction before render to prevent flash -->
+		<script is:inline>
+			(function() {
+				var storedLang = localStorage.getItem('lang');
+				if (storedLang) {
+					var rtlLangs = ['ar', 'fa'];
+					var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
+					document.documentElement.lang = storedLang;
+					document.documentElement.dir = dir;
+				}
+			})();
+		</script>
 
 		<title>{pageTitle}</title>
 
@@ -101,6 +114,12 @@ const bannerOffset =
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+
+		<!-- Vazirmatn font for Arabic/Persian RTL support -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+
 		{favicons.map(favicon => (
 			<link rel="icon"
 				  href={favicon.src.startsWith('/') ? url(favicon.src) : favicon.src}
@@ -152,6 +171,45 @@ const bannerOffset =
 		  data-overlayscrollbars-initialize
 	>
 		<ConfigCarrier></ConfigCarrier>
+
+		<!-- Apply stored language translations on page load -->
+		<script is:inline>
+			(function() {
+				var storedLang = localStorage.getItem('lang');
+				if (storedLang && storedLang !== 'en') {
+					var rtlLangs = ['ar', 'fa'];
+					var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
+					document.documentElement.lang = storedLang;
+					document.documentElement.dir = dir;
+					document.body.classList.toggle('is-rtl', dir === 'rtl');
+					document.body.classList.toggle('is-ltr', dir === 'ltr');
+
+					// Apply translations from config carrier
+					var carrier = document.getElementById('config-carrier');
+					if (carrier && carrier.dataset.translations) {
+						try {
+							var translations = JSON.parse(carrier.dataset.translations);
+							var t = translations[storedLang] || translations['en'];
+							if (t) {
+								document.querySelectorAll('[data-i18n]').forEach(function(el) {
+									var key = el.getAttribute('data-i18n');
+									if (key && t[key]) {
+										el.textContent = t[key];
+									}
+								});
+								document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+									var key = el.getAttribute('data-i18n-placeholder');
+									if (key && t[key]) {
+										el.placeholder = t[key];
+									}
+								});
+							}
+						} catch(e) {}
+					}
+				}
+			})();
+		</script>
+
 		<slot />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
@@ -405,6 +463,37 @@ const setup = () => {
 		}
 	})
 	window.swup.hooks.on('content:replace', initCustomScrollbar)
+
+	// Reapply language translations after Swup content swap
+	window.swup.hooks.on('content:replace', () => {
+		const storedLang = localStorage.getItem('lang');
+		if (storedLang && storedLang !== 'en') {
+			const rtlLangs = ['ar', 'fa'];
+			const dir = rtlLangs.includes(storedLang) ? 'rtl' : 'ltr';
+			document.documentElement.lang = storedLang;
+			document.documentElement.dir = dir;
+			document.body.classList.toggle('is-rtl', dir === 'rtl');
+			document.body.classList.toggle('is-ltr', dir === 'ltr');
+			const carrier = document.getElementById('config-carrier');
+			if (carrier?.dataset.translations) {
+				try {
+					const translations = JSON.parse(carrier.dataset.translations);
+					const t = translations[storedLang] || translations['en'];
+					if (t) {
+						document.querySelectorAll('[data-i18n]').forEach((el) => {
+							const key = el.getAttribute('data-i18n');
+							if (key && t[key]) el.textContent = t[key];
+						});
+						document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+							const key = el.getAttribute('data-i18n-placeholder');
+							if (key && t[key]) (el as HTMLInputElement).placeholder = t[key];
+						});
+					}
+				} catch(e) {}
+			}
+		}
+	})
+
 	window.swup.hooks.on('visit:start', (visit: {to: {url: string}}) => {
 		// change banner height immediately when a link is clicked
 		const bodyElement = document.querySelector('body')

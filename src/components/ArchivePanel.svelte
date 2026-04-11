@@ -89,7 +89,7 @@ onMount(async () => {
     {#each groups as group}
         <div>
             <div class="flex flex-row w-full items-center h-[3.75rem]">
-                <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right text-75">
+                <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right rtl:text-left text-75">
                     {group.year}
                 </div>
                 <div class="w-[15%] md:w-[10%]">
@@ -98,8 +98,8 @@ onMount(async () => {
                   -outline-offset-[2px] z-50 outline-3"
                     ></div>
                 </div>
-                <div class="w-[70%] md:w-[80%] transition text-left text-50">
-                    {group.posts.length} {i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount)}
+                <div class="w-[70%] md:w-[80%] transition text-left rtl:text-right text-50">
+                    {group.posts.length} <span data-i18n={group.posts.length === 1 ? "postCount" : "postsCount"}>{i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount)}</span>
                 </div>
             </div>
 
@@ -111,7 +111,7 @@ onMount(async () => {
                 >
                     <div class="flex flex-row justify-start items-center h-full">
                         <!-- date -->
-                        <div class="w-[15%] md:w-[10%] transition text-sm text-right text-50">
+                        <div class="w-[15%] md:w-[10%] transition text-sm text-right rtl:text-left text-50">
                             {formatDate(post.data.published)}
                         </div>
 
@@ -129,9 +129,9 @@ onMount(async () => {
 
                         <!-- post title -->
                         <div
-                                class="w-[70%] md:max-w-[65%] md:w-[65%] text-left font-bold
-                     group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)]
-                     text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
+                                class="w-[70%] md:max-w-[65%] md:w-[65%] text-left rtl:text-right font-bold
+                     ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all group-hover:text-[var(--primary)]
+                     text-75 pe-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
                         >
                             {post.data.title}
                         </div>

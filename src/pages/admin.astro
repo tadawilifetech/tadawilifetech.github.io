@@ -170,8 +170,30 @@
 		<script>
 			import CMS from "decap-cms-app";
 
+			const siteUrl = 'https://tadawilifetech.com';
+			const repoUrl = 'https://github.com/tadawilifetech/tadawilifetech.github.io';
+
+			function updateSiteLinks() {
+				const anchors = document.querySelectorAll<HTMLAnchorElement>('a[href]');
+				for (const anchor of anchors) {
+					const href = anchor.href;
+					const text = anchor.textContent?.trim().toLowerCase() ?? '';
+					const isBackLink = text === 'go back to site';
+					const isRepoLink = href === repoUrl || href.startsWith(`${repoUrl}/`);
+					if (isBackLink || isRepoLink) {
+						anchor.href = siteUrl;
+						anchor.target = '_blank';
+						anchor.rel = 'noopener noreferrer';
+						if (isRepoLink) {
+							anchor.textContent = 'View site';
+						}
+					}
+				}
+			}
+
 			function cleanUI() {
 				const auth = document.querySelector<HTMLElement>('[class*="exus10f5"]');
+				updateSiteLinks();
 				if (!auth) {
 					document.body.classList.remove('auth');
 					return;
@@ -204,6 +226,7 @@
 
 			new MutationObserver(cleanUI).observe(document.body, { childList: true, subtree: true });
 			CMS.init();
+			cleanUI();
 		</script>
 	</body>
 </html>

@@ -10,8 +10,8 @@ backend:
 
 local_backend: true
 
-site_url: https://tadawilifetech.github.io
-display_url: https://tadawilifetech.github.io
+site_url: https://tadawilifetech.com
+display_url: https://tadawilifetech.com
 
 logo:
   src: /logo-tadawi.svg
@@ -118,6 +118,14 @@ collections:
         name: about
         file: src/content/spec/about.md
         preview_path: about/
+        fields:
+          - label: Content
+            name: body
+            widget: markdown
+      - label: Contact Page
+        name: contact
+        file: src/content/spec/contact.md
+        preview_path: contact/
         fields:
           - label: Content
             name: body

@@ -4,6 +4,7 @@ import type { Translation } from "../translation";
 export const ar: Translation = {
 	[Key.home]: "الرئيسية",
 	[Key.about]: "حول",
+	[Key.contact]: "اتصل بنا",
 	[Key.archive]: "الأرشيف",
 	[Key.search]: "بحث",
 

@@ -4,6 +4,7 @@ import type { Translation } from "../translation";
 export const fa: Translation = {
 	[Key.home]: "خانه",
 	[Key.about]: "درباره",
+	[Key.contact]: "Contact",
 	[Key.archive]: "آرشیو",
 	[Key.search]: "جستجو",
 

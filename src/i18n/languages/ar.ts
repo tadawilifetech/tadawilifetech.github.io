@@ -10,7 +10,7 @@ export const ar: Translation = {
 	[Key.blog]: "المدونة",
 
 	[Key.tags]: "الوسوم",
-	[Key.categories]: "التصنيفات",
+	[Key.categories]: "تصنيفات المدونة",
 	[Key.recentPosts]: "أحدث المقالات",
 
 	[Key.comments]: "التعليقات",
@@ -33,6 +33,8 @@ export const ar: Translation = {
 	[Key.systemMode]: "النظام",
 
 	[Key.more]: "المزيد",
+
+	[Key.productCategories]: "تصنيفات المنتجات",
 
 	[Key.author]: "الكاتب",
 	[Key.publishedAt]: "تاريخ النشر",

@@ -126,3 +126,38 @@ export async function getSortedProducts() {
 	});
 	return sorted;
 }
+
+export type ProductCategory = {
+	name: string;
+	count: number;
+};
+
+export async function getProductCategoryList(): Promise<ProductCategory[]> {
+	const allProducts = await getCollection<"products">("products", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+	const count: { [key: string]: number } = {};
+	allProducts.forEach((product: { data: { category: string | null } }) => {
+		if (!product.data.category) {
+			const ucKey = i18n(I18nKey.uncategorized);
+			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
+			return;
+		}
+
+		const categoryName =
+			typeof product.data.category === "string"
+				? product.data.category.trim()
+				: String(product.data.category).trim();
+
+		count[categoryName] = count[categoryName] ? count[categoryName] + 1 : 1;
+	});
+
+	const lst = Object.keys(count).sort((a, b) => {
+		return a.toLowerCase().localeCompare(b.toLowerCase());
+	});
+
+	return lst.map((c) => ({
+		name: c,
+		count: count[c],
+	}));
+}

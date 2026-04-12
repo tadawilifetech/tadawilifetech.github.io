@@ -33,6 +33,8 @@ export const es: Translation = {
 
 	[Key.more]: "Más",
 
+	[Key.productCategories]: "Categorías de Productos",
+
 	[Key.author]: "Autor",
 	[Key.publishedAt]: "Publicado el",
 	[Key.license]: "Licencia",

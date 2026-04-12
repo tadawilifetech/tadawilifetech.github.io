@@ -10,7 +10,7 @@ export const en: Translation = {
 	[Key.blog]: "Blog",
 
 	[Key.tags]: "Tags",
-	[Key.categories]: "Categories",
+	[Key.categories]: "Blog Categories",
 	[Key.recentPosts]: "Recent Posts",
 
 	[Key.comments]: "Comments",
@@ -33,6 +33,8 @@ export const en: Translation = {
 	[Key.systemMode]: "System",
 
 	[Key.more]: "More",
+
+	[Key.productCategories]: "Product Categories",
 
 	[Key.author]: "Author",
 	[Key.publishedAt]: "Published at",

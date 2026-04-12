@@ -34,6 +34,8 @@ export const fa: Translation = {
 
 	[Key.more]: "بیشتر",
 
+	[Key.productCategories]: "دسته‌بندی محصولات",
+
 	[Key.author]: "نویسنده",
 	[Key.publishedAt]: "تاریخ انتشار",
 	[Key.license]: "مجوز",

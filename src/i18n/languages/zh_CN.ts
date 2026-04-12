@@ -33,6 +33,8 @@ export const zh_CN: Translation = {
 
 	[Key.more]: "更多",
 
+	[Key.productCategories]: "产品分类",
+
 	[Key.author]: "作者",
 	[Key.publishedAt]: "发布于",
 	[Key.license]: "许可协议",

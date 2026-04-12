@@ -33,6 +33,8 @@ export const ko: Translation = {
 
 	[Key.more]: "더 보기",
 
+	[Key.productCategories]: "제품 카테고리",
+
 	[Key.author]: "저자",
 	[Key.publishedAt]: "게시일",
 	[Key.license]: "라이선스",

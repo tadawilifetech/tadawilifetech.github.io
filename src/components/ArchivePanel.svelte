@@ -66,7 +66,7 @@ function getFilteredPosts(): Post[] {
     return filteredPosts;
 }
 
-$: groups = buildGroups(getFilteredPosts());
+$: tags, categories, uncategorized, groups = buildGroups(getFilteredPosts());
 
 function formatDate(date: Date) {
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");

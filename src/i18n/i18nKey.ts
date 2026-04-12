@@ -31,6 +31,8 @@ enum I18nKey {
 
 	more = "more",
 
+	productCategories = "productCategories",
+
 	author = "author",
 	publishedAt = "publishedAt",
 	license = "license",

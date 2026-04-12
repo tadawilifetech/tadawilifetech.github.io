@@ -33,6 +33,8 @@ export const id: Translation = {
 
 	[Key.more]: "Lainnya",
 
+	[Key.productCategories]: "Kategori Produk",
+
 	[Key.author]: "Penulis",
 	[Key.publishedAt]: "Diterbitkan pada",
 	[Key.license]: "Lisensi",

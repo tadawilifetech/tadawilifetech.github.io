@@ -27,9 +27,10 @@ const {
 } = Astro.props;
 const className = Astro.props.class;
 
+const category = entry.data.category || "";
 const hasCover = image !== undefined && image !== null && image !== "";
 ---
-<div class:list={["card-base flex flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative", className]} style={style}>
+<div data-product-category={category} class:list={["card-base flex flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative", className]} style={style}>
     {hasCover && <a href={url} aria-label={title}
                     class="group relative w-full h-48 overflow-hidden">
         <div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition"></div>

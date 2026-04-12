@@ -2,6 +2,8 @@
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 import { getProductCategoryList } from "../../utils/content-utils";
+import { getProductCategoryUrl } from "../../utils/url-utils";
+import ButtonLink from "../control/ButtonLink.astro";
 import WidgetLayout from "./WidgetLayout.astro";
 
 const categories = await getProductCategoryList();
@@ -23,21 +25,12 @@ const style = Astro.props.style;
                 class={className} style={style} dataI18n="productCategories"
 >
     {categories.map((c) =>
-        <div
-            class="w-full h-10 rounded-lg ps-2 flex items-center
-                text-neutral-700 dark:text-neutral-300"
+        <ButtonLink
+            url={getProductCategoryUrl(c.name)}
+            badge={String(c.count)}
+            label={`View all products in the ${c.name.trim()} category`}
         >
-            <div class="flex items-center justify-between relative me-2 w-full">
-                <div class="overflow-hidden text-start whitespace-nowrap overflow-ellipsis">
-                    {c.name.trim()}
-                </div>
-                <div class="transition px-2 h-7 ms-4 min-w-[2rem] rounded-lg text-sm font-bold
-                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
-                    bg-[var(--btn-regular-bg)] dark:bg-[var(--primary)]
-                    flex items-center justify-center">
-                    {c.count}
-                </div>
-            </div>
-        </div>
+            {c.name.trim()}
+        </ButtonLink>
     )}
 </WidgetLayout>

@@ -19,8 +19,12 @@ const len = page.data.length;
 ---
 
 <MainGridLayout>
+    <div id="category-filter-header" class="hidden mb-4 card-base px-6 py-4 rounded-[var(--radius-large)] flex items-center justify-between">
+        <span class="font-bold text-lg text-90" id="category-filter-label"></span>
+        <a href="/" class="text-sm text-[var(--primary)] hover:underline" id="clear-category-filter">✕</a>
+    </div>
     <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {page.data.map((entry: CollectionEntry<"products">, i: number) => (
                 <ProductCard
                     entry={entry}
@@ -38,3 +42,31 @@ const len = page.data.length;
     </div>
     <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
 </MainGridLayout>
+
+<script is:inline>
+function filterProductsByCategory() {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    const header = document.getElementById('category-filter-header');
+    const label = document.getElementById('category-filter-label');
+    const cards = document.querySelectorAll('[data-product-category]');
+
+    if (category) {
+        if (header) header.classList.remove('hidden');
+        if (label) label.textContent = category;
+        cards.forEach(card => {
+            const cardCat = card.getAttribute('data-product-category') || '';
+            if (cardCat.trim().toLowerCase() === category.trim().toLowerCase()) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    } else {
+        if (header) header.classList.add('hidden');
+        cards.forEach(card => { card.style.display = ''; });
+    }
+}
+filterProductsByCategory();
+document.addEventListener('swup:contentReplaced', filterProductsByCategory);
+</script>

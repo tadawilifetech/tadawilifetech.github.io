@@ -35,6 +35,12 @@ export function getCategoryUrl(category: string | null): string {
 	return url(`/archive/?category=${encodeURIComponent(category.trim())}`);
 }
 
+export function getProductCategoryUrl(category: string): string {
+	if (!category || category.trim() === "")
+		return url("/");
+	return url(`/?category=${encodeURIComponent(category.trim())}`);
+}
+
 export function getDir(path: string): string {
 	const lastSlashIndex = path.lastIndexOf("/");
 	if (lastSlashIndex < 0) {

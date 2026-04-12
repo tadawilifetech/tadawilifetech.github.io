@@ -74,20 +74,18 @@ const bannerOffset =
 ---
 
 <!DOCTYPE html>
-<html lang={siteLang} class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
+<html lang={siteLang} dir="ltr" class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
 	  data-overlayscrollbars-initialize
 >
 	<head>
 		<!-- Apply stored language direction before render to prevent flash -->
 		<script is:inline>
 			(function() {
-				var storedLang = localStorage.getItem('lang');
-				if (storedLang) {
-					var rtlLangs = ['ar', 'fa'];
-					var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
-					document.documentElement.lang = storedLang;
-					document.documentElement.dir = dir;
-				}
+				var storedLang = localStorage.getItem('lang') || 'en';
+				var rtlLangs = ['ar', 'fa'];
+				var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
+				document.documentElement.lang = storedLang;
+				document.documentElement.dir = dir;
 			})();
 		</script>
 
@@ -175,14 +173,14 @@ const bannerOffset =
 		<!-- Apply stored language translations on page load -->
 		<script is:inline>
 			(function() {
-				var storedLang = localStorage.getItem('lang');
-				if (storedLang && storedLang !== 'en') {
-					var rtlLangs = ['ar', 'fa'];
-					var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
-					document.documentElement.lang = storedLang;
-					document.documentElement.dir = dir;
-					document.body.classList.toggle('is-rtl', dir === 'rtl');
-					document.body.classList.toggle('is-ltr', dir === 'ltr');
+				var storedLang = localStorage.getItem('lang') || 'en';
+				var rtlLangs = ['ar', 'fa'];
+				var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
+				document.documentElement.lang = storedLang;
+				document.documentElement.dir = dir;
+				document.body.classList.toggle('is-rtl', dir === 'rtl');
+				document.body.classList.toggle('is-ltr', dir === 'ltr');
+				if (storedLang !== 'en') {
 
 					// Apply translations from config carrier
 					var carrier = document.getElementById('config-carrier');

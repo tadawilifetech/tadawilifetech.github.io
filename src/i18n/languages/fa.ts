@@ -7,6 +7,7 @@ export const fa: Translation = {
 	[Key.contact]: "Contact",
 	[Key.archive]: "آرشیو",
 	[Key.search]: "جستجو",
+	[Key.blog]: "بلاگ",
 
 	[Key.tags]: "برچسب‌ها",
 	[Key.categories]: "دسته‌بندی‌ها",

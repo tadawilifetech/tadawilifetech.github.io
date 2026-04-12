@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from "astro:content";
+import path from "node:path";
+import { Icon } from "astro-icon/components";
+import { getDir } from "../utils/url-utils";
+import ImageWrapper from "./misc/ImageWrapper.astro";
+
+interface Props {
+	class?: string;
+	entry: CollectionEntry<"products">;
+	title: string;
+	url: string;
+	image: string;
+	description: string;
+	price: string;
+	draft: boolean;
+	style: string;
+}
+const {
+	entry,
+	title,
+	url,
+	image,
+	description,
+	price,
+	style,
+} = Astro.props;
+const className = Astro.props.class;
+
+const hasCover = image !== undefined && image !== null && image !== "";
+---
+<div class:list={["card-base flex flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative", className]} style={style}>
+    {hasCover && <a href={url} aria-label={title}
+                    class="group relative w-full h-48 overflow-hidden">
+        <div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition"></div>
+        <ImageWrapper src={image} basePath={path.join("content/products/", getDir(entry.id))} alt={title}
+                  class="w-full h-full object-cover">
+        </ImageWrapper>
+    </a>}
+
+    <div class="px-5 pt-4 pb-5">
+        <a href={url}
+           class="transition group w-full block font-bold mb-2 text-xl text-90
+        hover:text-[var(--primary)] dark:hover:text-[var(--primary)]
+        active:text-[var(--title-active)] dark:active:text-[var(--title-active)]
+        ">
+            {title}
+            <Icon class="inline text-[1.5rem] text-[var(--primary)] translate-y-0.5 opacity-0 group-hover:opacity-100 transition rtl:rotate-180" name="material-symbols:chevron-right-rounded"></Icon>
+        </a>
+
+        {description && <div class="transition text-75 mb-3 line-clamp-2">
+            {description}
+        </div>}
+
+        {price && <div class="text-sm font-semibold text-[var(--primary)]">
+            {price}
+        </div>}
+    </div>
+</div>

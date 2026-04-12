@@ -7,6 +7,7 @@ export const ar: Translation = {
 	[Key.contact]: "اتصل بنا",
 	[Key.archive]: "الأرشيف",
 	[Key.search]: "بحث",
+	[Key.blog]: "المدونة",
 
 	[Key.tags]: "الوسوم",
 	[Key.categories]: "التصنيفات",

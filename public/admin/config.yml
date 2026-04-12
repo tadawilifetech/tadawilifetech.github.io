@@ -130,3 +130,85 @@ collections:
           - label: Content
             name: body
             widget: markdown
+
+  - name: products
+    label: Products
+    label_singular: Product
+    description: Manage products
+    folder: src/content/products
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    preview_path: products/{{slug}}/
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+        hint: Upload the image into the same product folder.
+      - label: Price
+        name: price
+        widget: string
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: select
+        required: false
+        default: en
+        options:
+          - label: en
+            value: en
+          - label: ar
+            value: ar
+      - label: Content
+        name: body
+        widget: markdown

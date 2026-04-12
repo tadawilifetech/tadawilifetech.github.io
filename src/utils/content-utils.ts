@@ -112,3 +112,17 @@ export async function getCategoryList(): Promise<Category[]> {
 	}
 	return ret;
 }
+
+// Products utilities
+export async function getSortedProducts() {
+	const allProducts = await getCollection("products", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+
+	const sorted = allProducts.sort((a, b) => {
+		const dateA = new Date(a.data.published);
+		const dateB = new Date(b.data.published);
+		return dateA > dateB ? -1 : 1;
+	});
+	return sorted;
+}

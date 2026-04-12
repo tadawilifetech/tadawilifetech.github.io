@@ -23,4 +23,9 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "/archive/",
 		i18nKey: "archive",
 	},
+	[LinkPreset.Blog]: {
+		name: i18n(I18nKey.blog),
+		url: "/blog/",
+		i18nKey: "blog",
+	},
 };

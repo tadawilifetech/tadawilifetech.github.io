@@ -16,8 +16,8 @@ export const siteConfig: SiteConfig = {
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
-		enable: false,
-		src: "assets/images/demo-banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+		enable: true,
+		src: "assets/images/hero.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		credit: {
 			enable: false, // Display the credit text of the banner image
@@ -49,19 +49,24 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "Tadawi Life Tech",
-	bio: "Technology, digital products, and ideas under the tadawilifetech brand.",
+	bio: "Your Life… Our Commitment",
 	links: [
 		{
 			name: "Website",
 			icon: "fa6-solid:globe", // Visit https://icones.js.org/ for icon codes
-			url: "https://tadawilifetech.github.io",
+			url: "https://tadawilifetech.com",
 		},
 		{
-			name: "GitHub",
-			icon: "fa6-brands:github",
-			url: "https://github.com/tadawilifetech/tadawilifetech.github.io",
+			name: "Instagram",
+			icon: "mdi:instagram", // Visit https://icones.js.org/ for icon codes
+			url: "https://www.instagram.com/tadawilifetech/",
+		},
+		{
+			name: "LinkedIn",
+			icon: "mdi:linkedin", // Visit https://icones.js.org/ for icon codes
+			url: "https://www.linkedin.com/company/tadawilifetech/",
 		},
 	],
 };

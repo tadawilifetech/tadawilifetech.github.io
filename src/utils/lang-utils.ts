@@ -77,6 +77,26 @@ export function getTranslationsFromCarrier(): TranslationMap | null {
 	}
 }
 
+function markLanguageReady(lang: string): void {
+	const finish = () => {
+		document.documentElement.dataset.langReady = "true";
+		document.documentElement.classList.remove("i18n-pending");
+	};
+
+	if (getDirection(lang) !== "rtl" || !("fonts" in document)) {
+		finish();
+		return;
+	}
+
+	Promise.all([
+		document.fonts.load("400 1em Vazirmatn"),
+		document.fonts.load("500 1em Vazirmatn"),
+		document.fonts.load("700 1em Vazirmatn"),
+	])
+		.catch(() => undefined)
+		.finally(finish);
+}
+
 export function applyStoredLanguage(): string {
 	const lang = getStoredLang();
 	applyLangToDocument(lang);
@@ -86,8 +106,7 @@ export function applyStoredLanguage(): string {
 		applyTranslations(lang, translations);
 	}
 
-	document.documentElement.dataset.langReady = "true";
-	document.documentElement.classList.remove("i18n-pending");
+	markLanguageReady(lang);
 
 	return lang;
 }

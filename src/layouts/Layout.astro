@@ -183,6 +183,28 @@ const bannerOffset =
 
 		<script is:inline>
 			(function() {
+				function finishWhenReady(lang) {
+					var root = document.documentElement;
+					var isRtl = lang === 'ar' || lang === 'fa';
+					var finish = function() {
+						root.dataset.langReady = 'true';
+						root.classList.remove('i18n-pending');
+					};
+
+					if (!isRtl || !document.fonts || !document.fonts.load) {
+						finish();
+						return;
+					}
+
+					Promise.all([
+						document.fonts.load('400 1em Vazirmatn'),
+						document.fonts.load('500 1em Vazirmatn'),
+						document.fonts.load('700 1em Vazirmatn')
+					]).catch(function() {
+						return undefined;
+					}).finally(finish);
+				}
+
 				var root = document.documentElement;
 				if (!root.classList.contains('i18n-pending')) {
 					root.dataset.langReady = 'true';
@@ -225,8 +247,7 @@ const bannerOffset =
 				} catch (_error) {
 					// Fall back to the SSR content if stored language data is unavailable.
 				} finally {
-					root.dataset.langReady = 'true';
-					root.classList.remove('i18n-pending');
+					finishWhenReady(root.lang || 'en');
 				}
 			})();
 		</script>

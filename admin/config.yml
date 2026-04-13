@@ -3,10 +3,10 @@ backend:
   repo: tadawilifetech/tadawilifetech.github.io
   branch: main
   squash_merges: true
-  # OAuth proxy on Cloudflare Workers (see oauth-worker/README.md)
-  # Replace <YOUR-CF-SUBDOMAIN> with your actual Cloudflare subdomain after deploying
-  base_url: https://decap-cms-oauth.<YOUR-CF-SUBDOMAIN>.workers.dev
-  auth_endpoint: auth
+  # For production CMS login, deploy the OAuth worker (see oauth-worker/README.md)
+  # then uncomment the two lines below with your actual worker URL:
+  # base_url: https://decap-cms-oauth.YOUR_SUBDOMAIN.workers.dev
+  # auth_endpoint: auth
 
 local_backend: true
 

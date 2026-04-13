@@ -144,4 +144,106 @@
 					padding: 1.25rem;
 				}
 			}
-		</style><link rel="stylesheet" href="/_astro/_page_.CH3Szstr.css"><script type="module" src="/_astro/page.Z8IJTFqj.js"></script></head> <body data-site-href="/ar/"> <noscript> <div class="noscript">JavaScript is required to load the CMS.</div> </noscript> <script type="module" src="/_astro/AdminShell.astro_astro_type_script_index_0_lang.CU22LL3G.js"></script> </body> </html>
+		</style><link rel="stylesheet" href="/_astro/_page_.CH3Szstr.css"><script type="module" src="/_astro/page.Z8IJTFqj.js"></script></head> <body data-site-href="/ar/" data-no-swup> <noscript> <div class="noscript">JavaScript is required to load the CMS.</div> </noscript> <script>(function(){const cmsBundleUrl = "/_astro/decap-cms-app.BS8CYM9J.js";
+
+			import * as React from "react";
+			import * as ReactDOM from "react-dom";
+
+			const siteHref = document.body.dataset.siteHref || "/en/";
+			const siteUrl = new URL(siteHref, window.location.origin).toString();
+			const repoUrl = "https://github.com/tadawilifetech/tadawilifetech.github.io";
+
+			async function loadScript(src) {
+				await new Promise((resolve, reject) => {
+					const existing = document.querySelector(`script[data-cms-bundle=\"${src}\"]`);
+					if (existing) {
+						if (existing.dataset.loaded === "true") {
+							resolve(undefined);
+							return;
+						}
+						existing.addEventListener("load", () => resolve(undefined), { once: true });
+						existing.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+						return;
+					}
+
+					const script = document.createElement("script");
+					script.src = src;
+					script.async = true;
+					script.dataset.cmsBundle = src;
+					script.addEventListener("load", () => {
+						script.dataset.loaded = "true";
+						resolve(undefined);
+					}, { once: true });
+					script.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+					document.head.append(script);
+				});
+			}
+
+			function updateSiteLinks() {
+				const anchors = document.querySelectorAll('a[href]');
+				for (const anchor of anchors) {
+					if (!(anchor instanceof HTMLAnchorElement)) continue;
+					const href = anchor.href;
+					const text = anchor.textContent?.trim().toLowerCase() ?? "";
+					const isBackLink = text === "go back to site";
+					const isRepoLink = href === repoUrl || href.startsWith(`${repoUrl}/`);
+					if (isBackLink || isRepoLink) {
+						anchor.href = siteUrl;
+						anchor.target = "_blank";
+						anchor.rel = "noopener noreferrer";
+						if (isRepoLink) {
+							anchor.textContent = "View site";
+						}
+					}
+				}
+			}
+
+			function cleanUI() {
+				const auth = document.querySelector('[class*="exus10f5"]');
+				updateSiteLinks();
+				if (!(auth instanceof HTMLElement)) {
+					document.body.classList.remove("auth");
+					return;
+				}
+				document.body.classList.add("auth");
+				let el = auth;
+				while (el && el !== document.body) {
+					const parent = el.parentElement;
+					if (!parent) {
+						break;
+					}
+					for (const sibling of parent.children) {
+						if (sibling !== el && !["SCRIPT", "STYLE", "NOSCRIPT"].includes(sibling.tagName)) {
+							if (sibling instanceof HTMLElement) {
+								sibling.style.display = "none";
+							}
+						}
+					}
+					if (parent === document.body) {
+						break;
+					}
+					const style = parent.style;
+					style.background = "transparent";
+					style.boxShadow = "none";
+					style.border = "none";
+					style.padding = "0";
+					style.minHeight = "0";
+					el = parent;
+				}
+			}
+
+			new MutationObserver(cleanUI).observe(document.body, { childList: true, subtree: true });
+
+			window.React = React;
+			window.ReactDOM = ReactDOM;
+
+			await loadScript(cmsBundleUrl);
+
+			const CMS = window.DecapCmsApp;
+			if (!CMS?.init) {
+				throw new Error("Decap CMS bundle did not expose an init function.");
+			}
+
+			CMS.init();
+			cleanUI();
+		})();</script> </body> </html>

@@ -1,4 +1,5 @@
 ---
+import cmsBundleUrl from "decap-cms-app/dist/decap-cms-app.js?url";
 import { DEFAULT_LOCALE, normalizeLocale, type SiteLocale } from "@utils/locale-utils";
 
 interface Props {
@@ -165,16 +166,43 @@ const siteHref = `/${currentLocale}/`;
 			}
 		</style>
 	</head>
-	<body data-site-href={siteHref}>
+	<body data-site-href={siteHref} data-no-swup>
 		<noscript>
 			<div class="noscript">JavaScript is required to load the CMS.</div>
 		</noscript>
-		<script>
-			import CMS from "decap-cms-app";
+		<script define:vars={{ cmsBundleUrl }}>
+			import * as React from "react";
+			import * as ReactDOM from "react-dom";
 
 			const siteHref = document.body.dataset.siteHref || "/en/";
 			const siteUrl = new URL(siteHref, window.location.origin).toString();
 			const repoUrl = "https://github.com/tadawilifetech/tadawilifetech.github.io";
+
+			async function loadScript(src) {
+				await new Promise((resolve, reject) => {
+					const existing = document.querySelector(`script[data-cms-bundle=\"${src}\"]`);
+					if (existing) {
+						if (existing.dataset.loaded === "true") {
+							resolve(undefined);
+							return;
+						}
+						existing.addEventListener("load", () => resolve(undefined), { once: true });
+						existing.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+						return;
+					}
+
+					const script = document.createElement("script");
+					script.src = src;
+					script.async = true;
+					script.dataset.cmsBundle = src;
+					script.addEventListener("load", () => {
+						script.dataset.loaded = "true";
+						resolve(undefined);
+					}, { once: true });
+					script.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+					document.head.append(script);
+				});
+			}
 
 			function updateSiteLinks() {
 				const anchors = document.querySelectorAll('a[href]');
@@ -230,6 +258,17 @@ const siteHref = `/${currentLocale}/`;
 			}
 
 			new MutationObserver(cleanUI).observe(document.body, { childList: true, subtree: true });
+
+			window.React = React;
+			window.ReactDOM = ReactDOM;
+
+			await loadScript(cmsBundleUrl);
+
+			const CMS = window.DecapCmsApp;
+			if (!CMS?.init) {
+				throw new Error("Decap CMS bundle did not expose an init function.");
+			}
+
 			CMS.init();
 			cleanUI();
 		</script>

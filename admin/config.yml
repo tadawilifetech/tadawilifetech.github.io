@@ -1,0 +1,608 @@
+# For production outside Netlify, add your OAuth service values under backend:
+# base_url: https://your-oauth-service.example.com
+# auth_endpoint: auth
+
+backend:
+  name: github
+  repo: tadawilifetech/tadawilifetech.github.io
+  branch: main
+  squash_merges: true
+
+local_backend: true
+
+site_url: https://tadawilifetech.com
+display_url: https://tadawilifetech.com
+
+logo:
+  src: /logo-tadawi.svg
+  show_in_header: false
+
+locale: en
+show_preview_links: false
+
+editor:
+  preview: false
+
+media_folder: public/uploads
+public_folder: /uploads
+
+slug:
+  encoding: unicode
+  clean_accents: true
+
+collections:
+  - name: posts_en
+    label: "Posts (English)"
+    label_singular: "Post (EN)"
+    description: English posts
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: en
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: en
+      - label: Content
+        name: body
+        widget: markdown
+
+  - name: posts_ar
+    label: "Posts (العربية)"
+    label_singular: "Post (AR)"
+    description: Arabic posts
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: ar
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: ar
+      - label: Content
+        name: body
+        widget: markdown
+
+  - name: posts_fa
+    label: "Posts (فارسی)"
+    label_singular: "Post (FA)"
+    description: Persian posts
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: fa
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: fa
+      - label: Content
+        name: body
+        widget: markdown
+
+  - name: pages
+    label: Pages
+    label_singular: Page
+    description: Manage static pages
+    files:
+      - label: About Page
+        name: about
+        file: src/content/spec/about.md
+        preview_path: en/about/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: about
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: en
+          - label: Content
+            name: body
+            widget: markdown
+      - label: About Page (Arabic)
+        name: about_ar
+        file: src/content/spec/about.ar.md
+        preview_path: ar/about/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: about
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: ar
+          - label: Content
+            name: body
+            widget: markdown
+      - label: About Page (Persian)
+        name: about_fa
+        file: src/content/spec/about.fa.md
+        preview_path: fa/about/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: about
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: fa
+          - label: Content
+            name: body
+            widget: markdown
+      - label: Contact Page
+        name: contact
+        file: src/content/spec/contact.md
+        preview_path: en/contact/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: contact
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: en
+          - label: Content
+            name: body
+            widget: markdown
+      - label: Contact Page (Arabic)
+        name: contact_ar
+        file: src/content/spec/contact.ar.md
+        preview_path: ar/contact/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: contact
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: ar
+          - label: Content
+            name: body
+            widget: markdown
+      - label: Contact Page (Persian)
+        name: contact_fa
+        file: src/content/spec/contact.fa.md
+        preview_path: fa/contact/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: contact
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: fa
+          - label: Content
+            name: body
+            widget: markdown
+
+  - name: products_en
+    label: "Products (English)"
+    label_singular: "Product (EN)"
+    description: English products
+    folder: src/content/products
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: en
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Price
+        name: price
+        widget: string
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: en
+      - label: Content
+        name: body
+        widget: markdown
+
+  - name: products_ar
+    label: "Products (العربية)"
+    label_singular: "Product (AR)"
+    description: Arabic products
+    folder: src/content/products
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: ar
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Price
+        name: price
+        widget: string
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: ar
+      - label: Content
+        name: body
+        widget: markdown
+
+  - name: products_fa
+    label: "Products (فارسی)"
+    label_singular: "Product (FA)"
+    description: Persian products
+    folder: src/content/products
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: fa
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Price
+        name: price
+        widget: string
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: fa
+      - label: Content
+        name: body
+        widget: markdown

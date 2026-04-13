@@ -1,0 +1,12 @@
+---
+import AdminShell from "@components/AdminShell.astro";
+import { SUPPORTED_LOCALES } from "@utils/locale-utils";
+
+export async function getStaticPaths() {
+	return SUPPORTED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const currentLocale = Astro.params.lang;
+---
+
+<AdminShell lang={currentLocale} />

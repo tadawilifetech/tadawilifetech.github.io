@@ -30,6 +30,11 @@ slug:
   encoding: unicode
   clean_accents: true
 
+i18n:
+  structure: multiple_files
+  locales: [en, ar, fa]
+  default_locale: en
+
 collections:
   - name: posts
     label: Posts
@@ -40,11 +45,10 @@ collections:
     delete: true
     extension: md
     format: frontmatter
-    path: "{{slug}}/index"
     media_folder: ""
     public_folder: ""
-    preview_path: posts/{{slug}}/
     summary: "{{title}}"
+    i18n: true
     sortable_fields:
       - published
       - updated
@@ -60,12 +64,20 @@ collections:
       - label: Title
         name: title
         widget: string
+        i18n: true
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+        i18n: duplicate
       - label: Published At
         name: published
         widget: datetime
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
+        i18n: duplicate
       - label: Updated At
         name: updated
         widget: datetime
@@ -73,41 +85,42 @@ collections:
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
+        i18n: duplicate
       - label: Description
         name: description
         widget: text
         required: false
+        i18n: true
       - label: Cover Image
         name: image
         widget: image
         required: false
         hint: Upload the image into the same post folder.
+        i18n: duplicate
       - label: Tags
         name: tags
         widget: list
         required: false
+        i18n: true
       - label: Category
         name: category
         widget: string
         required: false
+        i18n: true
       - label: Draft
         name: draft
         widget: boolean
         default: true
         required: false
+        i18n: duplicate
       - label: Language Code
         name: lang
-        widget: select
-        required: false
-        default: en
-        options:
-          - label: en
-            value: en
-          - label: ar
-            value: ar
+        widget: hidden
+        i18n: true
       - label: Content
         name: body
         widget: markdown
+        i18n: true
 
   - name: pages
     label: Pages
@@ -117,16 +130,96 @@ collections:
       - label: About Page
         name: about
         file: src/content/spec/about.md
-        preview_path: about/
+        preview_path: en/about/
         fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: about
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: en
+          - label: Content
+            name: body
+            widget: markdown
+      - label: About Page (Arabic)
+        name: about_ar
+        file: src/content/spec/about.ar.md
+        preview_path: ar/about/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: about
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: ar
+          - label: Content
+            name: body
+            widget: markdown
+      - label: About Page (Persian)
+        name: about_fa
+        file: src/content/spec/about.fa.md
+        preview_path: fa/about/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: about
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: fa
           - label: Content
             name: body
             widget: markdown
       - label: Contact Page
         name: contact
         file: src/content/spec/contact.md
-        preview_path: contact/
+        preview_path: en/contact/
         fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: contact
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: en
+          - label: Content
+            name: body
+            widget: markdown
+      - label: Contact Page (Arabic)
+        name: contact_ar
+        file: src/content/spec/contact.ar.md
+        preview_path: ar/contact/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: contact
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: ar
+          - label: Content
+            name: body
+            widget: markdown
+      - label: Contact Page (Persian)
+        name: contact_fa
+        file: src/content/spec/contact.fa.md
+        preview_path: fa/contact/
+        fields:
+          - label: Translation Key
+            name: translationKey
+            widget: hidden
+            default: contact
+          - label: Language Code
+            name: lang
+            widget: hidden
+            default: fa
           - label: Content
             name: body
             widget: markdown
@@ -140,11 +233,10 @@ collections:
     delete: true
     extension: md
     format: frontmatter
-    path: "{{slug}}/index"
     media_folder: ""
     public_folder: ""
-    preview_path: products/{{slug}}/
     summary: "{{title}}"
+    i18n: true
     sortable_fields:
       - published
       - updated
@@ -160,12 +252,20 @@ collections:
       - label: Title
         name: title
         widget: string
+        i18n: true
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+        i18n: duplicate
       - label: Published At
         name: published
         widget: datetime
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
+        i18n: duplicate
       - label: Updated At
         name: updated
         widget: datetime
@@ -173,42 +273,44 @@ collections:
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
+        i18n: duplicate
       - label: Description
         name: description
         widget: text
         required: false
+        i18n: true
       - label: Cover Image
         name: image
         widget: image
         required: false
         hint: Upload the image into the same product folder.
+        i18n: duplicate
       - label: Price
         name: price
         widget: string
         required: false
+        i18n: duplicate
       - label: Tags
         name: tags
         widget: list
         required: false
+        i18n: true
       - label: Category
         name: category
         widget: string
         required: false
+        i18n: true
       - label: Draft
         name: draft
         widget: boolean
         default: true
         required: false
+        i18n: duplicate
       - label: Language Code
         name: lang
-        widget: select
-        required: false
-        default: en
-        options:
-          - label: en
-            value: en
-          - label: ar
-            value: ar
+        widget: hidden
+        i18n: true
       - label: Content
         name: body
         widget: markdown
+        i18n: true

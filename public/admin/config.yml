@@ -1,12 +1,12 @@
-# For production outside Netlify, add your OAuth service values under backend:
-# base_url: https://your-oauth-service.example.com
-# auth_endpoint: auth
-
 backend:
   name: github
   repo: tadawilifetech/tadawilifetech.github.io
   branch: main
   squash_merges: true
+  # OAuth proxy on Cloudflare Workers (see oauth-worker/README.md)
+  # Replace <YOUR-CF-SUBDOMAIN> with your actual Cloudflare subdomain after deploying
+  base_url: https://decap-cms-oauth.<YOUR-CF-SUBDOMAIN>.workers.dev
+  auth_endpoint: auth
 
 local_backend: true
 

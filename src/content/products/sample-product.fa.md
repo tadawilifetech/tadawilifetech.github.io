@@ -8,7 +8,7 @@ category: "عمومی"
 tags: ["نمونه"]
 lang: fa
 translationKey: sample-product
-draft: true
+draft: false
 ---
 
 این یک صفحه نمونه برای محصول است. این متن را با محتوای واقعی محصول به زبان فارسی جایگزین کنید.

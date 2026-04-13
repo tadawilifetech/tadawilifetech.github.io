@@ -8,7 +8,7 @@ category: "General"
 tags: ["sample"]
 lang: en
 translationKey: sample-product
-draft: true
+draft: false
 ---
 
 This is a sample product page. Replace this with your actual product content.

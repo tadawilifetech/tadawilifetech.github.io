@@ -8,7 +8,7 @@ category: "عام"
 tags: ["تجريبي"]
 lang: ar
 translationKey: sample-product
-draft: true
+draft: false
 ---
 
 هذه صفحة منتج تجريبية. استبدل هذا النص بمحتوى المنتج الفعلي باللغة العربية.

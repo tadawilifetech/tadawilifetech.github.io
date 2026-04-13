@@ -3,6 +3,8 @@ import { rtlLanguages, supportedLanguages } from "@i18n/translation";
 const LANG_STORAGE_KEY = "lang";
 const DEFAULT_LANG = "en";
 
+type TranslationMap = Record<string, Record<string, string>>;
+
 export function getStoredLang(): string {
 	if (typeof localStorage === "undefined") return DEFAULT_LANG;
 	return localStorage.getItem(LANG_STORAGE_KEY) || DEFAULT_LANG;
@@ -32,8 +34,10 @@ export function applyLangToDocument(lang: string): void {
 	const dir = getDirection(lang);
 	document.documentElement.lang = lang;
 	document.documentElement.dir = dir;
-	document.body.classList.toggle("is-rtl", dir === "rtl");
-	document.body.classList.toggle("is-ltr", dir === "ltr");
+	if (document.body) {
+		document.body.classList.toggle("is-rtl", dir === "rtl");
+		document.body.classList.toggle("is-ltr", dir === "ltr");
+	}
 }
 
 /**
@@ -41,7 +45,7 @@ export function applyLangToDocument(lang: string): void {
  */
 export function applyTranslations(
 	lang: string,
-	translations: Record<string, Record<string, string>>,
+	translations: TranslationMap,
 ): void {
 	const t = translations[lang] || translations[DEFAULT_LANG];
 	if (!t) return;
@@ -60,4 +64,30 @@ export function applyTranslations(
 			(el as HTMLInputElement).placeholder = t[key];
 		}
 	});
+}
+
+export function getTranslationsFromCarrier(): TranslationMap | null {
+	const carrier = document.getElementById("config-carrier");
+	if (!carrier?.dataset.translations) return null;
+
+	try {
+		return JSON.parse(carrier.dataset.translations) as TranslationMap;
+	} catch {
+		return null;
+	}
+}
+
+export function applyStoredLanguage(): string {
+	const lang = getStoredLang();
+	applyLangToDocument(lang);
+
+	const translations = getTranslationsFromCarrier();
+	if (translations) {
+		applyTranslations(lang, translations);
+	}
+
+	document.documentElement.dataset.langReady = "true";
+	document.documentElement.classList.remove("i18n-pending");
+
+	return lang;
 }

@@ -2,6 +2,7 @@
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
+import { applyStoredLanguage } from "@utils/lang-utils";
 import { url } from "@utils/url-utils.ts";
 import { onMount } from "svelte";
 import type { SearchResult } from "@/global";
@@ -87,6 +88,8 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 };
 
 onMount(() => {
+	applyStoredLanguage();
+
 	const initializeSearch = () => {
 		initialized = true;
 		pagefindLoaded =

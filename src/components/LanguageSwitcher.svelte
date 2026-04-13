@@ -2,6 +2,7 @@
 import Icon from "@iconify/svelte";
 import {
 	applyLangToDocument,
+	applyStoredLanguage,
 	applyTranslations,
 	getStoredLang,
 	getSupportedLanguages,
@@ -9,12 +10,17 @@ import {
 } from "@utils/lang-utils";
 import { onMount } from "svelte";
 
+interface Props {}
+
+let {}: Props = $props();
+
 const languages = getSupportedLanguages();
 let currentLang = $state("en");
 let panelOpen = $state(false);
 
 onMount(() => {
 	currentLang = getStoredLang();
+	applyStoredLanguage();
 });
 
 function switchLang(code: string) {

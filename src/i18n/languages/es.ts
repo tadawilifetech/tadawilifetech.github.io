@@ -4,6 +4,7 @@ import type { Translation } from "../translation";
 export const es: Translation = {
 	[Key.home]: "Inicio",
 	[Key.about]: "Sobre mí",
+	[Key.contact]: "Contacto",
 	[Key.archive]: "Archivo",
 	[Key.search]: "Buscar",
 	[Key.blog]: "Blog",

@@ -2,7 +2,9 @@
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
+import { applyStoredLanguage } from "@utils/lang-utils";
 import { getDefaultHue, getHue, setHue } from "@utils/setting-utils";
+import { onMount } from "svelte";
 
 let hue = getHue();
 const defaultHue = getDefaultHue();
@@ -10,6 +12,10 @@ const defaultHue = getDefaultHue();
 function resetHue() {
 	hue = getDefaultHue();
 }
+
+onMount(() => {
+  applyStoredLanguage();
+});
 
 $: if (hue || hue === 0) {
 	setHue(hue);
@@ -22,7 +28,7 @@ $: if (hue || hue === 0) {
             before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
             before:absolute ltr:before:-left-3 rtl:before:-right-3 before:top-[0.33rem]"
         >
-            {i18n(I18nKey.themeColor)}
+    			<span data-i18n="themeColor">{i18n(I18nKey.themeColor)}</span>
             <button aria-label="Reset to Default" class="btn-regular w-7 h-7 rounded-md  active:scale-90 will-change-transform"
                     class:opacity-0={hue === defaultHue} class:pointer-events-none={hue === defaultHue} on:click={resetHue}>
                 <div class="text-[var(--btn-content)]">

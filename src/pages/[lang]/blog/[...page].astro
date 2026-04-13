@@ -1,0 +1,26 @@
+---
+import type { GetStaticPaths } from "astro";
+import Pagination from "@components/control/Pagination.astro";
+import PostPage from "@components/PostPage.astro";
+import { PAGE_SIZE } from "@constants/constants";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@utils/content-utils";
+import { SUPPORTED_LOCALES, type SiteLocale } from "@utils/locale-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const paths = [];
+	for (const lang of SUPPORTED_LOCALES) {
+		paths.push(...paginate(await getSortedPosts(lang), { pageSize: PAGE_SIZE, params: { lang } }));
+	}
+	return paths;
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const currentLocale = Astro.params.lang as SiteLocale;
+const len = page.data.length;
+---
+
+<MainGridLayout lang={currentLocale}>
+    <PostPage page={page}></PostPage>
+    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms)`}></Pagination>
+</MainGridLayout>

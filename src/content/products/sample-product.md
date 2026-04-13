@@ -6,6 +6,8 @@ image: "s.jpeg"
 price: "10 OMR"
 category: "General"
 tags: ["sample"]
+lang: en
+translationKey: sample-product
 draft: true
 ---
 

@@ -1,4 +1,5 @@
 import { rtlLanguages, supportedLanguages } from "@i18n/translation";
+import { getExplicitLocaleFromPathname, isSupportedLocale } from "@utils/locale-utils";
 
 const LANG_STORAGE_KEY = "lang";
 const DEFAULT_LANG = "en";
@@ -8,6 +9,19 @@ type TranslationMap = Record<string, Record<string, string>>;
 export function getStoredLang(): string {
 	if (typeof localStorage === "undefined") return DEFAULT_LANG;
 	return localStorage.getItem(LANG_STORAGE_KEY) || DEFAULT_LANG;
+}
+
+function getLangFromCurrentPath(): string | null {
+	if (typeof window === "undefined") return null;
+	return getExplicitLocaleFromPathname(window.location.pathname);
+}
+
+function resolvePreferredLang(preferredLang?: string): string {
+	if (preferredLang && isSupportedLocale(preferredLang)) {
+		return preferredLang;
+	}
+
+	return getLangFromCurrentPath() || getStoredLang();
 }
 
 export function setStoredLang(lang: string): void {
@@ -97,8 +111,9 @@ function markLanguageReady(lang: string): void {
 		.finally(finish);
 }
 
-export function applyStoredLanguage(): string {
-	const lang = getStoredLang();
+export function applyStoredLanguage(preferredLang?: string): string {
+	const lang = resolvePreferredLang(preferredLang);
+	setStoredLang(lang);
 	applyLangToDocument(lang);
 
 	const translations = getTranslationsFromCarrier();

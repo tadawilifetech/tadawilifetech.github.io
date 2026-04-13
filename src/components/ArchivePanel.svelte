@@ -6,10 +6,12 @@ import { i18n } from "../i18n/translation";
 import { applyStoredLanguage } from "../utils/lang-utils";
 import type { PostForList } from "../utils/content-utils";
 import { getPostUrlBySlug } from "../utils/url-utils";
+import type { SiteLocale } from "../utils/locale-utils";
 
 export let tags: string[] = [];
 export let categories: string[] = [];
 export let sortedPosts: PostForList[] = [];
+export let currentLocale: SiteLocale = "en";
 
 let uncategorized: string | null = null;
 
@@ -108,7 +110,7 @@ onMount(async () => {
 
             {#each group.posts as post}
                 <a
-                        href={getPostUrlBySlug(post.slug)}
+                        href={getPostUrlBySlug(post.slug, currentLocale)}
                         aria-label={post.data.title}
                         class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]"
                 >

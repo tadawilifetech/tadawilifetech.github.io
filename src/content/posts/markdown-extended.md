@@ -6,6 +6,8 @@ description: 'Read more about Markdown features on Tadawi Life Tech'
 image: ''
 tags: [Demo, Example, Markdown, "Tadawi Life Tech"]
 category: 'Examples'
+lang: en
+translationKey: markdown-extended
 draft: false 
 ---
 

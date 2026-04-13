@@ -1,3 +1,8 @@
+---
+lang: en
+translationKey: contact
+---
+
 ## Contact Tadawi Life Tech
 
 We welcome inquiries about our products, partnerships, and customer support.

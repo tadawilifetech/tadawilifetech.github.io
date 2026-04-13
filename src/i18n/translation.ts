@@ -60,8 +60,7 @@ export function getTranslation(lang: string): Translation {
 	return map[lang.toLowerCase()] || defaultTranslation;
 }
 
-export function i18n(key: I18nKey): string {
-	const lang = siteConfig.lang || "en";
+export function i18n(key: I18nKey, lang: string = siteConfig.lang || "en"): string {
 	return getTranslation(lang)[key];
 }
 

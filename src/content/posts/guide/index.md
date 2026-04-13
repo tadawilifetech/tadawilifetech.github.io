@@ -5,6 +5,8 @@ description: "How Tadawi Life Tech uses and customizes this site."
 image: "./cover.jpeg"
 tags: ["Tadawi Life Tech", "Blogging", "Customization"]
 category: Guides
+lang: en
+translationKey: guide
 draft: false
 ---
 

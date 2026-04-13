@@ -79,16 +79,19 @@ const bannerOffset =
 >
 	<head>
 		<!-- Apply stored language direction before render to prevent flash -->
-		<script is:inline>
+		<script is:inline define:vars={{ siteLang }}>
 			(function() {
 				try {
-					var storedLang = localStorage.getItem('lang') || 'en';
+					var pathParts = window.location.pathname.split('/').filter(Boolean);
+					var routeLang = ['en', 'ar', 'fa'].indexOf(pathParts[0]) !== -1 ? pathParts[0] : null;
+					var activeLang = routeLang || siteLang || localStorage.getItem('lang') || 'en';
 					var rtlLangs = ['ar', 'fa'];
-					var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
-					document.documentElement.lang = storedLang;
+					var dir = rtlLangs.indexOf(activeLang) !== -1 ? 'rtl' : 'ltr';
+					localStorage.setItem('lang', activeLang);
+					document.documentElement.lang = activeLang;
 					document.documentElement.dir = dir;
-					document.documentElement.dataset.langReady = storedLang === 'en' ? 'true' : 'false';
-					if (storedLang !== 'en') {
+					document.documentElement.dataset.langReady = activeLang === 'en' ? 'true' : 'false';
+					if (activeLang !== 'en') {
 						document.documentElement.classList.add('i18n-pending');
 					}
 				} catch (_error) {
@@ -183,6 +186,9 @@ const bannerOffset =
 
 		<script is:inline>
 			(function() {
+				var pathParts = window.location.pathname.split('/').filter(Boolean);
+				var routeLang = ['en', 'ar', 'fa'].indexOf(pathParts[0]) !== -1 ? pathParts[0] : null;
+
 				function finishWhenReady(lang) {
 					var root = document.documentElement;
 					var isRtl = lang === 'ar' || lang === 'fa';
@@ -212,7 +218,7 @@ const bannerOffset =
 				}
 
 				try {
-					var storedLang = localStorage.getItem('lang') || 'en';
+					var storedLang = routeLang || localStorage.getItem('lang') || 'en';
 					var rtlLangs = ['ar', 'fa'];
 					var dir = rtlLangs.indexOf(storedLang) !== -1 ? 'rtl' : 'ltr';
 					var body = document.body;
@@ -224,6 +230,7 @@ const bannerOffset =
 
 					root.lang = storedLang;
 					root.dir = dir;
+					localStorage.setItem('lang', storedLang);
 					if (body) {
 						body.classList.toggle('is-rtl', dir === 'rtl');
 						body.classList.toggle('is-ltr', dir === 'ltr');

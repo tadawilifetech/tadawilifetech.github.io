@@ -80,6 +80,10 @@
           "type": "string",
           "default": ""
         },
+        "translationKey": {
+          "type": "string",
+          "default": ""
+        },
         "prevTitle": {
           "type": "string",
           "default": ""

@@ -1,44 +1,39 @@
 <script lang="ts">
 import Icon from "@iconify/svelte";
 import {
-	applyLangToDocument,
 	applyStoredLanguage,
-	applyTranslations,
 	getStoredLang,
 	getSupportedLanguages,
 	setStoredLang,
 } from "@utils/lang-utils";
+import { type SiteLocale, switchLocaleInPath } from "@utils/locale-utils";
 import { onMount } from "svelte";
 
 interface Props {}
 
 let {}: Props = $props();
 
-const languages = getSupportedLanguages();
-let currentLang = $state("en");
+const languages = getSupportedLanguages() as Array<{
+	code: SiteLocale;
+	label: string;
+	dir: "ltr" | "rtl";
+}>;
+let currentLang = $state<SiteLocale>("en");
 let panelOpen = $state(false);
 
 onMount(() => {
-	currentLang = getStoredLang();
+	currentLang = getStoredLang() as SiteLocale;
 	applyStoredLanguage();
 });
 
-function switchLang(code: string) {
+function switchLang(code: SiteLocale) {
 	currentLang = code;
 	setStoredLang(code);
-	applyLangToDocument(code);
-
-	// Get translations from the config carrier
-	const carrier = document.getElementById("config-carrier");
-	if (carrier?.dataset.translations) {
-		try {
-			const translations = JSON.parse(carrier.dataset.translations);
-			applyTranslations(code, translations);
-		} catch (_e) {
-			// fallback: reload
-			window.location.reload();
-		}
-	}
+	const targetPath = switchLocaleInPath(
+		`${window.location.pathname}${window.location.search}${window.location.hash}`,
+		code,
+	);
+	window.location.assign(targetPath);
 	panelOpen = false;
 }
 

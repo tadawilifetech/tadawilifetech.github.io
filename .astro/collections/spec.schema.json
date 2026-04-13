@@ -4,6 +4,14 @@
     "spec": {
       "type": "object",
       "properties": {
+        "lang": {
+          "type": "string",
+          "default": ""
+        },
+        "translationKey": {
+          "type": "string",
+          "default": ""
+        },
         "$schema": {
           "type": "string"
         }

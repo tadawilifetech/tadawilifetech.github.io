@@ -2,11 +2,13 @@
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 import { getProductCategoryList } from "../../utils/content-utils";
+import { getLocaleFromPathname } from "../../utils/locale-utils";
 import { getProductCategoryUrl } from "../../utils/url-utils";
 import ButtonLink from "../control/ButtonLink.astro";
 import WidgetLayout from "./WidgetLayout.astro";
 
-const categories = await getProductCategoryList();
+const currentLocale = getLocaleFromPathname(Astro.url.pathname);
+const categories = await getProductCategoryList(currentLocale);
 
 const COLLAPSED_HEIGHT = "7.5rem";
 const COLLAPSE_THRESHOLD = 5;
@@ -26,7 +28,7 @@ const style = Astro.props.style;
 >
     {categories.map((c) =>
         <ButtonLink
-            url={getProductCategoryUrl(c.name)}
+            url={getProductCategoryUrl(c.name, currentLocale)}
             badge={String(c.count)}
             label={`View all products in the ${c.name.trim()} category`}
         >

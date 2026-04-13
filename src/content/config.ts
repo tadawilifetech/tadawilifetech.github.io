@@ -11,6 +11,7 @@ const postsCollection = defineCollection({
 		tags: z.array(z.string()).optional().default([]),
 		category: z.string().optional().nullable().default(""),
 		lang: z.string().optional().default(""),
+		translationKey: z.string().optional().default(""),
 
 		/* For internal use */
 		prevTitle: z.string().default(""),
@@ -32,11 +33,15 @@ const productsCollection = defineCollection({
 		category: z.string().optional().nullable().default(""),
 		tags: z.array(z.string()).optional().default([]),
 		lang: z.string().optional().default(""),
+		translationKey: z.string().optional().default(""),
 	}),
 });
 
 const specCollection = defineCollection({
-	schema: z.object({}),
+	schema: z.object({
+		lang: z.string().optional().default(""),
+		translationKey: z.string().optional().default(""),
+	}),
 });
 export const collections = {
 	posts: postsCollection,

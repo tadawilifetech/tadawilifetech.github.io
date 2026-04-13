@@ -30,16 +30,11 @@ slug:
   encoding: unicode
   clean_accents: true
 
-i18n:
-  structure: multiple_files
-  locales: [en, ar, fa]
-  default_locale: en
-
 collections:
-  - name: posts
-    label: Posts
-    label_singular: Post
-    description: Manage site posts
+  - name: posts_en
+    label: "Posts (English)"
+    label_singular: "Post (EN)"
+    description: English posts
     folder: src/content/posts
     create: true
     delete: true
@@ -47,8 +42,10 @@ collections:
     format: frontmatter
     media_folder: ""
     public_folder: ""
+    filter:
+      field: lang
+      value: en
     summary: "{{title}}"
-    i18n: true
     sortable_fields:
       - published
       - updated
@@ -64,20 +61,17 @@ collections:
       - label: Title
         name: title
         widget: string
-        i18n: true
       - label: Translation Key
         name: translationKey
         widget: string
         required: true
         hint: Shared identifier across all language versions.
-        i18n: duplicate
       - label: Published At
         name: published
         widget: datetime
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
-        i18n: duplicate
       - label: Updated At
         name: updated
         widget: datetime
@@ -85,42 +79,188 @@ collections:
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
-        i18n: duplicate
       - label: Description
         name: description
         widget: text
         required: false
-        i18n: true
       - label: Cover Image
         name: image
         widget: image
         required: false
-        hint: Upload the image into the same post folder.
-        i18n: duplicate
       - label: Tags
         name: tags
         widget: list
         required: false
-        i18n: true
       - label: Category
         name: category
         widget: string
         required: false
-        i18n: true
       - label: Draft
         name: draft
         widget: boolean
         default: true
         required: false
-        i18n: duplicate
       - label: Language Code
         name: lang
         widget: hidden
-        i18n: true
+        default: en
       - label: Content
         name: body
         widget: markdown
-        i18n: true
+
+  - name: posts_ar
+    label: "Posts (العربية)"
+    label_singular: "Post (AR)"
+    description: Arabic posts
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: ar
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: ar
+      - label: Content
+        name: body
+        widget: markdown
+
+  - name: posts_fa
+    label: "Posts (فارسی)"
+    label_singular: "Post (FA)"
+    description: Persian posts
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: fa
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: fa
+      - label: Content
+        name: body
+        widget: markdown
 
   - name: pages
     label: Pages
@@ -224,10 +364,10 @@ collections:
             name: body
             widget: markdown
 
-  - name: products
-    label: Products
-    label_singular: Product
-    description: Manage products
+  - name: products_en
+    label: "Products (English)"
+    label_singular: "Product (EN)"
+    description: English products
     folder: src/content/products
     create: true
     delete: true
@@ -235,8 +375,10 @@ collections:
     format: frontmatter
     media_folder: ""
     public_folder: ""
+    filter:
+      field: lang
+      value: en
     summary: "{{title}}"
-    i18n: true
     sortable_fields:
       - published
       - updated
@@ -252,20 +394,17 @@ collections:
       - label: Title
         name: title
         widget: string
-        i18n: true
       - label: Translation Key
         name: translationKey
         widget: string
         required: true
         hint: Shared identifier across all language versions.
-        i18n: duplicate
       - label: Published At
         name: published
         widget: datetime
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
-        i18n: duplicate
       - label: Updated At
         name: updated
         widget: datetime
@@ -273,44 +412,197 @@ collections:
         date_format: YYYY-MM-DD
         time_format: false
         format: YYYY-MM-DD
-        i18n: duplicate
       - label: Description
         name: description
         widget: text
         required: false
-        i18n: true
       - label: Cover Image
         name: image
         widget: image
         required: false
-        hint: Upload the image into the same product folder.
-        i18n: duplicate
       - label: Price
         name: price
         widget: string
         required: false
-        i18n: duplicate
       - label: Tags
         name: tags
         widget: list
         required: false
-        i18n: true
       - label: Category
         name: category
         widget: string
         required: false
-        i18n: true
       - label: Draft
         name: draft
         widget: boolean
         default: true
         required: false
-        i18n: duplicate
       - label: Language Code
         name: lang
         widget: hidden
-        i18n: true
+        default: en
       - label: Content
         name: body
         widget: markdown
-        i18n: true
+
+  - name: products_ar
+    label: "Products (العربية)"
+    label_singular: "Product (AR)"
+    description: Arabic products
+    folder: src/content/products
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: ar
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Price
+        name: price
+        widget: string
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: ar
+      - label: Content
+        name: body
+        widget: markdown
+
+  - name: products_fa
+    label: "Products (فارسی)"
+    label_singular: "Product (FA)"
+    description: Persian products
+    folder: src/content/products
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    media_folder: ""
+    public_folder: ""
+    filter:
+      field: lang
+      value: fa
+    summary: "{{title}}"
+    sortable_fields:
+      - published
+      - updated
+      - title
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Translation Key
+        name: translationKey
+        widget: string
+        required: true
+        hint: Shared identifier across all language versions.
+      - label: Published At
+        name: published
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Updated At
+        name: updated
+        widget: datetime
+        required: false
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Description
+        name: description
+        widget: text
+        required: false
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+      - label: Price
+        name: price
+        widget: string
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Category
+        name: category
+        widget: string
+        required: false
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: true
+        required: false
+      - label: Language Code
+        name: lang
+        widget: hidden
+        default: fa
+      - label: Content
+        name: body
+        widget: markdown

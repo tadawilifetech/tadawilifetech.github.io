@@ -32,10 +32,14 @@ enum I18nKey {
 	more = "more",
 
 	productCategories = "productCategories",
+	productTags = "productTags",
 
 	author = "author",
 	publishedAt = "publishedAt",
 	license = "license",
+
+	allRightsReserved = "allRightsReserved",
+	poweredBy = "poweredBy",
 }
 
 export default I18nKey;

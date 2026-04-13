@@ -4,13 +4,13 @@ import type { Translation } from "../translation";
 export const fa: Translation = {
 	[Key.home]: "خانه",
 	[Key.about]: "درباره",
-	[Key.contact]: "Contact",
+	[Key.contact]: "تماس با ما",
 	[Key.archive]: "آرشیو",
 	[Key.search]: "جستجو",
 	[Key.blog]: "بلاگ",
 
 	[Key.tags]: "برچسب‌ها",
-	[Key.categories]: "دسته‌بندی‌ها",
+	[Key.categories]: "دسته‌بندی وبلاگ",
 	[Key.recentPosts]: "آخرین نوشته‌ها",
 
 	[Key.comments]: "نظرات",
@@ -35,8 +35,12 @@ export const fa: Translation = {
 	[Key.more]: "بیشتر",
 
 	[Key.productCategories]: "دسته‌بندی محصولات",
+	[Key.productTags]: "برچسب‌های محصولات",
 
 	[Key.author]: "نویسنده",
 	[Key.publishedAt]: "تاریخ انتشار",
 	[Key.license]: "مجوز",
+
+	[Key.allRightsReserved]: "تمامی حقوق محفوظ است",
+	[Key.poweredBy]: "قدرت‌گرفته از",
 };

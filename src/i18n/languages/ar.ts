@@ -35,8 +35,12 @@ export const ar: Translation = {
 	[Key.more]: "المزيد",
 
 	[Key.productCategories]: "تصنيفات المنتجات",
+	[Key.productTags]: "وسوم المنتجات",
 
 	[Key.author]: "الكاتب",
 	[Key.publishedAt]: "تاريخ النشر",
 	[Key.license]: "الرخصة",
+
+	[Key.allRightsReserved]: "جميع الحقوق محفوظة",
+	[Key.poweredBy]: "بدعم من",
 };

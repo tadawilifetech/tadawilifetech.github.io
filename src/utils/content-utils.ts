@@ -168,6 +168,27 @@ export async function getProductCategoryList(lang: SiteLocale = DEFAULT_LOCALE):
 	}));
 }
 
+export async function getProductTagList(lang: SiteLocale = DEFAULT_LOCALE): Promise<Tag[]> {
+	const allProducts = await getCollection<"products">("products", ({ data }) => {
+		const matchesLocale = normalizeLocale(data.lang) === lang;
+		return (import.meta.env.PROD ? data.draft !== true : true) && matchesLocale;
+	});
+
+	const countMap: { [key: string]: number } = {};
+	allProducts.forEach((product: { data: { tags: string[] } }) => {
+		product.data.tags.forEach((tag: string) => {
+			if (!countMap[tag]) countMap[tag] = 0;
+			countMap[tag]++;
+		});
+	});
+
+	const keys: string[] = Object.keys(countMap).sort((a, b) => {
+		return a.toLowerCase().localeCompare(b.toLowerCase());
+	});
+
+	return keys.map((key) => ({ name: key, count: countMap[key] }));
+}
+
 export async function getSpecEntryByTranslationKey(
 	translationKey: string,
 	lang: SiteLocale = DEFAULT_LOCALE,

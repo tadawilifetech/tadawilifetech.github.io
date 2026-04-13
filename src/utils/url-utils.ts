@@ -42,6 +42,11 @@ export function getProductCategoryUrl(category: string, locale: SiteLocale = DEF
 	return url(localizePath(`/?category=${encodeURIComponent(category.trim())}`, locale));
 }
 
+export function getProductTagUrl(tag: string, locale: SiteLocale = DEFAULT_LOCALE): string {
+	if (!tag) return url(localizePath("/", locale));
+	return url(localizePath(`/?tag=${encodeURIComponent(tag.trim())}`, locale));
+}
+
 export function getDir(path: string): string {
 	const lastSlashIndex = path.lastIndexOf("/");
 	if (lastSlashIndex < 0) {

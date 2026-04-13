@@ -2,6 +2,7 @@
 import type { MarkdownHeading } from "astro";
 import Categories from "./Categories.astro";
 import ProductCategories from "./ProductCategories.astro";
+import ProductTags from "./ProductTags.astro";
 import Profile from "./Profile.astro";
 import Tag from "./Tags.astro";
 
@@ -23,6 +24,7 @@ const disableEntranceAnimations = Astro.props.disableEntranceAnimations ?? false
         {"transition-all duration-700": !disableEntranceAnimations},
     ]}>
         <ProductCategories class:list={{"onload-animation": !disableEntranceAnimations}} style={disableEntranceAnimations ? undefined : "animation-delay: 150ms"}></ProductCategories>
+        <ProductTags class:list={{"onload-animation": !disableEntranceAnimations}} style={disableEntranceAnimations ? undefined : "animation-delay: 165ms"}></ProductTags>
         <Categories class:list={{"onload-animation": !disableEntranceAnimations}} style={disableEntranceAnimations ? undefined : "animation-delay: 175ms"}></Categories>
         <Tag class:list={{"onload-animation": !disableEntranceAnimations}} style={disableEntranceAnimations ? undefined : "animation-delay: 200ms"}></Tag>
     </div>

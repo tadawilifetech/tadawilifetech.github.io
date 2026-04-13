@@ -35,8 +35,12 @@ export const en: Translation = {
 	[Key.more]: "More",
 
 	[Key.productCategories]: "Product Categories",
+	[Key.productTags]: "Product Tags",
 
 	[Key.author]: "Author",
 	[Key.publishedAt]: "Published at",
 	[Key.license]: "License",
+
+	[Key.allRightsReserved]: "All Rights Reserved",
+	[Key.poweredBy]: "Powered by",
 };

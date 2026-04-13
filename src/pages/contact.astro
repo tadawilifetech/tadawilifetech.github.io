@@ -14,7 +14,11 @@ if (!contactPage) {
 
 const { Content } = await render(contactPage);
 const contactFieldClass =
-    "contact-field w-full text-sm text-black/60 dark:text-white/60 placeholder:text-black/30 dark:placeholder:text-white/30";
+    "w-full text-sm bg-transparent outline-0 text-black/50 dark:text-white/50 placeholder:text-black/30 dark:placeholder:text-white/30";
+const shellClass =
+    "flex relative items-center h-11 rounded-xl bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10 transition-all";
+const iconClass =
+    "absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 transition text-black/30 dark:text-white/30";
 ---
 <MainGridLayout title={i18n(I18nKey.contact)} description={i18n(I18nKey.contact)} disableEntranceAnimations={true}>
     <div class="w-full flex flex-col gap-4">
@@ -94,43 +98,47 @@ const contactFieldClass =
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                         <label for="cf-name" class="block text-sm font-medium text-75 mb-1.5" data-i18n="contactName">Full Name</label>
-                        <div class="contact-input-shell group">
-                            <Icon name="material-symbols:person-outline-rounded" class="contact-icon w-5 h-5" />
-                            <input type="text" id="cf-name" name="name" required class={contactFieldClass + " contact-field-with-icon"}
+                        <div class={shellClass}>
+                            <Icon name="material-symbols:person-outline-rounded" class={iconClass} />
+                            <input type="text" id="cf-name" name="name" required
+                                class={contactFieldClass + " ltr:pl-10 rtl:pr-10 ltr:pr-4 rtl:pl-4 h-full"}
                                 data-i18n-placeholder="contactNamePh" placeholder="Your name" />
                         </div>
                     </div>
                     <div>
                         <label for="cf-email" class="block text-sm font-medium text-75 mb-1.5" data-i18n="contactEmailLabel">Email</label>
-                        <div class="contact-input-shell group">
-                            <Icon name="material-symbols:mail-outline-rounded" class="contact-icon w-5 h-5" />
-                            <input type="email" id="cf-email" name="email" required class={contactFieldClass + " contact-field-with-icon"}
+                        <div class={shellClass}>
+                            <Icon name="material-symbols:mail-outline-rounded" class={iconClass} />
+                            <input type="email" id="cf-email" name="email" required
+                                class={contactFieldClass + " ltr:pl-10 rtl:pr-10 ltr:pr-4 rtl:pl-4 h-full"}
                                 dir="ltr" placeholder="your@email.com" />
                         </div>
                     </div>
                 </div>
                 <div>
                     <label for="cf-phone" class="block text-sm font-medium text-75 mb-1.5" data-i18n="contactPhoneLabel">Phone Number</label>
-                    <div class="contact-input-shell group">
-                        <Icon name="material-symbols:call-outline-rounded" class="contact-icon w-5 h-5" />
-                        <input type="tel" id="cf-phone" name="phone" class={contactFieldClass + " contact-field-with-icon"}
+                    <div class={shellClass}>
+                        <Icon name="material-symbols:call-outline-rounded" class={iconClass} />
+                        <input type="tel" id="cf-phone" name="phone"
+                            class={contactFieldClass + " ltr:pl-10 rtl:pr-10 ltr:pr-4 rtl:pl-4 h-full"}
                             dir="ltr" placeholder="+968 ..." />
                     </div>
                 </div>
                 <div>
                     <label for="cf-subject" class="block text-sm font-medium text-75 mb-1.5" data-i18n="contactSubject">Subject</label>
-                    <div class="contact-input-shell group">
-                        <Icon name="material-symbols:chat-outline-rounded" class="contact-icon w-5 h-5" />
-                        <input type="text" id="cf-subject" name="subject" required class={contactFieldClass + " contact-field-with-icon"}
+                    <div class={shellClass}>
+                        <Icon name="material-symbols:chat-outline-rounded" class={iconClass} />
+                        <input type="text" id="cf-subject" name="subject" required
+                            class={contactFieldClass + " ltr:pl-10 rtl:pr-10 ltr:pr-4 rtl:pl-4 h-full"}
                             data-i18n-placeholder="contactSubjectPh" placeholder="How can we help?" />
                     </div>
                 </div>
                 <div>
                     <label for="cf-message" class="block text-sm font-medium text-75 mb-1.5" data-i18n="contactMessage">Message</label>
-                    <div class="contact-input-shell group contact-textarea-shell">
-                        <Icon name="material-symbols:edit-note-rounded" class="contact-icon contact-icon-top w-5 h-5" />
+                    <div class="flex relative items-start rounded-xl bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10 transition-all">
+                        <Icon name="material-symbols:edit-note-rounded" class="absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 mt-3 transition text-black/30 dark:text-white/30" />
                         <textarea id="cf-message" name="message" rows="5" required
-                            class={contactFieldClass + " contact-field-with-icon min-h-[9rem] resize-y py-4"}
+                            class={contactFieldClass + " ltr:pl-10 rtl:pr-10 ltr:pr-4 rtl:pl-4 min-h-[9rem] resize-y py-3"}
                             data-i18n-placeholder="contactMessagePh" placeholder="Write your message..."></textarea>
                     </div>
                 </div>
@@ -184,6 +192,25 @@ const contactFieldClass =
                     contactMessage: 'الرسالة',
                     contactMessagePh: 'اكتب رسالتك...',
                     contactSend: 'أرسل عبر واتساب'
+                },
+                fa: {
+                    contactTitle: 'تماس با ما',
+                    contactEmail: 'ایمیل',
+                    contactPhone: 'تلفن',
+                    contactHours: 'ساعات کاری',
+                    contactInstagram: 'اینستاگرام',
+                    contactAddress: 'آدرس',
+                    contactFormTitle: 'برای ما پیام بفرستید',
+                    contactFormLead: 'همان روش ساده و مستقیم تماس سایت: سریع، واضح و بدون پیچیدگی.',
+                    contactName: 'نام کامل',
+                    contactNamePh: 'نام شما',
+                    contactEmailLabel: 'ایمیل',
+                    contactPhoneLabel: 'شماره تلفن',
+                    contactSubject: 'موضوع',
+                    contactSubjectPh: 'چگونه می‌توانیم کمک کنیم؟',
+                    contactMessage: 'پیام',
+                    contactMessagePh: 'پیام خود را بنویسید...',
+                    contactSend: 'ارسال از طریق واتساپ'
                 }
             };
 
@@ -229,84 +256,8 @@ const contactFieldClass =
     </script>
 
     <style is:inline>
-        .contact-input-shell {
-            position: relative;
-            display: flex;
-            align-items: center;
-            min-height: 3.25rem;
-            border-radius: 1rem;
-            background: rgba(0, 0, 0, 0.04);
-            transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
-        }
-
-        :root.dark .contact-input-shell {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .contact-input-shell:hover,
-        .contact-input-shell:focus-within {
-            background: rgba(0, 0, 0, 0.06);
-        }
-
-        :root.dark .contact-input-shell:hover,
-        :root.dark .contact-input-shell:focus-within {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .contact-input-shell:focus-within {
-            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
-            transform: translateY(-1px);
-        }
-
-        :root.dark .contact-input-shell:focus-within {
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 0 3px color-mix(in srgb, var(--primary) 24%, transparent);
-        }
-
-        .contact-field {
-            width: 100%;
-            border: 0;
-            background: transparent;
+        input:focus, textarea:focus {
             outline: 0;
-            padding-top: 0.95rem;
-            padding-bottom: 0.95rem;
-            padding-right: 1rem;
-            padding-left: 1rem;
-        }
-
-        .contact-field-with-icon {
-            padding-inline-start: 3rem;
-        }
-
-        .contact-icon {
-            pointer-events: none;
-            position: absolute;
-            inset-inline-start: 1rem;
-            top: 50%;
-            z-index: 1;
-            transform: translateY(-50%);
-            color: rgba(0, 0, 0, 0.3);
-            transition: color 160ms ease;
-        }
-
-        :root.dark .contact-icon {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .contact-icon-top {
-            top: 1rem;
-            transform: none;
-        }
-
-        .contact-textarea-shell {
-            align-items: flex-start;
-        }
-
-        .contact-textarea-shell .contact-field {
-            line-height: 1.7;
-        }
-
-        .contact-input-shell:focus-within svg {
-            color: var(--primary);
         }
     </style>
 </MainGridLayout>

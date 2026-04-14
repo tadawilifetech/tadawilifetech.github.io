@@ -44,4 +44,7 @@ If you keep deploying on GitHub Pages, Vercel, or another non-Netlify host:
 - Create or deploy an external OAuth client for Decap.
 - Add `base_url` and `auth_endpoint` under `backend` in `public/admin/config.yml`.
 
+This repository is configured to use the Cloudflare Worker at `https://decap-cms-oauth.miladsoft.workers.dev` for production Decap OAuth.
+You still need to set the Worker secrets `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`, and configure the GitHub OAuth App callback URL to `https://decap-cms-oauth.miladsoft.workers.dev/callback`.
+
 Without that OAuth step, `/admin/` will load but production login and saving to GitHub will not complete.

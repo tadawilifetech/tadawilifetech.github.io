@@ -1,1 +1,0 @@
-import{D as r,l as a}from"./lang-utils.Cq3ZwLky.js";function u(o,t){const e=o.replace(/^\/|\/$/g,"").toLowerCase(),n=t.replace(/^\/|\/$/g,"").toLowerCase();return e===n}function s(...o){return o.join("/").replace(/\/+/g,"/")}function c(o,t=r){return l(a(`/posts/${o}/`,t))}function l(o){return s("","/",o)}export{c as g,u as p,l as u};

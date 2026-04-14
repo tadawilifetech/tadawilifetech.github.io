@@ -1,5 +1,4 @@
 ---
-import adminShellScriptUrl from "../scripts/admin-shell.ts?url";
 import cmsBundleUrl from "decap-cms-app/dist/decap-cms-app.js?url";
 import { DEFAULT_LOCALE, normalizeLocale, type SiteLocale } from "@utils/locale-utils";
 
@@ -171,6 +170,8 @@ const siteHref = `/${currentLocale}/`;
 		<noscript>
 			<div class="noscript">JavaScript is required to load the CMS.</div>
 		</noscript>
-		<script type="module" src={adminShellScriptUrl}></script>
+		<script>
+			import "../scripts/admin-shell.ts";
+		</script>
 	</body>
 </html>

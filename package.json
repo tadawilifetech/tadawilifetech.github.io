@@ -46,6 +46,8 @@
     "pagefind": "^1.4.0",
     "photoswipe": "^5.4.4",
     "reading-time": "^1.5.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-components": "^0.3.0",
     "rehype-katex": "^7.0.1",
@@ -68,6 +70,8 @@
     "@biomejs/biome": "2.2.5",
     "@iconify-json/mdi": "^1.2.3",
     "@rollup/plugin-yaml": "^4.1.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@types/hast": "^3.0.4",
     "@types/markdown-it": "^14.1.2",
     "@types/mdast": "^4.0.4",
@@ -77,7 +81,7 @@
   },
   "pnpm": {
     "overrides": {
-      "react-is": "19.2.5"
+      "react-is": "19.2.3"
     }
   },
   "packageManager": "pnpm@9.14.4"

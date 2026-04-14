@@ -3,7 +3,8 @@ backend:
   repo: tadawilifetech/tadawilifetech.github.io
   branch: main
   squash_merges: true
-  site_id: tadawilifetech.netlify.app
+  base_url: https://decap-cms-oauth.miladsoft.workers.dev
+  auth_endpoint: auth
 
 local_backend: true
 

@@ -107,6 +107,8 @@ function callbackPage(provider, token, error) {
   const content = error
     ? JSON.stringify(error)
     : JSON.stringify({ token, provider });
+  const payload = JSON.stringify(`authorization:${provider}:${status}:${content}`);
+  const handshake = JSON.stringify(`authorizing:${provider}`);
   const heading = error ? "Authentication failed" : "Authentication complete";
   const detail = error
     ? error
@@ -155,11 +157,48 @@ p {
 <script>
 (function () {
   const messageEl = document.getElementById("message");
-  const payload = "authorization:${provider}:${status}:${content}";
+  const payload = ${payload};
+  const handshake = ${handshake};
+  const shouldAutoClose = ${error ? "false" : "true"};
+  let relayTimer = null;
+  let closeTimer = null;
 
   function setMessage(message) {
     if (messageEl) {
       messageEl.textContent = message;
+    }
+  }
+
+  function stopRelay() {
+    if (relayTimer) {
+      window.clearInterval(relayTimer);
+      relayTimer = null;
+    }
+    if (closeTimer) {
+      window.clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+  }
+
+  function closeWindow() {
+    if (!shouldAutoClose) {
+      return;
+    }
+    setMessage("Authentication complete. Closing window...");
+    stopRelay();
+    window.setTimeout(function () {
+      window.close();
+    }, 120);
+  }
+
+  function relayToOpener() {
+    try {
+      window.opener.postMessage(handshake, "*");
+      window.opener.postMessage(payload, "*");
+    } catch (error) {
+      setMessage("Unable to communicate with the CMS window. Return to the CMS tab and try again.");
+      stopRelay();
+      return;
     }
   }
 
@@ -169,20 +208,29 @@ p {
   }
 
   function sendMessage(e) {
-    window.opener.postMessage(
-      payload,
-      e.origin
-    );
+    if (e.data !== handshake) {
+      return;
+    }
+
+    window.opener.postMessage(payload, e.origin);
     window.removeEventListener("message", sendMessage);
-    setMessage("Authentication complete. Closing window...");
-    window.close();
+    closeWindow();
   }
 
   window.addEventListener("message", sendMessage);
-  window.opener.postMessage("authorizing:${provider}", "*");
+  relayToOpener();
+  relayTimer = window.setInterval(relayToOpener, 250);
+
+  if (shouldAutoClose) {
+    closeTimer = window.setTimeout(closeWindow, 1800);
+  }
 
   window.setTimeout(function () {
-    setMessage("Waiting for the CMS window to finish authentication. If this stays open, return to the CMS tab and try again.");
+    if (shouldAutoClose) {
+      setMessage("Finishing sign-in. If this window stays open, return to the CMS tab.");
+    } else {
+      setMessage("Waiting for the CMS window to finish authentication. If this stays open, return to the CMS tab and try again.");
+    }
   }, 1500);
 })();
 </script>

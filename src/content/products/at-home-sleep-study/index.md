@@ -2,7 +2,7 @@
 title: "At-Home Sleep Study"
 published: 2026-04-17
 description: "Professional at-home sleep apnea testing with advanced monitoring devices. Detect obstructive sleep apnea, track oxygen levels, and receive a detailed clinical report — all from the comfort of your home."
-image: "./Picture/at-home-sleep-study-1.webp"
+image: "/uploads/products/at-home-sleep-study-1.webp"
 price: "85 OMR"
 category: "Sleep Diagnostics"
 tags: ["Sleep Study", "Sleep Apnea", "OSA", "Home Testing"]
@@ -32,7 +32,7 @@ The test is specifically designed to detect:
 - Drops in blood oxygen levels
 - Abnormal nighttime breathing patterns
 
-![At-Home Sleep Study Device](./Picture/at-home-sleep-study-2.jpg)
+![At-Home Sleep Study Device](/uploads/products/at-home-sleep-study-2.jpg)
 
 ---
 

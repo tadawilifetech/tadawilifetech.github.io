@@ -71,7 +71,7 @@ const siteHref = `/${currentLocale}/`;
 				background: rgba(20,184,166,.12);
 			}
 
-			[class*="exus10f5"] {
+			body.auth [class*="exus10f5"] {
 				position: relative;
 				z-index: 1;
 				box-sizing: border-box;
@@ -87,7 +87,7 @@ const siteHref = `/${currentLocale}/`;
 				box-shadow: none;
 				backdrop-filter: none;
 			}
-			[class*="exus10f5"] > p {
+			body.auth [class*="exus10f5"] > p {
 				margin: 0;
 				padding: .875rem 1rem;
 				border-radius: 1rem;
@@ -97,17 +97,17 @@ const siteHref = `/${currentLocale}/`;
 				line-height: 1.6;
 			}
 
-			[class*="exus10f3"],
-			[class*="exus10f2"] { display: none !important; }
+			body.auth [class*="exus10f3"],
+			body.auth [class*="exus10f2"] { display: none !important; }
 
-			[class*="exus10f4"] {
+			body.auth [class*="exus10f4"] {
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				width: 100%;
 				margin: 0 0 .5rem;
 			}
-			[class*="exus10f4"] img {
+			body.auth [class*="exus10f4"] img {
 				display: block;
 				width: min(14rem, 72%);
 				height: auto;
@@ -116,7 +116,7 @@ const siteHref = `/${currentLocale}/`;
 				filter: drop-shadow(0 10px 18px rgba(15,23,42,.12));
 			}
 
-			[class*="exus10f1"] {
+			body.auth [class*="exus10f1"] {
 				justify-content: center;
 				width: 100%;
 				min-height: 3.75rem;
@@ -133,23 +133,23 @@ const siteHref = `/${currentLocale}/`;
 				text-fill-color: #f8fafc;
 				transition: transform 160ms, box-shadow 160ms, filter 160ms;
 			}
-			[class*="exus10f1"],
-			[class*="exus10f1"] * {
+			body.auth [class*="exus10f1"],
+			body.auth [class*="exus10f1"] * {
 				color: #f8fafc !important;
 				fill: currentColor;
 			}
-			[class*="exus10f1"]:hover {
+			body.auth [class*="exus10f1"]:hover {
 				transform: translateY(-1px);
 				box-shadow: 0 22px 48px rgba(15,118,110,.32);
 				filter: saturate(1.05);
 			}
-			[class*="exus10f1"]:disabled {
+			body.auth [class*="exus10f1"]:disabled {
 				transform: none; box-shadow: none;
 				background: linear-gradient(135deg, #94a3b8, #64748b);
 				cursor: wait;
 			}
 
-			[class*="exus10f5"] a {
+			body.auth [class*="exus10f5"] a {
 				align-self: center;
 				margin-top: .25rem;
 				color: #475569;
@@ -158,10 +158,10 @@ const siteHref = `/${currentLocale}/`;
 				text-decoration: none;
 				transition: color 160ms;
 			}
-			[class*="exus10f5"] a:hover { color: #0f172a; }
+			body.auth [class*="exus10f5"] a:hover { color: #0f172a; }
 
 			@media (max-width: 640px) {
-				[class*="exus10f5"] {
+				body.auth [class*="exus10f5"] {
 					width: min(100vw - 1rem, 34rem);
 					margin: 0 auto;
 					padding: 1.25rem;

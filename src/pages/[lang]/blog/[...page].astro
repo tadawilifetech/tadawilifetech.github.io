@@ -21,6 +21,7 @@ const len = page.data.length;
 ---
 
 <MainGridLayout lang={currentLocale}>
+    <h1 class="sr-only">Blog</h1>
     <PostPage page={page}></PostPage>
     <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms)`}></Pagination>
 </MainGridLayout>

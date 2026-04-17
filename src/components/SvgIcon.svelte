@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let icon: string;
-	export let className = "";
+	interface Props {
+		icon: string;
+		className?: string;
+	}
+
+	let { icon, className = "" }: Props = $props();
 
 	type IconDefinition = {
 		body: string;
@@ -38,7 +42,7 @@
 		},
 	};
 
-	$: iconDefinition = icons[icon];
+	let iconDefinition = $derived(icons[icon]);
 </script>
 
 {#if iconDefinition}

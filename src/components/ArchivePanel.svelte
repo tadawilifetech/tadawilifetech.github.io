@@ -8,12 +8,18 @@ import type { PostForList } from "../utils/content-utils";
 import { getPostUrlBySlug } from "../utils/url-utils";
 import type { SiteLocale } from "../utils/locale-utils";
 
-export let tags: string[] = [];
-export let categories: string[] = [];
-export let sortedPosts: PostForList[] = [];
-export let currentLocale: SiteLocale = "en";
+interface Props {
+	tags?: string[];
+	categories?: string[];
+	sortedPosts?: PostForList[];
+	currentLocale?: SiteLocale;
+}
 
-let uncategorized: string | null = null;
+let { tags: initialTags = [], categories: initialCategories = [], sortedPosts = [], currentLocale = "en" }: Props = $props();
+
+let tags = $state<string[]>(initialTags);
+let categories = $state<string[]>(initialCategories);
+let uncategorized = $state<string | null>(null);
 
 type Post = PostForList;
 
@@ -22,7 +28,7 @@ interface Group {
 	posts: Post[];
 }
 
-let groups: Group[] = [];
+let groups: Group[] = $derived(buildGroups(getFilteredPosts()));
 
 function buildGroups(postList: Post[]): Group[] {
     const grouped = postList.reduce(
@@ -68,8 +74,6 @@ function getFilteredPosts(): Post[] {
 
     return filteredPosts;
 }
-
-$: tags, categories, uncategorized, groups = buildGroups(getFilteredPosts());
 
 function formatDate(date: Date) {
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");

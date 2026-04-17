@@ -36,8 +36,8 @@ collections:
     delete: true
     extension: md
     format: frontmatter
-    media_folder: ""
-    public_folder: ""
+    media_folder: /public/uploads/posts
+    public_folder: /uploads/posts
     filter:
       field: lang
       value: en
@@ -113,8 +113,8 @@ collections:
     delete: true
     extension: md
     format: frontmatter
-    media_folder: ""
-    public_folder: ""
+    media_folder: /public/uploads/posts
+    public_folder: /uploads/posts
     filter:
       field: lang
       value: ar
@@ -190,8 +190,8 @@ collections:
     delete: true
     extension: md
     format: frontmatter
-    media_folder: ""
-    public_folder: ""
+    media_folder: /public/uploads/posts
+    public_folder: /uploads/posts
     filter:
       field: lang
       value: fa

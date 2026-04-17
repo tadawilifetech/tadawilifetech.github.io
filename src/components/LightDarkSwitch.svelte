@@ -2,7 +2,6 @@
 import { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants.ts";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import Icon from "@iconify/svelte";
 import { applyStoredLanguage } from "@utils/lang-utils";
 import {
 	applyThemeToDocument,
@@ -11,6 +10,7 @@ import {
 } from "@utils/setting-utils.ts";
 import { onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
+import SvgIcon from "./SvgIcon.svelte";
 
 interface Props {}
 
@@ -67,13 +67,13 @@ function hidePanel() {
 <div class="relative z-50" role="menu" tabindex="-1" onmouseleave={hidePanel}>
     <button aria-label="Light/Dark Mode" role="menuitem" class="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="scheme-switch" onclick={toggleScheme} onmouseenter={showPanel}>
         <div class="absolute" class:opacity-0={mode !== LIGHT_MODE}>
-            <Icon icon="material-symbols:wb-sunny-outline-rounded" class="text-[1.25rem]"></Icon>
+            <SvgIcon icon="material-symbols:wb-sunny-outline-rounded" className="text-[1.25rem]"></SvgIcon>
         </div>
         <div class="absolute" class:opacity-0={mode !== DARK_MODE}>
-            <Icon icon="material-symbols:dark-mode-outline-rounded" class="text-[1.25rem]"></Icon>
+            <SvgIcon icon="material-symbols:dark-mode-outline-rounded" className="text-[1.25rem]"></SvgIcon>
         </div>
         <div class="absolute" class:opacity-0={mode !== AUTO_MODE}>
-            <Icon icon="material-symbols:radio-button-partial-outline" class="text-[1.25rem]"></Icon>
+            <SvgIcon icon="material-symbols:radio-button-partial-outline" className="text-[1.25rem]"></SvgIcon>
         </div>
     </button>
 
@@ -83,21 +83,21 @@ function hidePanel() {
                     class:current-theme-btn={mode === LIGHT_MODE}
                     onclick={() => switchScheme(LIGHT_MODE)}
             >
-                <Icon icon="material-symbols:wb-sunny-outline-rounded" class="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"></Icon>
+                <SvgIcon icon="material-symbols:wb-sunny-outline-rounded" className="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"></SvgIcon>
                 <span data-i18n="lightMode">{i18n(I18nKey.lightMode)}</span>
             </button>
             <button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5"
                     class:current-theme-btn={mode === DARK_MODE}
                     onclick={() => switchScheme(DARK_MODE)}
             >
-                <Icon icon="material-symbols:dark-mode-outline-rounded" class="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"></Icon>
+                <SvgIcon icon="material-symbols:dark-mode-outline-rounded" className="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"></SvgIcon>
                 <span data-i18n="darkMode">{i18n(I18nKey.darkMode)}</span>
             </button>
             <button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95"
                     class:current-theme-btn={mode === AUTO_MODE}
                     onclick={() => switchScheme(AUTO_MODE)}
             >
-                <Icon icon="material-symbols:radio-button-partial-outline" class="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"></Icon>
+                <SvgIcon icon="material-symbols:radio-button-partial-outline" className="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"></SvgIcon>
                 <span data-i18n="systemMode">{i18n(I18nKey.systemMode)}</span>
             </button>
         </div>

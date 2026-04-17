@@ -1,12 +1,12 @@
 <script lang="ts">
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import Icon from "@iconify/svelte";
 import { applyStoredLanguage } from "@utils/lang-utils";
 import { getDefaultHue, getHue, setHue } from "@utils/setting-utils";
 import { onMount } from "svelte";
+import SvgIcon from "../SvgIcon.svelte";
 
-let hue = getHue();
+let hue = $state(getHue());
 const defaultHue = getDefaultHue();
 
 function resetHue() {
@@ -17,9 +17,11 @@ onMount(() => {
   applyStoredLanguage();
 });
 
-$: if (hue || hue === 0) {
-	setHue(hue);
-}
+$effect(() => {
+	if (hue || hue === 0) {
+		setHue(hue);
+	}
+});
 </script>
 
 <div id="display-setting" class="float-panel float-panel-closed absolute transition-all w-80 ltr:right-4 rtl:left-4 px-4 py-4">
@@ -30,9 +32,9 @@ $: if (hue || hue === 0) {
         >
     			<span data-i18n="themeColor">{i18n(I18nKey.themeColor)}</span>
             <button aria-label="Reset to Default" class="btn-regular w-7 h-7 rounded-md  active:scale-90 will-change-transform"
-                    class:opacity-0={hue === defaultHue} class:pointer-events-none={hue === defaultHue} on:click={resetHue}>
+                    class:opacity-0={hue === defaultHue} class:pointer-events-none={hue === defaultHue} onclick={resetHue}>
                 <div class="text-[var(--btn-content)]">
-                    <Icon icon="fa6-solid:arrow-rotate-left" class="text-[0.875rem]"></Icon>
+                    <SvgIcon icon="fa6-solid:arrow-rotate-left" className="text-[0.875rem]"></SvgIcon>
                 </div>
             </button>
         </div>

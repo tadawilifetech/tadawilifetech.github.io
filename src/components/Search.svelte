@@ -1,18 +1,18 @@
 <script lang="ts">
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import Icon from "@iconify/svelte";
 import { applyStoredLanguage } from "@utils/lang-utils";
 import { url } from "@utils/url-utils.ts";
 import { onMount } from "svelte";
 import type { SearchResult } from "@/global";
+import SvgIcon from "./SvgIcon.svelte";
 
-let keywordDesktop = "";
-let keywordMobile = "";
-let result: SearchResult[] = [];
-let isSearching = false;
-let pagefindLoaded = false;
-let initialized = false;
+let keywordDesktop = $state("");
+let keywordMobile = $state("");
+let result = $state<SearchResult[]>([]);
+let isSearching = $state(false);
+let pagefindLoaded = $state(false);
+let initialized = $state(false);
 
 const fakeResult: SearchResult[] = [
 	{
@@ -128,17 +128,21 @@ onMount(() => {
 	}
 });
 
-$: if (initialized && keywordDesktop) {
-	(async () => {
-		await search(keywordDesktop, true);
-	})();
-}
+$effect(() => {
+	if (!initialized) {
+		return;
+	}
 
-$: if (initialized && keywordMobile) {
-	(async () => {
-		await search(keywordMobile, false);
-	})();
-}
+	void search(keywordDesktop, true);
+});
+
+$effect(() => {
+	if (!initialized) {
+		return;
+	}
+
+	void search(keywordMobile, false);
+});
 </script>
 
 <!-- search bar for desktop view -->
@@ -146,17 +150,17 @@ $: if (initialized && keywordMobile) {
       bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06]
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
 ">
-    <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-    <input placeholder="{i18n(I18nKey.search)}" data-i18n-placeholder="search" bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
+    <SvgIcon icon="material-symbols:search" className="absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 transition my-auto text-black/30 dark:text-white/30"></SvgIcon>
+    <input placeholder={i18n(I18nKey.search)} data-i18n-placeholder="search" bind:value={keywordDesktop} onfocus={() => search(keywordDesktop, true)}
            class="transition-all ltr:pl-10 rtl:pr-10 text-sm bg-transparent outline-0
          h-full w-40 active:w-60 focus:w-60 text-black/50 dark:text-white/50"
     >
 </div>
 
 <!-- toggle btn for phone/tablet view -->
-<button on:click={togglePanel} aria-label="Search Panel" id="search-switch"
+<button onclick={togglePanel} aria-label="Search Panel" id="search-switch"
         class="btn-plain scale-animation lg:!hidden rounded-lg w-11 h-11 active:scale-90">
-    <Icon icon="material-symbols:search" class="text-[1.25rem]"></Icon>
+    <SvgIcon icon="material-symbols:search" className="text-[1.25rem]"></SvgIcon>
 </button>
 
 <!-- search panel -->
@@ -168,7 +172,7 @@ top-20 ltr:left-4 ltr:md:left-[unset] ltr:right-4 rtl:right-4 rtl:md:right-[unse
       bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06]
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
   ">
-        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
+        <SvgIcon icon="material-symbols:search" className="absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 transition my-auto text-black/30 dark:text-white/30"></SvgIcon>
         <input placeholder="Search" data-i18n-placeholder="search" bind:value={keywordMobile}
                class="ltr:pl-10 rtl:pr-10 absolute inset-0 text-sm bg-transparent outline-0
                focus:w-60 text-black/50 dark:text-white/50"
@@ -181,7 +185,7 @@ top-20 ltr:left-4 ltr:md:left-[unset] ltr:right-4 rtl:right-4 rtl:md:right-[unse
            class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
        rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]">
             <div class="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]">
-                {item.meta.title}<Icon icon="fa6-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"></Icon>
+                {item.meta.title}<SvgIcon icon="fa6-solid:chevron-right" className="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"></SvgIcon>
             </div>
             <div class="transition text-sm text-50">
                 {@html item.excerpt}

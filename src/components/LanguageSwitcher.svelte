@@ -1,5 +1,4 @@
 <script lang="ts">
-import Icon from "@iconify/svelte";
 import {
 	applyStoredLanguage,
 	getStoredLang,
@@ -8,6 +7,7 @@ import {
 } from "@utils/lang-utils";
 import { type SiteLocale, switchLocaleInPath } from "@utils/locale-utils";
 import { onMount } from "svelte";
+import SvgIcon from "./SvgIcon.svelte";
 
 interface Props {}
 
@@ -59,7 +59,7 @@ function getCurrentLabel(): string {
 		onmouseenter={showPanel}
 		onclick={() => (panelOpen = !panelOpen)}
 	>
-		<Icon icon="material-symbols:translate-rounded" class="text-[1.25rem]" />
+		<SvgIcon icon="material-symbols:translate-rounded" className="text-[1.25rem]" />
 	</button>
 
 	<div

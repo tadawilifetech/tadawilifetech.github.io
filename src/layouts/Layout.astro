@@ -244,6 +244,9 @@ const bannerOffset =
 
 					if (t) {
 						document.querySelectorAll('[data-i18n]').forEach(function(el) {
+							if (el.closest('astro-island[ssr]')) {
+								return;
+							}
 							var key = el.getAttribute('data-i18n');
 							if (key && t[key]) {
 								el.textContent = t[key];
@@ -251,6 +254,9 @@ const bannerOffset =
 						});
 
 						document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+							if (el.closest('astro-island[ssr]')) {
+								return;
+							}
 							var key = el.getAttribute('data-i18n-placeholder');
 							if (key && t[key]) {
 								el.placeholder = t[key];
@@ -406,6 +412,7 @@ function isHomeRoute(pathOrUrl: string) {
 function setClickOutsideToClose(panel: string, ignores: string[]) {
 	document.addEventListener("click", event => {
 		let panelDom = document.getElementById(panel);
+		if (!panelDom) return;
 		let tDom = event.target;
 		if (!(tDom instanceof Node)) return;		// Ensure the event target is an HTML Node
 		for (let ig of ignores) {
@@ -414,7 +421,7 @@ function setClickOutsideToClose(panel: string, ignores: string[]) {
 				return;
 			}
 		}
-		panelDom!.classList.add("float-panel-closed");
+		panelDom.classList.add("float-panel-closed");
 	});
 }
 setClickOutsideToClose("display-setting", ["display-setting", "display-settings-switch"])
@@ -513,7 +520,13 @@ function init() {
 	loadTheme();
 	loadHue();
 	applyStoredLanguage();
-	initCustomScrollbar();
+	// Delay scrollbar init to allow Svelte islands to hydrate first,
+	// because OverlayScrollbars wraps <body> content which breaks hydration.
+	if ('requestIdleCallback' in window) {
+		requestIdleCallback(() => initCustomScrollbar());
+	} else {
+		setTimeout(() => initCustomScrollbar(), 200);
+	}
 	showBanner();
 }
 

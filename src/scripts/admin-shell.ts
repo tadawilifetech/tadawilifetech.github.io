@@ -25,11 +25,15 @@ declare global {
 	}
 }
 
-function patchReactForDecap() {
-	const react = React as ReactWithInternals;
-	const reactInternals = react.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+function createPatchedReact(): typeof React {
+	// ESM namespace objects are frozen in production builds, so we must
+	// create a mutable shallow copy before patching anything.
+	const mutableReact: Record<string, unknown> = { ...React };
 
-	if (!reactInternals) return;
+	const reactInternals = (mutableReact as unknown as ReactWithInternals)
+		.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+
+	if (!reactInternals) return mutableReact as unknown as typeof React;
 
 	const patchDispatcher = () => {
 		reactInternals.A ??= {};
@@ -39,16 +43,16 @@ function patchReactForDecap() {
 	patchDispatcher();
 	reactInternals.S ??= null;
 
-	if (react.createElement.__decapPatched) return;
-
-	const originalCreateElement = react.createElement;
+	const originalCreateElement = React.createElement;
 	const patchedCreateElement = ((...args: Parameters<typeof React.createElement>) => {
 		patchDispatcher();
 		return originalCreateElement(...args);
 	}) as ReactWithInternals["createElement"];
 
 	patchedCreateElement.__decapPatched = true;
-	react.createElement = patchedCreateElement;
+	mutableReact.createElement = patchedCreateElement;
+
+	return mutableReact as unknown as typeof React;
 }
 
 const siteHref = document.body.dataset.siteHref || "/en/";
@@ -170,8 +174,7 @@ function cleanUI() {
 async function boot() {
 	new MutationObserver(cleanUI).observe(document.body, { childList: true, subtree: true });
 
-	patchReactForDecap();
-	window.React = React;
+	window.React = createPatchedReact();
 	window.ReactDOM = ReactDOM;
 
 	if (!cmsBundleUrl) {

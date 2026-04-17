@@ -2,7 +2,7 @@
 title: Simple Guides for Tadawi Life Tech
 published: 2024-04-01
 description: "How Tadawi Life Tech uses and customizes this site."
-image: "./cover.jpeg"
+image: "/uploads/posts/guide-cover.jpeg"
 tags: ["Tadawi Life Tech", "Blogging", "Customization"]
 category: Guides
 lang: en

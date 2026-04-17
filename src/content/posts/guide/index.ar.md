@@ -2,7 +2,7 @@
 title: أدلة مبسطة لـ Tadawi Life Tech
 published: 2024-04-01
 description: "كيف يستخدم Tadawi Life Tech هذا الموقع ويخصصه."
-image: "./cover.jpeg"
+image: "/uploads/posts/guide-cover.jpeg"
 tags: ["Tadawi Life Tech", "تدوين", "تخصيص"]
 category: أدلة
 lang: ar

@@ -2,7 +2,7 @@
 title: راهنماهای ساده برای Tadawi Life Tech
 published: 2024-04-01
 description: "اینکه Tadawi Life Tech چگونه از این سایت استفاده و آن را سفارشی می‌کند."
-image: "./cover.jpeg"
+image: "/uploads/posts/guide-cover.jpeg"
 tags: ["Tadawi Life Tech", "وبلاگ", "سفارشی‌سازی"]
 category: راهنماها
 lang: fa

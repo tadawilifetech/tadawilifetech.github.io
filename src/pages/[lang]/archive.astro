@@ -16,5 +16,5 @@ const sortedPostsList = await getSortedPostsList(currentLocale);
 
 <MainGridLayout title={i18n(I18nKey.archive, currentLocale)} lang={currentLocale} disableEntranceAnimations={true}>
     <h1 class="sr-only">{i18n(I18nKey.archive, currentLocale)}</h1>
-    <ArchivePanel sortedPosts={sortedPostsList} currentLocale={currentLocale} client:load></ArchivePanel>
+    <ArchivePanel sortedPosts={sortedPostsList} currentLocale={currentLocale} client:only="svelte"></ArchivePanel>
 </MainGridLayout>

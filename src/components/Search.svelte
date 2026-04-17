@@ -48,43 +48,44 @@ const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
 	}
 };
 
-const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
+const search = (keyword: string, isDesktop: boolean): Promise<void> => {
 	if (!keyword) {
 		setPanelVisibility(false, isDesktop);
 		result = [];
-		return;
+		return Promise.resolve();
 	}
 
 	if (!initialized) {
-		return;
+		return Promise.resolve();
 	}
 
 	isSearching = true;
 
-	try {
-		let searchResults: SearchResult[] = [];
+	const searchRequest = import.meta.env.PROD && pagefindLoaded && window.pagefind
+		? window.pagefind.search(keyword).then((response) =>
+			Promise.all(response.results.map((item) => item.data())),
+		)
+		: import.meta.env.DEV
+			? Promise.resolve(fakeResult)
+			: Promise.resolve([]);
 
-		if (import.meta.env.PROD && pagefindLoaded && window.pagefind) {
-			const response = await window.pagefind.search(keyword);
-			searchResults = await Promise.all(
-				response.results.map((item) => item.data()),
-			);
-		} else if (import.meta.env.DEV) {
-			searchResults = fakeResult;
-		} else {
-			searchResults = [];
-			console.error("Pagefind is not available in production environment.");
-		}
-
-		result = searchResults;
-		setPanelVisibility(result.length > 0, isDesktop);
-	} catch (error) {
-		console.error("Search error:", error);
-		result = [];
-		setPanelVisibility(false, isDesktop);
-	} finally {
-		isSearching = false;
+	if (!import.meta.env.DEV && (!pagefindLoaded || !window.pagefind)) {
+		console.error("Pagefind is not available in production environment.");
 	}
+
+	return searchRequest
+		.then((searchResults) => {
+			result = searchResults;
+			setPanelVisibility(result.length > 0, isDesktop);
+		})
+		.catch((error) => {
+			console.error("Search error:", error);
+			result = [];
+			setPanelVisibility(false, isDesktop);
+		})
+		.finally(() => {
+			isSearching = false;
+		});
 };
 
 onMount(() => {

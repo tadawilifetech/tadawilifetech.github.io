@@ -42,10 +42,13 @@
 		},
 	};
 
-	let iconDefinition = $derived(icons[icon]);
+	function getIconDefinition(): IconDefinition | null {
+		return icons[icon] ?? null;
+	}
 </script>
 
-{#if iconDefinition}
+
+{#if getIconDefinition()}
 	<svg
 		aria-hidden="true"
 		class={className}
@@ -53,9 +56,9 @@
 		height="1em"
 		fill="none"
 		focusable="false"
-		viewBox={iconDefinition.viewBox}
+		viewBox={getIconDefinition()?.viewBox}
 		xmlns="http://www.w3.org/2000/svg"
 	>
-		{@html iconDefinition.body}
+		{@html getIconDefinition()?.body ?? ""}
 	</svg>
 {/if}

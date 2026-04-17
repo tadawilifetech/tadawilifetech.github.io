@@ -309,6 +309,20 @@ const bannerOffset =
 		@apply top-[calc(1rem_-_var(--banner-height-extend))]
 	}
 }
+
+/* Hide sidebar on home page */
+.is-home #main-grid {
+	grid-template-columns: 1fr !important;
+}
+.is-home #sidebar {
+	display: none !important;
+}
+.is-home #swup-container {
+	grid-column: span 1 !important;
+}
+.is-home .footer {
+	grid-column: span 1 !important;
+}
 </style>
 
 <script>

@@ -367,6 +367,7 @@ collections:
     label_singular: "Product (EN)"
     description: English products
     folder: src/content/products
+    path: "{{slug}}/index"
     create: true
     delete: true
     extension: md
@@ -448,6 +449,7 @@ collections:
     label_singular: "Product (AR)"
     description: Arabic products
     folder: src/content/products
+    path: "{{slug}}/index.ar"
     create: true
     delete: true
     extension: md
@@ -529,6 +531,7 @@ collections:
     label_singular: "Product (FA)"
     description: Persian products
     folder: src/content/products
+    path: "{{slug}}/index.fa"
     create: true
     delete: true
     extension: md

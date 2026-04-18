@@ -1,26 +1,32 @@
 ---
 import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
-import Pagination from "@components/control/Pagination.astro";
 import ProductCard from "@components/ProductCard.astro";
-import { PAGE_SIZE } from "@constants/constants";
+import OurBrandCarousel from "@components/OurBrandCarousel";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedProducts } from "@utils/content-utils";
 import { getEntryTranslationKey, SUPPORTED_LOCALES, type SiteLocale } from "@utils/locale-utils";
 import { localizePath } from "@utils/locale-utils";
 import { getProductUrlBySlug, url } from "@utils/url-utils";
 
-export const getStaticPaths = (async ({ paginate }) => {
+export const getStaticPaths = (async () => {
     const paths = [];
     for (const lang of SUPPORTED_LOCALES) {
-        paths.push(...paginate(await getSortedProducts(lang), { pageSize: PAGE_SIZE, params: { lang } }));
+        paths.push({
+            params: { lang, page: undefined },
+            props: {
+                products: await getSortedProducts(lang),
+            },
+        });
     }
     return paths;
 }) satisfies GetStaticPaths;
 
-const { page } = Astro.props;
+const { products } = Astro.props as {
+    products: CollectionEntry<"products">[];
+};
 const currentLocale = Astro.params.lang as SiteLocale;
-const len = page.data.length;
+const len = products.length;
 ---
 
 <MainGridLayout lang={currentLocale}>
@@ -31,7 +37,7 @@ const len = page.data.length;
     </div>
     <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {page.data.map((entry: CollectionEntry<"products">, i: number) => (
+            {products.map((entry: CollectionEntry<"products">, i: number) => (
                 <ProductCard
                     entry={entry}
                     title={entry.data.title}
@@ -46,7 +52,7 @@ const len = page.data.length;
             ))}
         </div>
     </div>
-    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms)`}></Pagination>
+    <OurBrandCarousel client:load className="mb-4 onload-animation" animationDelay={`calc(var(--content-delay) + ${len * 50 + 100}ms)`}></OurBrandCarousel>
 </MainGridLayout>
 
 <script is:inline>

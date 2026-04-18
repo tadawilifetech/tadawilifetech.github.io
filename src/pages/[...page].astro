@@ -1,21 +1,27 @@
 ---
 import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
-import Pagination from "../components/control/Pagination.astro";
+import OurBrandCarousel from "../components/OurBrandCarousel";
 import ProductCard from "../components/ProductCard.astro";
-import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedProducts } from "../utils/content-utils";
 import { getProductUrlBySlug } from "../utils/url-utils";
 
-export const getStaticPaths = (async ({ paginate }) => {
-	const allProducts = await getSortedProducts();
-	return paginate(allProducts, { pageSize: PAGE_SIZE });
+export const getStaticPaths = (async () => {
+	return [
+		{
+			params: { page: undefined },
+			props: {
+				products: await getSortedProducts(),
+			},
+		},
+	];
 }) satisfies GetStaticPaths;
 
-const { page } = Astro.props;
-
-const len = page.data.length;
+const { products } = Astro.props as {
+	products: CollectionEntry<"products">[];
+};
+const len = products.length;
 ---
 
 <MainGridLayout>
@@ -26,7 +32,7 @@ const len = page.data.length;
     </div>
     <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {page.data.map((entry: CollectionEntry<"products">, i: number) => (
+            {products.map((entry: CollectionEntry<"products">, i: number) => (
                 <ProductCard
                     entry={entry}
                     title={entry.data.title}
@@ -41,7 +47,7 @@ const len = page.data.length;
             ))}
         </div>
     </div>
-    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+    <OurBrandCarousel client:load className="mb-4 onload-animation" animationDelay={`calc(var(--content-delay) + ${len * 50 + 100}ms)`}></OurBrandCarousel>
 </MainGridLayout>
 
 <script is:inline>

@@ -3,7 +3,9 @@ import type { CollectionEntry } from "astro:content";
 import path from "node:path";
 import { Icon } from "astro-icon/components";
 import { getDir } from "../utils/url-utils";
+import { getEntryTranslationKey } from "../utils/locale-utils";
 import ImageWrapper from "./misc/ImageWrapper.astro";
+import WishlistButton from "./WishlistButton";
 
 interface Props {
 	class?: string;
@@ -28,6 +30,7 @@ const {
 const className = Astro.props.class;
 
 const category = entry.data.category || "";
+const productId = getEntryTranslationKey(entry);
 const hasCover = image !== undefined && image !== null && image !== "";
 ---
 <div data-product-category={category} class:list={["card-base flex flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative", className]} style={style}>
@@ -53,8 +56,14 @@ const hasCover = image !== undefined && image !== null && image !== "";
             {description}
         </div>}
 
-        {price && <div class="text-sm font-semibold text-[var(--primary)]">
-            {price}
+        {price && <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold text-[var(--primary)]">
+                {price}
+            </span>
+            <WishlistButton client:load id={productId} size="sm" />
+        </div>}
+        {!price && <div class="flex items-center justify-end">
+            <WishlistButton client:load id={productId} size="sm" />
         </div>}
     </div>
 </div>

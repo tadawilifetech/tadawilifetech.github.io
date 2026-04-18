@@ -2,6 +2,7 @@
 import path from "node:path";
 import { getCollection } from "astro:content";
 import AddToCartButton from "@components/AddToCartButton";
+import WishlistButton from "@components/WishlistButton";
 import Markdown from "@components/misc/Markdown.astro";
 import ImageWrapper from "@components/misc/ImageWrapper.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -53,7 +54,10 @@ const jsonLd = {
                 </h1>
             </div>
 
-            {entry.data.price && <div class="text-lg font-semibold text-[var(--primary)] mb-4 onload-animation">{entry.data.price}</div>}
+            {entry.data.price && <div class="flex items-center justify-between mb-4 onload-animation">
+                <span class="text-lg font-semibold text-[var(--primary)]">{entry.data.price}</span>
+                <WishlistButton client:load id={productKey} size="md" />
+            </div>}
 
             {entry.data.image && <ImageWrapper src={entry.data.image} basePath={path.join("content/products/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>}
 

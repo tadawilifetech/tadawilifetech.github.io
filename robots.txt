@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /_astro/
 
-Sitemap: https://tadawilifetech.github.io/sitemap-index.xml
+Sitemap: https://tadawilifetech.com/sitemap-index.xml

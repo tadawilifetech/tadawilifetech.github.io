@@ -145,7 +145,7 @@ const bannerOffset =
 		<link rel="shortcut icon" href={url('/favicon.ico')} />
 
 		<!-- Set the theme before the page is rendered to avoid a flash -->
-		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue}}>
+		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue, fixedThemeColor: siteConfig.themeColor.fixed}}>
 			// Load the theme from local storage
 			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
 			switch (theme) {
@@ -164,7 +164,10 @@ const bannerOffset =
 			}
 
 			// Load the hue from local storage
-			const hue = localStorage.getItem('hue') || configHue;
+			const hue = fixedThemeColor ? configHue : (localStorage.getItem('hue') || configHue);
+			if (fixedThemeColor) {
+				localStorage.removeItem('hue');
+			}
 			document.documentElement.style.setProperty('--hue', hue);
 
 			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
@@ -435,6 +438,11 @@ function loadTheme() {
 }
 
 function loadHue() {
+	if (siteConfig.themeColor.fixed) {
+		document.documentElement.style.setProperty('--hue', String(siteConfig.themeColor.hue))
+		localStorage.removeItem('hue')
+		return
+	}
 	setHue(getHue())
 }
 

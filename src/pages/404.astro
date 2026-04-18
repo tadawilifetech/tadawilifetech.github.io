@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<Layout title="404">
+	<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;padding:1.5rem;text-align:center">
+		<div style="font-size:clamp(8rem,20vw,14rem);font-weight:900;line-height:1;letter-spacing:-0.04em;color:oklch(0.75 0.14 var(--configHue,272));user-select:none;margin-bottom:0.25rem">
+			404
+		</div>
+		<h1 style="font-size:1.75rem;font-weight:700;color:var(--text-main,#1f2937);margin-bottom:0.75rem">
+			Page Not Found
+		</h1>
+		<p style="color:#6b7280;margin-bottom:2rem;max-width:28rem">
+			The page you're looking for doesn't exist or has been moved.
+		</p>
+		<a
+			href="/"
+			style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:0.75rem;font-weight:500;color:white;background:oklch(0.55 0.18 var(--configHue,272));text-decoration:none;box-shadow:0 4px 14px oklch(0.55 0.18 var(--configHue,272)/0.3)"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+				<path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+			</svg>
+			<span data-i18n="home">Home</span>
+		</a>
+	</div>
+</Layout>

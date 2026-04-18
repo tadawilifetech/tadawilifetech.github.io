@@ -1,0 +1,233 @@
+---
+import { Icon } from "astro-icon/components";
+import { WHATSAPP_PHONE_RAW } from "@utils/contact";
+
+const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}`;
+---
+
+<floating-whatsapp-button>
+	<a
+		id="floating-whatsapp-link"
+		href={whatsappUrl}
+		target="_blank"
+		rel="noopener noreferrer"
+		aria-label="WhatsApp chat"
+		class="floating-whatsapp-link"
+	>
+		<Icon name="fa6-brands:whatsapp" class="floating-whatsapp-icon" />
+	</a>
+</floating-whatsapp-button>
+
+<style lang="stylus">
+floating-whatsapp-button
+	position: fixed
+	left: 1.5rem
+	bottom: 1.5rem
+	z-index: 80
+	display: block
+	pointer-events: none
+
+.floating-whatsapp-link
+	pointer-events: auto
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	position: relative
+	width: 4rem
+	height: 4rem
+	border-radius: 9999px
+	background: linear-gradient(135deg, #1fd16a 0%, #0ea85a 100%)
+	color: white
+	box-shadow: 0 20px 45px rgba(14, 168, 90, 0.28)
+	border: 1px solid rgba(255, 255, 255, 0.3)
+	backdrop-filter: blur(10px)
+	-webkit-backdrop-filter: blur(10px)
+	transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease
+	touch-action: none
+	user-select: none
+	cursor: grab
+
+	&:hover
+		transform: translateY(-2px) scale(1.02)
+		box-shadow: 0 24px 50px rgba(14, 168, 90, 0.34)
+		filter: saturate(1.05)
+
+	&:active
+		transform: scale(0.98)
+
+	&.is-dragging
+		cursor: grabbing
+		transform: scale(1.02)
+		box-shadow: 0 26px 54px rgba(14, 168, 90, 0.38)
+
+.floating-whatsapp-icon
+	font-size: 1.7rem
+
+@media (max-width: 768px)
+	floating-whatsapp-button
+		left: 1rem
+		bottom: 1rem
+
+	.floating-whatsapp-link
+		width: 3.7rem
+		height: 3.7rem
+</style>
+
+<script is:inline>
+	class FloatingWhatsAppButton extends HTMLElement {
+		connectedCallback() {
+			const storageKey = "floating-whatsapp-position";
+			const anchor = this.querySelector("#floating-whatsapp-link");
+			if (!anchor) return;
+
+			const defaultOffset = {
+				left: window.innerWidth <= 768 ? 16 : 24,
+				bottom: window.innerWidth <= 768 ? 16 : 24,
+			};
+
+			let position = this.#readStoredPosition(storageKey, defaultOffset);
+			let startPointer = null;
+			let startPosition = null;
+			let moved = false;
+			let dragging = false;
+
+			const applyPosition = () => {
+				const clamped = this.#clampPosition(position, anchor);
+				position = clamped;
+				this.style.left = clamped.left + "px";
+				this.style.top = clamped.top + "px";
+				this.style.bottom = "auto";
+				this.style.right = "auto";
+			};
+
+			const savePosition = () => {
+				localStorage.setItem(storageKey, JSON.stringify(position));
+			};
+
+			const getPoint = (event) => {
+				if (event.touches && event.touches[0]) {
+					return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+				}
+				if (event.changedTouches && event.changedTouches[0]) {
+					return { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+				}
+				return { x: event.clientX, y: event.clientY };
+			};
+
+			const onDragMove = (event) => {
+				if (!dragging || !startPointer || !startPosition) return;
+				const point = getPoint(event);
+				const deltaX = point.x - startPointer.x;
+				const deltaY = point.y - startPointer.y;
+				if (!moved && Math.abs(deltaX) + Math.abs(deltaY) > 6) {
+					moved = true;
+				}
+				position = {
+					left: startPosition.left + deltaX,
+					top: startPosition.top + deltaY,
+				};
+				applyPosition();
+				if (event.cancelable) {
+					event.preventDefault();
+				}
+			};
+
+			const releasePointer = () => {
+				if (!dragging) return;
+				dragging = false;
+				startPointer = null;
+				startPosition = null;
+				anchor.classList.remove("is-dragging");
+				window.removeEventListener("mousemove", onDragMove);
+				window.removeEventListener("mouseup", releasePointer);
+				window.removeEventListener("touchmove", onDragMove);
+				window.removeEventListener("touchend", releasePointer);
+				window.removeEventListener("touchcancel", releasePointer);
+				if (moved) {
+					savePosition();
+					setTimeout(() => {
+						moved = false;
+					}, 0);
+				} else {
+					moved = false;
+				}
+			};
+
+			const startDragging = (event) => {
+				const point = getPoint(event);
+				dragging = true;
+				startPointer = { x: point.x, y: point.y };
+				startPosition = { left: position.left, top: position.top };
+				anchor.classList.add("is-dragging");
+				window.addEventListener("mousemove", onDragMove);
+				window.addEventListener("mouseup", releasePointer);
+				window.addEventListener("touchmove", onDragMove, { passive: false });
+				window.addEventListener("touchend", releasePointer);
+				window.addEventListener("touchcancel", releasePointer);
+				if (event.cancelable) {
+					event.preventDefault();
+				}
+			};
+
+			anchor.addEventListener("mousedown", startDragging);
+			anchor.addEventListener("touchstart", startDragging, { passive: false });
+
+			anchor.addEventListener("click", (event) => {
+				if (moved) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			});
+
+			window.addEventListener("resize", () => {
+				applyPosition();
+				savePosition();
+			});
+
+			applyPosition();
+			savePosition();
+		}
+
+		#readStoredPosition(storageKey, defaultOffset) {
+			try {
+				const raw = localStorage.getItem(storageKey);
+				if (!raw) {
+					return {
+						left: defaultOffset.left,
+						top: window.innerHeight - defaultOffset.bottom - 64,
+					};
+				}
+
+				const parsed = JSON.parse(raw);
+				if (typeof parsed?.left !== "number" || typeof parsed?.top !== "number") {
+					throw new Error("Invalid floating button position");
+				}
+
+				return parsed;
+			} catch (_error) {
+				return {
+					left: defaultOffset.left,
+					top: window.innerHeight - defaultOffset.bottom - 64,
+				};
+			}
+		}
+
+		#clampPosition(position, anchor) {
+			const rect = anchor.getBoundingClientRect();
+			const width = rect.width || 64;
+			const height = rect.height || 64;
+			const minLeft = 12;
+			const minTop = 12;
+			const maxLeft = Math.max(minLeft, window.innerWidth - width - 12);
+			const maxTop = Math.max(minTop, window.innerHeight - height - 12);
+			return {
+				left: Math.min(Math.max(position.left, minLeft), maxLeft),
+				top: Math.min(Math.max(position.top, minTop), maxTop),
+			};
+		}
+	}
+
+	if (!customElements.get("floating-whatsapp-button")) {
+		customElements.define("floating-whatsapp-button", FloatingWhatsAppButton);
+	}
+</script>

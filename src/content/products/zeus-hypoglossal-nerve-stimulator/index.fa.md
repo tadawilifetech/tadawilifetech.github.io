@@ -2,7 +2,7 @@
 title: "دستگاه تحریک عصب زیرزبانی ZEUS"
 published: 2026-04-17
 description: "یک دستگاه تحریک خارجی و غیرکاشتنی که برای کاهش خروپف با حمایت از تون عضلات زبان و باز ماندن راه هوایی در خواب طراحی شده است."
-image: "/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp"
+image: "/uploads/products/zeus-hypoglossal-nerve-stimulator-2.webp"
 price: "185 OMR"
 category: "درمان خروپف"
 tags: ["ZEUS", "کاهش خروپف", "TENS", "حمایت راه هوایی"]
@@ -31,7 +31,7 @@ ZEUS یک دستگاه خارجی کم‌حجم است که زیر چانه تح
 
 ## گالری تصاویر
 
-![دستگاه تحریک عصب زیرزبانی ZEUS 2](/uploads/products/zeus-hypoglossal-nerve-stimulator-2.webp)
+![دستگاه تحریک عصب زیرزبانی ZEUS 1](/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp)
 
 ![دستگاه تحریک عصب زیرزبانی ZEUS 3](/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp)
 

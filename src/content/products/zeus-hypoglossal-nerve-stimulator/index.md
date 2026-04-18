@@ -2,7 +2,7 @@
 title: "ZEUS Hypoglossal Nerve Stimulator"
 published: 2026-04-17
 description: "A non-implantable external stimulation device designed to reduce snoring by supporting tongue muscle tone and airway openness during sleep."
-image: "/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp"
+image: "/uploads/products/zeus-hypoglossal-nerve-stimulator-2.webp"
 price: "185 OMR"
 category: "Snoring Therapy"
 tags: ["ZEUS", "Snoring Relief", "TENS", "Airway Support"]
@@ -31,7 +31,7 @@ ZEUS is a discreet external device that applies gentle stimulation beneath the c
 
 ## Gallery
 
-![ZEUS Hypoglossal Nerve Stimulator 2](/uploads/products/zeus-hypoglossal-nerve-stimulator-2.webp)
+![ZEUS Hypoglossal Nerve Stimulator 1](/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp)
 
 ![ZEUS Hypoglossal Nerve Stimulator 3](/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp)
 

@@ -1,6 +1,4 @@
 <script lang="ts">
-import { onMount } from "svelte";
-
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { applyStoredLanguage } from "../utils/lang-utils";
@@ -30,10 +28,14 @@ interface Group {
 
 let groups: Group[] = $derived(buildGroups(getFilteredPosts()));
 
+function toDate(value: Date | string): Date {
+	return value instanceof Date ? value : new Date(value);
+}
+
 function buildGroups(postList: Post[]): Group[] {
     const grouped = postList.reduce(
         (acc, post) => {
-            const year = post.data.published.getFullYear();
+			const year = toDate(post.data.published).getFullYear();
             if (!acc[year]) {
                 acc[year] = [];
             }
@@ -75,9 +77,11 @@ function getFilteredPosts(): Post[] {
     return filteredPosts;
 }
 
-function formatDate(date: Date) {
-	const month = (date.getMonth() + 1).toString().padStart(2, "0");
-	const day = date.getDate().toString().padStart(2, "0");
+
+function formatDate(date: Date | string) {
+    const normalizedDate = toDate(date);
+    const month = (normalizedDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = normalizedDate.getDate().toString().padStart(2, "0");
 	return `${month}-${day}`;
 }
 
@@ -85,13 +89,13 @@ function formatTag(tagList: string[]) {
 	return tagList.map((t) => `#${t}`).join(" ");
 }
 
-onMount(() => {
+if (typeof window !== "undefined") {
     applyStoredLanguage();
     const params = new URLSearchParams(window.location.search);
     tags = params.has("tag") ? params.getAll("tag") : [];
     categories = params.has("category") ? params.getAll("category") : [];
     uncategorized = params.get("uncategorized");
-});
+}
 </script>
 
 <div class="card-base px-8 py-6">

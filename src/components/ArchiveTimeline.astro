@@ -1,0 +1,136 @@
+---
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import type { PostForList } from "@utils/content-utils";
+import { DEFAULT_LOCALE, type SiteLocale } from "@utils/locale-utils";
+import { getPostUrlBySlug } from "@utils/url-utils";
+
+interface Props {
+	sortedPosts?: PostForList[];
+	currentLocale?: SiteLocale;
+}
+
+const { sortedPosts = [], currentLocale = DEFAULT_LOCALE } = Astro.props;
+
+type Group = {
+	year: number;
+	posts: PostForList[];
+};
+
+const groupedMap = sortedPosts.reduce<Record<number, PostForList[]>>((acc, post) => {
+	const year = new Date(post.data.published).getFullYear();
+	if (!acc[year]) {
+		acc[year] = [];
+	}
+	acc[year].push(post);
+	return acc;
+}, {});
+
+const groups: Group[] = Object.keys(groupedMap)
+	.map((year) => ({
+		year: Number(year),
+		posts: groupedMap[Number(year)],
+	}))
+	.sort((a, b) => b.year - a.year);
+
+function formatDate(date: Date | string) {
+	const normalizedDate = new Date(date);
+	const month = (normalizedDate.getMonth() + 1).toString().padStart(2, "0");
+	const day = normalizedDate.getDate().toString().padStart(2, "0");
+	return `${month}-${day}`;
+}
+
+function formatTag(tagList: string[]) {
+	return tagList.map((tag) => `#${tag}`).join(" ");
+}
+
+function encodeList(value: string[]) {
+	return JSON.stringify(value || []);
+}
+---
+
+<div class="card-base px-8 py-6" id="archive-timeline">
+	{groups.map((group) => (
+		<div class="archive-year-group" data-year={group.year}>
+			<div class="flex flex-row w-full items-center h-[3.75rem]">
+				<div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right rtl:text-left text-75">
+					{group.year}
+				</div>
+				<div class="w-[15%] md:w-[10%]">
+					<div class="h-3 w-3 bg-none rounded-full outline outline-[var(--primary)] mx-auto -outline-offset-[2px] z-50 outline-3"></div>
+				</div>
+				<div class="w-[70%] md:w-[80%] transition text-left rtl:text-right text-50 archive-year-count" data-default-count={group.posts.length}>
+					{group.posts.length} <span>{i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount, currentLocale)}</span>
+				</div>
+			</div>
+
+			{group.posts.map((post) => (
+				<a
+					href={getPostUrlBySlug(post.slug, currentLocale)}
+					aria-label={post.data.title}
+					class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial] archive-post-row"
+					data-tags={encodeList(post.data.tags || [])}
+					data-category={post.data.category || ""}
+				>
+					<div class="flex flex-row justify-start items-center h-full">
+						<div class="w-[15%] md:w-[10%] transition text-sm text-right rtl:text-left text-50">
+							{formatDate(post.data.published)}
+						</div>
+						<div class="w-[15%] md:w-[10%] relative dash-line h-full flex items-center">
+							<div class="transition-all mx-auto w-1 h-1 rounded group-hover:h-5 bg-[oklch(0.5_0.05_var(--hue))] group-hover:bg-[var(--primary)] outline outline-4 z-50 outline-[var(--card-bg)] group-hover:outline-[var(--btn-plain-bg-hover)] group-active:outline-[var(--btn-plain-bg-active)]"></div>
+						</div>
+						<div class="w-[70%] md:max-w-[65%] md:w-[65%] text-left rtl:text-right font-bold ltr:group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all group-hover:text-[var(--primary)] text-75 pe-8 whitespace-nowrap overflow-ellipsis overflow-hidden">
+							{post.data.title}
+						</div>
+						<div class="hidden md:block md:w-[15%] text-left rtl:text-right text-sm transition whitespace-nowrap overflow-ellipsis overflow-hidden text-30">
+							{formatTag(post.data.tags || [])}
+						</div>
+					</div>
+				</a>
+			))}
+		</div>
+	))}
+</div>
+
+<script is:inline>
+	function applyArchiveFilters() {
+		const params = new URLSearchParams(window.location.search);
+		const activeTags = params.getAll("tag");
+		const activeCategories = params.getAll("category");
+		const showUncategorized = params.get("uncategorized");
+		const groups = document.querySelectorAll(".archive-year-group");
+		const rowLabel = {
+			singular: "post",
+			plural: "posts",
+		};
+
+		for (const group of groups) {
+			const rows = Array.from(group.querySelectorAll(".archive-post-row"));
+			let visibleCount = 0;
+
+			for (const row of rows) {
+				const tags = JSON.parse(row.getAttribute("data-tags") || "[]");
+				const category = (row.getAttribute("data-category") || "").trim();
+
+				const matchesTags = activeTags.length === 0 || activeTags.some((tag) => tags.includes(tag));
+				const matchesCategories = activeCategories.length === 0 || activeCategories.includes(category);
+				const matchesUncategorized = !showUncategorized || category === "";
+				const visible = matchesTags && matchesCategories && matchesUncategorized;
+
+				row.style.display = visible ? "block" : "none";
+				if (visible) visibleCount += 1;
+			}
+
+			group.style.display = visibleCount > 0 ? "block" : "none";
+			const countNode = group.querySelector(".archive-year-count");
+			if (countNode) {
+				countNode.textContent = `${visibleCount} ${visibleCount === 1 ? rowLabel.singular : rowLabel.plural}`;
+			}
+		}
+	}
+
+	if (typeof window !== "undefined") {
+		applyArchiveFilters();
+		document.addEventListener("swup:contentReplaced", applyArchiveFilters);
+	}
+</script>

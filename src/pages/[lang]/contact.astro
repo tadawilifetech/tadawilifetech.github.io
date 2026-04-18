@@ -7,6 +7,7 @@ import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSpecEntryByTranslationKey } from "@utils/content-utils";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES, normalizeLocale } from "@utils/locale-utils";
+import { WHATSAPP_PHONE_DISPLAY, WHATSAPP_PHONE_RAW } from "@utils/contact";
 
 export async function getStaticPaths() {
 	return SUPPORTED_LOCALES.map((lang) => ({ params: { lang } }));
@@ -115,7 +116,7 @@ const uiText = {
                     <Icon name="material-symbols:call-outline-rounded" class="w-5 h-5 text-[var(--btn-content)] group-hover:text-white transition-colors" />
                 </div>
                 <h3 class="font-semibold text-sm text-50 uppercase tracking-wider">{uiText.contactPhone}</h3>
-                <a href="tel:+96891235160" class="text-[var(--primary)] hover:underline text-sm" dir="ltr">+968 91235160</a>
+                <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="text-[var(--primary)] hover:underline text-sm" dir="ltr">{WHATSAPP_PHONE_DISPLAY}</a>
             </div>
 
             <div class="card-base p-5 flex flex-col items-center text-center gap-3 group hover:shadow-lg transition-shadow">
@@ -207,7 +208,7 @@ const uiText = {
         </div>
     </div>
 
-    <script is:inline>
+    <script is:inline define:vars={{ whatsappPhoneRaw: WHATSAPP_PHONE_RAW }}>
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             var name = document.getElementById('cf-name').value.trim();
@@ -223,7 +224,7 @@ const uiText = {
                 + '*Subject:* ' + subject + '\n\n'
                 + '*Message:*\n' + message;
 
-            var whatsappUrl = 'https://api.whatsapp.com/send?phone=96891235160&text=' + encodeURIComponent(text);
+            var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + whatsappPhoneRaw + '&text=' + encodeURIComponent(text);
             window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         });
     </script>

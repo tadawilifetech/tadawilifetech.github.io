@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 import Markdown from "@components/misc/Markdown.astro";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
+import { WHATSAPP_PHONE_DISPLAY, WHATSAPP_PHONE_RAW } from "../utils/contact";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 const contactPage = await getEntry("spec", "contact");
@@ -53,7 +54,7 @@ const iconClass =
                     <Icon name="material-symbols:call-outline-rounded" class="w-5 h-5 text-[var(--btn-content)] group-hover:text-white transition-colors" />
                 </div>
                 <h3 class="font-semibold text-sm text-50 uppercase tracking-wider" data-i18n="contactPhone">Phone</h3>
-                <a href="tel:+96891235160" class="text-[var(--primary)] hover:underline text-sm" dir="ltr">+968 91235160</a>
+                <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="text-[var(--primary)] hover:underline text-sm" dir="ltr">{WHATSAPP_PHONE_DISPLAY}</a>
             </div>
 
             <!-- Working Hours -->
@@ -152,7 +153,7 @@ const iconClass =
 
     </div>
 
-    <script is:inline>
+    <script is:inline define:vars={{ whatsappPhoneRaw: WHATSAPP_PHONE_RAW }}>
         (function() {
             var translations = {
                 en: {
@@ -250,7 +251,7 @@ const iconClass =
                 + '*Subject:* ' + subject + '\n\n'
                 + '*Message:*\n' + message;
 
-            var whatsappUrl = 'https://api.whatsapp.com/send?phone=96891235160&text=' + encodeURIComponent(text);
+            var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + whatsappPhoneRaw + '&text=' + encodeURIComponent(text);
             window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         });
     </script>

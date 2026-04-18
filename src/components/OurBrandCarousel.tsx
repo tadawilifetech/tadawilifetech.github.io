@@ -50,7 +50,7 @@ export default function OurBrandCarousel({
 							key={brand.name}
 							className="min-w-0 shrink-0 basis-[78%] pl-4 sm:basis-[42%] lg:basis-[30%] xl:basis-[22%]"
 						>
-							<div className="group relative flex h-28 md:h-32 items-center justify-center rounded-[var(--radius-large)] border border-black/5 bg-white px-6 py-5 transition hover:border-[var(--primary)]/25 hover:-translate-y-1 dark:border-white/10 dark:bg-white/[0.03]">
+							<div className="relative flex h-28 md:h-32 items-center justify-center rounded-[var(--radius-large)] border border-black/5 bg-white px-6 py-5 dark:border-white/10 dark:bg-white/[0.03]">
 								<img
 									src={brand.src}
 									alt={brand.name}

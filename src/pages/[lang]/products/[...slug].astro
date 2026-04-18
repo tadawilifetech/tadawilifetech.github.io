@@ -1,11 +1,12 @@
 ---
 import path from "node:path";
 import { getCollection } from "astro:content";
+import AddToCartButton from "@components/AddToCartButton";
 import Markdown from "@components/misc/Markdown.astro";
 import ImageWrapper from "@components/misc/ImageWrapper.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { DEFAULT_LOCALE, getEntryTranslationKey, normalizeLocale } from "@utils/locale-utils";
-import { getDir } from "@utils/url-utils";
+import { getDir, getProductUrlBySlug } from "@utils/url-utils";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("products", ({ data }) => import.meta.env.PROD ? data.draft !== true : true);
@@ -18,6 +19,8 @@ export async function getStaticPaths() {
 const currentLocale = normalizeLocale(Astro.params.lang || DEFAULT_LOCALE);
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const productKey = getEntryTranslationKey(entry);
+const productUrl = getProductUrlBySlug(productKey, currentLocale);
 const jsonLd = {
 	"@context": "https://schema.org",
 	"@type": "Product",
@@ -47,6 +50,15 @@ const jsonLd = {
             <Markdown class="mb-6 markdown-content onload-animation">
                 <Content />
             </Markdown>
+
+            <AddToCartButton
+                client:load
+                id={productKey}
+                title={entry.data.title}
+                price={entry.data.price}
+                url={productUrl}
+                locale={currentLocale}
+            />
         </div>
     </div>
 </MainGridLayout>

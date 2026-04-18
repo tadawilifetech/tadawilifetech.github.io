@@ -8,6 +8,7 @@ import { url } from "../utils/url-utils";
 import LanguageSwitcher from "./LanguageSwitcher.tsx";
 import LightDarkSwitch from "./LightDarkSwitch.tsx";
 import Search from "./Search.tsx";
+import CartPanel from "./CartPanel.tsx";
 import DisplaySettings from "./widget/DisplaySettings.tsx";
 import NavMenuPanel from "./widget/NavMenuPanel.astro";
 
@@ -50,6 +51,7 @@ const currentLocale = getLocaleFromPathname(Astro.url.pathname);
         <div class="flex">
             <!--<SearchPanel client:load>-->
             <Search client:only="react"></Search>
+            <CartPanel client:load locale={currentLocale}></CartPanel>
             <LanguageSwitcher client:load></LanguageSwitcher>
             {!siteConfig.themeColor.fixed && (
                     <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">

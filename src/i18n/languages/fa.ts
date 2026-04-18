@@ -36,6 +36,7 @@ export const fa: Translation = {
 
 	[Key.productCategories]: "دسته‌بندی محصولات",
 	[Key.productTags]: "برچسب‌های محصولات",
+	[Key.wishlist]: "علاقه‌مندی‌ها",
 
 	[Key.author]: "نویسنده",
 	[Key.publishedAt]: "تاریخ انتشار",

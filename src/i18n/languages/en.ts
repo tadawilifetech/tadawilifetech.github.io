@@ -36,6 +36,7 @@ export const en: Translation = {
 
 	[Key.productCategories]: "Product Categories",
 	[Key.productTags]: "Product Tags",
+	[Key.wishlist]: "Wishlist",
 
 	[Key.author]: "Author",
 	[Key.publishedAt]: "Published at",

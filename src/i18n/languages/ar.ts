@@ -36,6 +36,7 @@ export const ar: Translation = {
 
 	[Key.productCategories]: "تصنيفات المنتجات",
 	[Key.productTags]: "وسوم المنتجات",
+	[Key.wishlist]: "المفضلة",
 
 	[Key.author]: "الكاتب",
 	[Key.publishedAt]: "تاريخ النشر",

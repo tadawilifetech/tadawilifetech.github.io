@@ -1,0 +1,31 @@
+---
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import { getSortedProducts } from "../../utils/content-utils";
+import { getLocaleFromPathname } from "../../utils/locale-utils";
+import { getEntryTranslationKey } from "../../utils/locale-utils";
+import { getProductUrlBySlug } from "../../utils/url-utils";
+import WidgetLayout from "./WidgetLayout.astro";
+import WishlistWidget from "./WishlistWidget.tsx";
+import type { WishlistProduct } from "./WishlistWidget.tsx";
+
+const currentLocale = getLocaleFromPathname(Astro.url.pathname);
+const products = await getSortedProducts(currentLocale);
+
+const productList: WishlistProduct[] = products.map((p) => ({
+	id: getEntryTranslationKey(p),
+	title: p.data.title,
+	url: getProductUrlBySlug(getEntryTranslationKey(p), currentLocale),
+}));
+
+interface Props {
+	class?: string;
+	style?: string;
+}
+const className = Astro.props.class;
+const style = Astro.props.style;
+---
+
+<WidgetLayout name={i18n(I18nKey.wishlist)} id="wishlist" class={className} style={style} dataI18n="wishlist">
+	<WishlistWidget client:load products={productList} emptyText={currentLocale === "ar" ? "لا توجد منتجات في المفضلة" : currentLocale === "fa" ? "محصولی در علاقه‌مندی‌ها نیست" : "No products in wishlist"} />
+</WidgetLayout>

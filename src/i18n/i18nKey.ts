@@ -33,6 +33,7 @@ enum I18nKey {
 
 	productCategories = "productCategories",
 	productTags = "productTags",
+	wishlist = "wishlist",
 
 	author = "author",
 	publishedAt = "publishedAt",

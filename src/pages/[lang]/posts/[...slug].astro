@@ -62,7 +62,7 @@ const jsonLd = {
             </div>
 
             <div class="relative onload-animation">
-                <h1 data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title" class="transition w-full block font-bold mb-3 text-3xl md:text-[2.25rem]/[2.75rem] text-black/90 dark:text-white/90 md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)] before:absolute before:top-[0.75rem] ltr:before:left-[-1.125rem] rtl:before:right-[-1.125rem]">
+                <h1 data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title" class="transition w-full block font-bold mb-3 text-[1.4rem] md:text-[1.6rem]/[2rem] text-black/90 dark:text-white/90 md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)] before:absolute before:top-[0.75rem] ltr:before:left-[-1.125rem] rtl:before:right-[-1.125rem]">
                     {entry.data.title}
                 </h1>
             </div>
@@ -74,7 +74,7 @@ const jsonLd = {
 
             {entry.data.image && <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>}
 
-            <Markdown class="mb-6 markdown-content onload-animation">
+            <Markdown class="mb-6 markdown-content onload-animation prose-sm md:prose-sm">
                 <Content />
             </Markdown>
 

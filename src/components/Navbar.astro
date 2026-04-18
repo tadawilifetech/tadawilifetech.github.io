@@ -5,10 +5,10 @@ import { LinkPresets } from "../constants/link-presets";
 import { LinkPreset, type NavBarLink } from "../types/config";
 import { getLocaleFromPathname, localizePath } from "../utils/locale-utils";
 import { url } from "../utils/url-utils";
-import LanguageSwitcher from "./LanguageSwitcher.svelte";
-import LightDarkSwitch from "./LightDarkSwitch.svelte";
-import Search from "./Search.svelte";
-import DisplaySettings from "./widget/DisplaySettings.svelte";
+import LanguageSwitcher from "./LanguageSwitcher.tsx";
+import LightDarkSwitch from "./LightDarkSwitch.tsx";
+import Search from "./Search.tsx";
+import DisplaySettings from "./widget/DisplaySettings.tsx";
 import NavMenuPanel from "./widget/NavMenuPanel.astro";
 
 const className = Astro.props.class;
@@ -49,7 +49,7 @@ const currentLocale = getLocaleFromPathname(Astro.url.pathname);
         </div>
         <div class="flex">
             <!--<SearchPanel client:load>-->
-            <Search client:only="svelte"></Search>
+            <Search client:only="react"></Search>
             <LanguageSwitcher client:load></LanguageSwitcher>
             {!siteConfig.themeColor.fixed && (
                     <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
@@ -62,7 +62,7 @@ const currentLocale = getLocaleFromPathname(Astro.url.pathname);
             </button>
         </div>
         <NavMenuPanel links={links}></NavMenuPanel>
-        <DisplaySettings client:only="svelte"></DisplaySettings>
+        <DisplaySettings client:only="react"></DisplaySettings>
     </div>
 </div>
 

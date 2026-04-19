@@ -37,6 +37,16 @@ const translations: Record<string, Record<string, string>> = {
     commentAdded: 'تم إرسال تعليقك وهو بانتظار موافقة المشرف.',
     error: 'فشل إرسال التعليق. حاول مرة أخرى.',
   },
+  fa: {
+    comments: 'نظرات',
+    name: 'نام شما',
+    comment: 'نظر شما',
+    submit: 'ارسال نظر',
+    submitting: '...در حال ارسال',
+    noComments: '!هنوز نظری ثبت نشده. اولین نفر باشید',
+    commentAdded: '.نظر شما ارسال شد و در انتظار تأیید مدیر است',
+    error: '.ارسال نظر ناموفق بود. لطفاً دوباره تلاش کنید',
+  },
 };
 
 function getT(lang: string) {

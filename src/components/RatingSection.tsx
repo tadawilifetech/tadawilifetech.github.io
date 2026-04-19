@@ -24,6 +24,14 @@ const translations: Record<string, Record<string, string>> = {
     thankYou: 'شكراً لتقييمك!',
     outOf: 'من 5',
   },
+  fa: {
+    rating: 'امتیاز',
+    rateThis: 'امتیاز دهید',
+    votes: 'رأی',
+    vote: 'رأی',
+    thankYou: '!ممنون از امتیاز شما',
+    outOf: 'از 5',
+  },
 };
 
 function getT(lang: string) {

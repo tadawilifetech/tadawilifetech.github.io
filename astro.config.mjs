@@ -1,7 +1,9 @@
+import db from "@astrojs/db";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import swup from "@swup/astro";
@@ -30,6 +32,7 @@ export default defineConfig({
 	site: "https://tadawilifetech.com",
 	base: "/",
 	trailingSlash: "always",
+	adapter: vercel(),
 	integrations: [
 		tailwind({
 			nesting: true,
@@ -103,6 +106,7 @@ export default defineConfig({
 		react(),
 		svelte(),
 		sitemap(),
+		db(),
 	],
 	markdown: {
 		remarkPlugins: [

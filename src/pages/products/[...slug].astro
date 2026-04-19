@@ -1,6 +1,8 @@
 ---
 import path from "node:path";
 import AddToCartButton from "@components/AddToCartButton";
+import CommentsSection from "@components/CommentsSection";
+import RatingSection from "@components/RatingSection";
 import WishlistButton from "@components/WishlistButton";
 import Markdown from "@components/misc/Markdown.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -87,4 +89,7 @@ const jsonLd = {
 
         </div>
     </div>
+
+    <RatingSection client:only="react" postSlug={entry.slug} postType="product" />
+    <CommentsSection client:only="react" postSlug={entry.slug} postType="product" />
 </MainGridLayout>

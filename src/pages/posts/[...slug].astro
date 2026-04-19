@@ -1,5 +1,7 @@
 ---
 import path from "node:path";
+import CommentsSection from "@components/CommentsSection";
+import RatingSection from "@components/RatingSection";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import I18nKey from "@i18n/i18nKey";
@@ -118,6 +120,9 @@ const jsonLd = {
 
         </div>
     </div>
+
+    <RatingSection client:only="react" postSlug={entry.slug} postType="post" />
+    <CommentsSection client:only="react" postSlug={entry.slug} postType="post" />
 
     <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
         <a href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : "#"}

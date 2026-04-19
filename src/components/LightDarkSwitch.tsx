@@ -7,7 +7,7 @@ import {
 import { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants.ts";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import { applyStoredLanguage } from "@utils/lang-utils";
+import { applyStoredLanguage, getStoredLang } from "@utils/lang-utils";
 import {
 	applyThemeToDocument,
 	getStoredTheme,
@@ -19,10 +19,12 @@ const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE, AUTO_MODE];
 
 export default function LightDarkSwitch() {
 	const [mode, setMode] = useState<LIGHT_DARK_MODE>(AUTO_MODE);
+	const [lang, setLang] = useState("en");
 
 	useEffect(() => {
 		setMode(getStoredTheme());
-		applyStoredLanguage();
+		const resolvedLang = applyStoredLanguage();
+		setLang(resolvedLang);
 	}, []);
 
 	useEffect(() => {
@@ -101,7 +103,7 @@ export default function LightDarkSwitch() {
 							className="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"
 							aria-hidden="true"
 						/>
-						<span data-i18n="lightMode">{i18n(I18nKey.lightMode)}</span>
+						<span>{i18n(I18nKey.lightMode, lang)}</span>
 					</button>
 					<button
 						className={`flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5 ${
@@ -113,7 +115,7 @@ export default function LightDarkSwitch() {
 							className="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"
 							aria-hidden="true"
 						/>
-						<span data-i18n="darkMode">{i18n(I18nKey.darkMode)}</span>
+						<span>{i18n(I18nKey.darkMode, lang)}</span>
 					</button>
 					<button
 						className={`flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 ${
@@ -125,7 +127,7 @@ export default function LightDarkSwitch() {
 							className="text-[1.25rem] mr-3 rtl:mr-0 rtl:ml-3"
 							aria-hidden="true"
 						/>
-						<span data-i18n="systemMode">{i18n(I18nKey.systemMode)}</span>
+						<span>{i18n(I18nKey.systemMode, lang)}</span>
 					</button>
 				</div>
 			</div>

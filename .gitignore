@@ -6,4 +6,6 @@ build/
 *.tmp
 *.cache
 *.bak
-*.swp   
+*.swp
+.env
+.env.*

@@ -2,6 +2,8 @@
 import path from "node:path";
 import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
+import CommentsSection from "@components/CommentsSection";
+import RatingSection from "@components/RatingSection";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import PostMetadata from "@components/PostMeta.astro";
@@ -90,6 +92,9 @@ const jsonLd = {
             {licenseConfig.enable && <License title={entry.data.title} slug={getEntryTranslationKey(entry)} pubDate={entry.data.published} class="mb-6 rounded-xl license-container onload-animation"></License>}
         </div>
     </div>
+
+    <RatingSection client:only="react" postSlug={entry.slug} postType="post" />
+    <CommentsSection client:only="react" postSlug={entry.slug} postType="post" />
 
     <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
         <a href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug, currentLocale) : "#"} class:list={["w-full font-bold overflow-hidden active:scale-95", {"pointer-events-none": !entry.data.nextSlug}]}> 

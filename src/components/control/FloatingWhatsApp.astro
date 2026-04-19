@@ -74,6 +74,7 @@ floating-whatsapp-button
 </style>
 
 <script is:inline>
+if (!customElements.get("floating-whatsapp-button")) {
 	class FloatingWhatsAppButton extends HTMLElement {
 		connectedCallback() {
 			const storageKey = "floating-whatsapp-position";
@@ -227,7 +228,6 @@ floating-whatsapp-button
 		}
 	}
 
-	if (!customElements.get("floating-whatsapp-button")) {
-		customElements.define("floating-whatsapp-button", FloatingWhatsAppButton);
-	}
+	customElements.define("floating-whatsapp-button", FloatingWhatsAppButton);
+}
 </script>

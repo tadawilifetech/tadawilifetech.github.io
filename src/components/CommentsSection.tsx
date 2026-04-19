@@ -24,7 +24,7 @@ const translations: Record<string, Record<string, string>> = {
     submit: 'Submit Comment',
     submitting: 'Submitting...',
     noComments: 'No comments yet. Be the first to comment!',
-    commentAdded: 'Comment added successfully!',
+    commentAdded: 'Your comment has been submitted and is awaiting admin approval.',
     error: 'Failed to submit comment. Please try again.',
   },
   ar: {
@@ -34,7 +34,7 @@ const translations: Record<string, Record<string, string>> = {
     submit: 'إرسال التعليق',
     submitting: 'جاري الإرسال...',
     noComments: 'لا توجد تعليقات بعد. كن أول من يعلق!',
-    commentAdded: 'تم إضافة التعليق بنجاح!',
+    commentAdded: 'تم إرسال تعليقك وهو بانتظار موافقة المشرف.',
     error: 'فشل إرسال التعليق. حاول مرة أخرى.',
   },
 };
@@ -49,6 +49,7 @@ export default function CommentsSection({ postSlug, postType }: Props) {
   const [body, setBody] = useState('');
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [successMsg, setSuccessMsg] = useState('');
   const [lang, setLang] = useState('en');
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -81,6 +82,7 @@ export default function CommentsSection({ postSlug, postType }: Props) {
     e.preventDefault();
     if (!author.trim() || !body.trim()) return;
     setLoading(true);
+    setSuccessMsg('');
     try {
       const resp = await fetch(`${API_URL}/comments/add`, {
         method: 'POST',
@@ -94,9 +96,9 @@ export default function CommentsSection({ postSlug, postType }: Props) {
       });
       const result = await resp.json();
       if (result.data) {
-        setComments((prev) => [...prev, result.data]);
         setAuthor('');
         setBody('');
+        setSuccessMsg(t.commentAdded);
       }
     } catch {
       // silently fail
@@ -173,6 +175,9 @@ export default function CommentsSection({ postSlug, postType }: Props) {
         >
           {loading ? t.submitting : t.submit}
         </button>
+        {successMsg && (
+          <p className="text-sm text-green-600 dark:text-green-400 mt-2">{successMsg}</p>
+        )}
       </form>
     </div>
   );

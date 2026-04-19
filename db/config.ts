@@ -7,6 +7,7 @@ const Comment = defineTable({
     postType: column.text({ default: 'post' }),
     author: column.text(),
     body: column.text(),
+    approved: column.number({ default: 0 }),
     createdAt: column.date(),
   },
 });

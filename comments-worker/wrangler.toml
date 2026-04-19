@@ -10,3 +10,4 @@ directory = "./public"
 # After deploying, set secrets:
 #   npx wrangler secret put TURSO_URL
 #   npx wrangler secret put TURSO_AUTH_TOKEN
+#   npx wrangler secret put ADMIN_SECRET

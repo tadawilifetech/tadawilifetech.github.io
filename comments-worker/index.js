@@ -4,12 +4,18 @@
  * Environment variables (set via `wrangler secret put`):
  *   TURSO_URL        – e.g. libsql://your-db.turso.io
  *   TURSO_AUTH_TOKEN  – auth token from Turso
+ *   ADMIN_SECRET      – secret token for admin endpoints
  *
- * Endpoints:
- *   POST /comments/get     { postSlug, postType }
+ * Public endpoints:
+ *   POST /comments/get     { postSlug, postType }         – returns approved comments only
  *   POST /comments/add     { postSlug, postType, author, body }
  *   POST /ratings/get      { postSlug, postType }
  *   POST /ratings/add      { postSlug, postType, value }
+ *
+ * Admin endpoints (require Authorization: Bearer <ADMIN_SECRET>):
+ *   POST /admin/comments/pending                          – list all unapproved comments
+ *   POST /admin/comments/approve   { id }                 – approve a comment
+ *   POST /admin/comments/reject    { id }                 – delete a comment
  */
 
 const ALLOWED_ORIGINS = [
@@ -25,7 +31,7 @@ function corsHeaders(origin) {
   return {
     "Access-Control-Allow-Origin": allowed,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
   };
 }
 
@@ -34,6 +40,13 @@ function json(data, status, origin) {
     status,
     headers: { "Content-Type": "application/json", ...corsHeaders(origin) },
   });
+}
+
+/** Verify admin authorization header */
+function isAdmin(request, env) {
+  const authHeader = request.headers.get("Authorization") || "";
+  const token = authHeader.replace(/^Bearer\s+/i, "");
+  return token.length > 0 && token === env.ADMIN_SECRET;
 }
 
 /** Execute SQL statements against Turso HTTP API */
@@ -120,14 +133,14 @@ export default {
     }
 
     try {
-      // --- GET COMMENTS ---
+      // --- GET COMMENTS (approved only) ---
       if (url.pathname === "/comments/get") {
         const postSlug = validateString(body.postSlug, "postSlug", 200);
         const postType = validatePostType(body.postType);
 
         const [result] = await tursoExecute(env, [
           {
-            sql: "SELECT id, postSlug, postType, author, body, createdAt FROM Comment WHERE postSlug = ? AND postType = ? ORDER BY createdAt ASC",
+            sql: "SELECT id, postSlug, postType, author, body, createdAt FROM Comment WHERE postSlug = ? AND postType = ? AND approved = 1 ORDER BY createdAt ASC",
             args: [
               { type: "text", value: postSlug },
               { type: "text", value: postType },
@@ -138,7 +151,7 @@ export default {
         return json({ data: parseRows(result) }, 200, origin);
       }
 
-      // --- ADD COMMENT ---
+      // --- ADD COMMENT (pending by default) ---
       if (url.pathname === "/comments/add") {
         const postSlug = validateString(body.postSlug, "postSlug", 200);
         const postType = validatePostType(body.postType);
@@ -148,7 +161,7 @@ export default {
 
         const [result] = await tursoExecute(env, [
           {
-            sql: "INSERT INTO Comment (postSlug, postType, author, body, createdAt) VALUES (?, ?, ?, ?, ?) RETURNING *",
+            sql: "INSERT INTO Comment (postSlug, postType, author, body, approved, createdAt) VALUES (?, ?, ?, ?, 0, ?) RETURNING *",
             args: [
               { type: "text", value: postSlug },
               { type: "text", value: postType },
@@ -160,7 +173,7 @@ export default {
         ]);
 
         const rows = parseRows(result);
-        return json({ data: rows[0] || null }, 201, origin);
+        return json({ data: rows[0] || null, pending: true }, 201, origin);
       }
 
       // --- GET RATING ---
@@ -237,6 +250,80 @@ export default {
           201,
           origin,
         );
+      }
+
+      // ========== ADMIN ENDPOINTS ==========
+
+      // --- LIST PENDING COMMENTS ---
+      if (url.pathname === "/admin/comments/pending") {
+        if (!isAdmin(request, env)) {
+          return json({ error: "Unauthorized" }, 401, origin);
+        }
+
+        const [result] = await tursoExecute(env, [
+          {
+            sql: "SELECT id, postSlug, postType, author, body, approved, createdAt FROM Comment WHERE approved = 0 ORDER BY createdAt DESC",
+          },
+        ]);
+
+        return json({ data: parseRows(result) }, 200, origin);
+      }
+
+      // --- LIST ALL COMMENTS (admin) ---
+      if (url.pathname === "/admin/comments/all") {
+        if (!isAdmin(request, env)) {
+          return json({ error: "Unauthorized" }, 401, origin);
+        }
+
+        const [result] = await tursoExecute(env, [
+          {
+            sql: "SELECT id, postSlug, postType, author, body, approved, createdAt FROM Comment ORDER BY createdAt DESC",
+          },
+        ]);
+
+        return json({ data: parseRows(result) }, 200, origin);
+      }
+
+      // --- APPROVE COMMENT ---
+      if (url.pathname === "/admin/comments/approve") {
+        if (!isAdmin(request, env)) {
+          return json({ error: "Unauthorized" }, 401, origin);
+        }
+
+        const id = Number(body.id);
+        if (!Number.isInteger(id) || id < 1) {
+          return json({ error: "Valid comment id is required" }, 400, origin);
+        }
+
+        await tursoExecute(env, [
+          {
+            sql: "UPDATE Comment SET approved = 1 WHERE id = ?",
+            args: [{ type: "integer", value: String(id) }],
+          },
+        ]);
+
+        return json({ success: true }, 200, origin);
+      }
+
+      // --- REJECT / DELETE COMMENT ---
+      if (url.pathname === "/admin/comments/reject") {
+        if (!isAdmin(request, env)) {
+          return json({ error: "Unauthorized" }, 401, origin);
+        }
+
+        const id = Number(body.id);
+        if (!Number.isInteger(id) || id < 1) {
+          return json({ error: "Valid comment id is required" }, 400, origin);
+        }
+
+        await tursoExecute(env, [
+          {
+            sql: "DELETE FROM Comment WHERE id = ?",
+            args: [{ type: "integer", value: String(id) }],
+          },
+        ]);
+
+        return json({ success: true }, 200, origin);
       }
 
       return json({ error: "Not found" }, 404, origin);

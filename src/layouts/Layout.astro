@@ -198,6 +198,7 @@ const bannerOffset =
 				localStorage.removeItem('hue');
 			}
 			document.documentElement.style.setProperty('--hue', hue);
+			document.documentElement.style.backgroundColor = 'var(--page-bg)';
 
 			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
 			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
@@ -313,8 +314,17 @@ const bannerOffset =
 	'banner-height-home': `${BANNER_HEIGHT_HOME}vh`,
 	'banner-height': `${BANNER_HEIGHT}vh`,
 }}>
+html {
+	background-color: var(--page-bg) !important;
+}
+
 @tailwind components;
 @layer components {
+	html,
+	body {
+		background-color: var(--page-bg);
+	}
+
 	.enable-banner #banner-wrapper {
 		@apply h-[var(--banner-height-home)]
 	}

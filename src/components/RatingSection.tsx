@@ -1,5 +1,6 @@
-import { actions } from 'astro:actions';
 import { useState, useEffect } from 'react';
+
+const API_URL = import.meta.env.PUBLIC_COMMENTS_API || 'https://tadawi-comments-api.miladsoft.workers.dev';
 
 interface Props {
   postSlug: string;
@@ -45,10 +46,15 @@ export default function RatingSection({ postSlug, postType }: Props) {
 
     async function fetchRating() {
       try {
-        const { data } = await actions.getRating({ postSlug, postType });
-        if (data) {
-          setAverage(data.average);
-          setCount(data.count);
+        const resp = await fetch(`${API_URL}/ratings/get`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ postSlug, postType }),
+        });
+        const result = await resp.json();
+        if (result.data) {
+          setAverage(result.data.average);
+          setCount(result.data.count);
         }
       } catch {
         // silently fail
@@ -64,10 +70,15 @@ export default function RatingSection({ postSlug, postType }: Props) {
     if (submitted || loading) return;
     setLoading(true);
     try {
-      const { data } = await actions.addRating({ postSlug, postType, value });
-      if (data) {
-        setAverage(data.average);
-        setCount(data.count);
+      const resp = await fetch(`${API_URL}/ratings/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postSlug, postType, value }),
+      });
+      const result = await resp.json();
+      if (result.data) {
+        setAverage(result.data.average);
+        setCount(result.data.count);
         setSubmitted(true);
         localStorage.setItem(`rating-${postType}-${postSlug}`, String(value));
       }

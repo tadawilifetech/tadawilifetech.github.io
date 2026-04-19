@@ -31,9 +31,6 @@ jobs:
 
       - name: Build
         run: pnpm run build
-        env:
-          ASTRO_DB_REMOTE_URL: ${{ secrets.ASTRO_DB_REMOTE_URL }}
-          ASTRO_DB_APP_TOKEN: ${{ secrets.ASTRO_DB_APP_TOKEN }}
 
       - name: Redirect 404 to Index for SPA
         run: cp dist/index.html dist/404.html

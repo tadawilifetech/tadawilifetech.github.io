@@ -1,5 +1,6 @@
-import { actions } from 'astro:actions';
 import { useState, useEffect, useRef } from 'react';
+
+const API_URL = import.meta.env.PUBLIC_COMMENTS_API || 'https://tadawi-comments-api.miladsoft.workers.dev';
 
 interface Comment {
   id: number;
@@ -7,7 +8,7 @@ interface Comment {
   postType: string;
   author: string;
   body: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 interface Props {
@@ -57,8 +58,13 @@ export default function CommentsSection({ postSlug, postType }: Props) {
 
     async function fetchComments() {
       try {
-        const { data } = await actions.getComments({ postSlug, postType });
-        if (data) setComments(data);
+        const resp = await fetch(`${API_URL}/comments/get`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ postSlug, postType }),
+        });
+        const result = await resp.json();
+        if (result.data) setComments(result.data);
       } catch {
         // silently fail
       } finally {
@@ -76,14 +82,19 @@ export default function CommentsSection({ postSlug, postType }: Props) {
     if (!author.trim() || !body.trim()) return;
     setLoading(true);
     try {
-      const { data } = await actions.addComment({
-        postSlug,
-        postType,
-        author: author.trim(),
-        body: body.trim(),
+      const resp = await fetch(`${API_URL}/comments/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postSlug,
+          postType,
+          author: author.trim(),
+          body: body.trim(),
+        }),
       });
-      if (data) {
-        setComments((prev) => [...prev, data]);
+      const result = await resp.json();
+      if (result.data) {
+        setComments((prev) => [...prev, result.data]);
         setAuthor('');
         setBody('');
       }

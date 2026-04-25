@@ -50,7 +50,7 @@ const currentLocale = getLocaleFromPathname(Astro.url.pathname);
         </div>
         <div class="flex">
             <!--<SearchPanel client:load>-->
-            <Search client:only="react"></Search>
+            <Search client:load></Search>
             <CartPanel client:load locale={currentLocale}></CartPanel>
             <LanguageSwitcher client:load></LanguageSwitcher>
             {!siteConfig.themeColor.fixed && (

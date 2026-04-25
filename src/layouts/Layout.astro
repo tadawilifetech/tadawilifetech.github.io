@@ -160,6 +160,7 @@ const bannerOffset =
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#4058b2" />
 		<meta name="application-name" content={siteConfig.title} />
+		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-title" content={siteConfig.title} />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -400,6 +401,10 @@ import { siteConfig } from '../config';
 import { stripLocaleFromPathname } from "../utils/locale-utils";
 import { applyStoredLanguage } from "../utils/lang-utils";
 
+const appWindow = window as Window & {
+	__tadawiLayoutSwupHooksReady?: boolean;
+};
+
 /* Preload fonts */
 // (async function() {
 // 	try {
@@ -493,25 +498,6 @@ function loadHue() {
 }
 
 function initCustomScrollbar() {
-	const bodyElement = document.querySelector('body');
-	if (!bodyElement) return;
-	OverlayScrollbars(
-		// docs say that a initialization to the body element would affect native functionality like window.scrollTo
-		// but just leave it here for now
-		{
-			target: bodyElement,
-			cancel: {
-				nativeScrollbarsOverlaid: true,    // don't initialize the overlay scrollbar if there is a native one
-			}
-		}, {
-		scrollbars: {
-			theme: 'scrollbar-base scrollbar-auto py-1',
-			autoHide: 'move',
-			autoHideDelay: 500,
-			autoHideSuspend: false,
-		},
-	});
-
 	const katexElements = document.querySelectorAll('.katex-display') as NodeListOf<HTMLElement>;
 
 	const katexObserverOptions = {
@@ -574,13 +560,7 @@ function init() {
 	loadTheme();
 	loadHue();
 	applyStoredLanguage();
-	// Delay scrollbar init to allow Svelte islands to hydrate first,
-	// because OverlayScrollbars wraps <body> content which breaks hydration.
-	if ('requestIdleCallback' in window) {
-		requestIdleCallback(() => initCustomScrollbar());
-	} else {
-		setTimeout(() => initCustomScrollbar(), 200);
-	}
+	initCustomScrollbar();
 	showBanner();
 }
 
@@ -588,6 +568,9 @@ function init() {
 init();
 
 const setup = () => {
+	if (appWindow.__tadawiLayoutSwupHooksReady) return;
+	appWindow.__tadawiLayoutSwupHooksReady = true;
+
 	// TODO: temp solution to change the height of the banner
 /*
 	window.swup.hooks.on('animation:out:start', () => {
@@ -727,6 +710,10 @@ window.onresize = () => {
 import PhotoSwipeLightbox from "photoswipe/lightbox"
 import "photoswipe/style.css"
 
+const appWindow = window as Window & {
+	__tadawiPhotoSwipeHooksReady?: boolean;
+}
+
 let lightbox: PhotoSwipeLightbox
 let pswp = import("photoswipe")
 
@@ -762,6 +749,9 @@ function createPhotoSwipe() {
 }
 
 const setup = () => {
+	if (appWindow.__tadawiPhotoSwipeHooksReady) return;
+	appWindow.__tadawiPhotoSwipeHooksReady = true;
+
 	if (!lightbox) {
 		createPhotoSwipe()
 	}

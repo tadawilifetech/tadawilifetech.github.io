@@ -30,10 +30,10 @@ const currentLocale = getLocaleFromPathname(Astro.url.pathname);
     <div class:list={[
         className,
         "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
-        <a href={url(localizePath('/', currentLocale))} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
-            <div class="flex flex-row text-[var(--primary)] items-center text-md">
-                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2 rtl:mr-0 rtl:ml-2" />
-                {siteConfig.title}
+        <a href={url(localizePath('/', currentLocale))} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-4 font-bold active:scale-95" aria-label={siteConfig.title}>
+            <div class="flex flex-row items-center text-[var(--primary)]">
+                <img src={url('/logo-tadawi.svg')} alt="Tadawi Life Tech" class="block h-7 w-auto max-w-[9.5rem] md:h-8" loading="eager" decoding="async" />
+                <span class="sr-only">{siteConfig.title}</span>
             </div>
         </a>
         <div class="hidden md:flex">

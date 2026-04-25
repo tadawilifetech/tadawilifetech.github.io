@@ -115,6 +115,7 @@ export default defineConfig({
 			workbox: {
 				navigateFallback: "/404/",
 				globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,avif,json,txt,xml}"],
+				globIgnores: ["**/decap-cms-app*.js"],
 			},
 			manifest: {
 				id: "/",

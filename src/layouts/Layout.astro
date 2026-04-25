@@ -158,6 +158,11 @@ const bannerOffset =
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#4058b2" />
+		<meta name="application-name" content={siteConfig.title} />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content={siteConfig.title} />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 		<!-- Vazirmatn font for Arabic/Persian RTL support -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -171,6 +176,8 @@ const bannerOffset =
 				  media={favicon.theme && `(prefers-color-scheme: ${favicon.theme})`}
 			/>
 		))}
+		<link rel="apple-touch-icon" sizes="180x180" href={url('/favicon/apple-touch-icon.png')} />
+		<link rel="manifest" href={url('/manifest.webmanifest')} />
 		<link rel="shortcut icon" href={url('/favicon.ico')} />
 
 		<!-- Set the theme before the page is rendered to avoid a flash -->

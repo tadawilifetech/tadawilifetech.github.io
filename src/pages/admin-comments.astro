@@ -1,5 +1,5 @@
 ---
-import AdminComments from "@components/AdminComments";
+import AdminCommentsApp from "@components/AdminComments";
 ---
 
 <!doctype html>
@@ -8,8 +8,8 @@ import AdminComments from "@components/AdminComments";
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="robots" content="noindex, nofollow" />
-		<link rel="icon" href="/favicon/favicon-light-32.png" sizes="32x32" media="(prefers-color-scheme: light)" />
-		<link rel="icon" href="/favicon/favicon-dark-32.png" sizes="32x32" media="(prefers-color-scheme: dark)" />
+		<link rel="icon" href="/favicon/favicon-32x32.png" sizes="32x32" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<title>Comment Moderation</title>
 		<style>
@@ -23,6 +23,6 @@ import AdminComments from "@components/AdminComments";
 		</style>
 	</head>
 	<body>
-		<AdminComments client:only="react" />
+		<AdminCommentsApp client:only="react" />
 	</body>
 </html>

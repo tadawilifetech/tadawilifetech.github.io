@@ -2,6 +2,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
+import AstroPWA from "@vite-pwa/astro";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import swup from "@swup/astro";
@@ -102,6 +103,57 @@ export default defineConfig({
 		}),
 		react(),
 		svelte(),
+		AstroPWA({
+			registerType: "autoUpdate",
+			injectRegister: "script-defer",
+			devOptions: {
+				enabled: true,
+			},
+			experimental: {
+				directoryAndTrailingSlashHandler: true,
+			},
+			workbox: {
+				navigateFallback: "/404/",
+				globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,avif,json,txt,xml}"],
+			},
+			manifest: {
+				id: "/",
+				name: "Tadawi Life Tech",
+				short_name: "Tadawi",
+				description: "Tadawi Life Tech progressive web app for health tech products, content, and catalog browsing.",
+				start_url: "/",
+				scope: "/",
+				display: "standalone",
+				orientation: "portrait-primary",
+				theme_color: "#4058b2",
+				background_color: "#4058b2",
+				categories: ["medical", "health", "shopping"],
+				icons: [
+					{
+						src: "/pwa/android-chrome-192x192.png",
+						sizes: "192x192",
+						type: "image/png",
+					},
+					{
+						src: "/pwa/android-chrome-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+					},
+					{
+						src: "/pwa/maskable-192x192.png",
+						sizes: "192x192",
+						type: "image/png",
+						purpose: "maskable",
+					},
+					{
+						src: "/pwa/maskable-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+						purpose: "maskable",
+					},
+				],
+			},
+		}),
 		sitemap(),
 	],
 	markdown: {

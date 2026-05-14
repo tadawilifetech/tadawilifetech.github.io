@@ -210,36 +210,24 @@ export default function CartPanel({ locale = "en" }: Props) {
 		</div>
 	);
 
-	const panelLayer = (
-		<>
-			{/* ── Mobile: fixed bottom sheet ── */}
-			<div className={`sm:hidden fixed inset-0 z-[999] transition-all duration-300 ${open ? "visible" : "invisible"}`}>
-				{/* Backdrop */}
-				<div
-					className={`absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
-					onClick={() => setOpen(false)}
-				/>
-				{/* Bottom sheet */}
-				<div
-					className={`absolute bottom-0 inset-x-0 transition-transform duration-300 ease-out ${open ? "translate-y-0" : "translate-y-full"}`}
-				>
-					{/* Drag handle */}
-					<div className="flex justify-center pt-2 pb-1">
-						<div className="w-10 h-1 rounded-full bg-black/20 dark:bg-white/20" />
-					</div>
-					{panelContent}
-				</div>
-			</div>
-
-			{/* ── Desktop: dropdown (same pattern as NavMenuPanel / DisplaySettings) ── */}
+	const mobilePanelLayer = (
+		<div className={`sm:hidden fixed inset-0 z-[999] transition-all duration-300 ${open ? "visible" : "invisible"}`}>
+			{/* Backdrop */}
 			<div
-				className={`hidden sm:block float-panel fixed z-[999] w-80 ltr:right-4 rtl:left-4 transition-all ${
-					open ? "" : "float-panel-closed pointer-events-none"
-				}`}
+				className={`absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
+				onClick={() => setOpen(false)}
+			/>
+			{/* Bottom sheet */}
+			<div
+				className={`absolute bottom-0 inset-x-0 transition-transform duration-300 ease-out ${open ? "translate-y-0" : "translate-y-full"}`}
 			>
+				{/* Drag handle */}
+				<div className="flex justify-center pt-2 pb-1">
+					<div className="w-10 h-1 rounded-full bg-black/20 dark:bg-white/20" />
+				</div>
 				{panelContent}
 			</div>
-		</>
+		</div>
 	);
 
 	return (
@@ -260,7 +248,14 @@ export default function CartPanel({ locale = "en" }: Props) {
 					)}
 				</div>
 			</button>
-			{mounted ? createPortal(panelLayer, document.body) : null}
+			<div
+				className={`hidden sm:block absolute top-11 pt-5 z-[999] w-80 ltr:right-0 rtl:left-0 transition-all ${
+					open ? "" : "float-panel-closed pointer-events-none"
+				}`}
+			>
+				{panelContent}
+			</div>
+			{mounted ? createPortal(mobilePanelLayer, document.body) : null}
 		</div>
 	);
 }

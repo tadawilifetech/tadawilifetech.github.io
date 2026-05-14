@@ -1,10 +1,14 @@
 import type { APIRoute } from "astro";
 
+const site = import.meta.env.SITE || "https://tadawilifetech.com";
+
 const robotsTxt = `
 User-agent: *
 Disallow: /_astro/
+Disallow: /admin/
+Disallow: /admin-comments/
 
-Sitemap: ${new URL("sitemap-index.xml", import.meta.env.SITE).href}
+Sitemap: ${new URL("sitemap-index.xml", site).href}
 `.trim();
 
 export const GET: APIRoute = () => {

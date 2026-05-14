@@ -155,7 +155,38 @@ export default defineConfig({
 				],
 			},
 		}),
-		sitemap(),
+		sitemap({
+			// Filter out admin, auth, and API pages
+			filter: (page) =>
+				!page.includes("/admin") &&
+				!page.includes("/admin-comments") &&
+				!page.includes("/404"),
+			// Serialise per-page priority and changefreq
+			serialize(item) {
+				// Product pages — high priority, weekly update
+				if (item.url.includes("/products/")) {
+					return { ...item, changefreq: "weekly", priority: 0.9, lastmod: new Date().toISOString() };
+				}
+				// Blog posts — medium priority, monthly
+				if (item.url.includes("/posts/")) {
+					return { ...item, changefreq: "monthly", priority: 0.7 };
+				}
+				// Home / listing pages — high priority, daily
+				if (item.url.match(/\/(en\/|ar\/|fa\/)?$/)) {
+					return { ...item, changefreq: "daily", priority: 1.0 };
+				}
+				return { ...item, changefreq: "monthly", priority: 0.5 };
+			},
+			// i18n: map locale prefixes → BCP-47 language tags for hreflang
+			i18n: {
+				defaultLocale: "en",
+				locales: {
+					en: "en",
+					ar: "ar",
+					fa: "fa",
+				},
+			},
+		}),
 	],
 	markdown: {
 		remarkPlugins: [

@@ -10,6 +10,7 @@ import ImageWrapper from "@components/misc/ImageWrapper.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { DEFAULT_LOCALE, getEntryTranslationKey, normalizeLocale } from "@utils/locale-utils";
 import { getDir, getProductUrlBySlug } from "@utils/url-utils";
+import { Icon } from "astro-icon/components";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("products", ({ data }) => import.meta.env.PROD ? data.draft !== true : true);
@@ -44,40 +45,171 @@ const jsonLd = {
 		availability: "https://schema.org/InStock",
 	} : undefined,
 };
+
+const tags = entry.data.tags || [];
+const category = entry.data.category || "";
+const hasCover = !!entry.data.image;
+
+const priceLabel: Record<string, string> = { en: "Price", ar: "السعر", fa: "قیمت" };
 ---
 
 <MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={currentLocale} ogImage={entry.data.image}>
-    <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
-        <div data-pagefind-body class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full">
-            <div class="relative onload-animation">
-                <h1 data-pagefind-meta="title" class="transition w-full block font-bold mb-3 text-3xl md:text-[2.25rem]/[2.75rem] text-black/90 dark:text-white/90 md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)] before:absolute before:top-[0.75rem] ltr:before:left-[-1.125rem] rtl:before:right-[-1.125rem]">
-                    {entry.data.title}
-                </h1>
-            </div>
+	<script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 
-            {entry.data.price && <div class="flex items-center justify-between mb-4 onload-animation">
-                <span class="text-lg font-semibold text-[var(--primary)]">{entry.data.price}</span>
-                <WishlistButton client:load id={productKey} size="md" />
-            </div>}
+<div class="flex w-full flex-col gap-4 mb-4 relative">
 
-            {entry.data.image && <ImageWrapper src={entry.data.image} basePath={path.join("content/products/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>}
+		<!-- ── Hero Section ── -->
+		{hasCover ? (
+			<div class="product-hero-wrap relative rounded-[var(--radius-large)] overflow-hidden onload-animation" style="height: clamp(260px, 42vw, 440px); animation-delay: var(--content-delay);">
+				<!-- Parallax image -->
+				<div class="product-hero-img absolute inset-0" style="transform: scale(1.15); will-change: transform;">
+					<ImageWrapper
+						src={entry.data.image}
+						basePath={path.join("content/products/", getDir(entry.id))}
+						alt={entry.data.title}
+						class="w-full h-full"
+					/>
+				</div>
 
-            <Markdown class="mb-6 markdown-content onload-animation">
-                <Content />
-            </Markdown>
+				<!-- Cinematic gradient -->
+				<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 pointer-events-none"></div>
 
-            <AddToCartButton
-                client:load
-                id={productKey}
-                title={entry.data.title}
-                price={entry.data.price}
-                url={productUrl}
-                locale={currentLocale}
-            />
-        </div>
-    </div>
+				<!-- Category badge -->
+				{category && (
+					<div class="absolute top-4 start-4 z-10">
+						<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold
+							bg-white/15 text-white backdrop-blur-md border border-white/25 shadow-sm">
+							<Icon name="material-symbols:category-outline-rounded" class="text-sm" />
+							{category}
+						</span>
+					</div>
+				)}
 
-    <RatingSection client:only="react" postSlug={entry.slug} postType="product" />
-    <CommentsSection client:only="react" postSlug={entry.slug} postType="product" />
+				<!-- Title + tags on hero -->
+				<div class="absolute bottom-0 start-0 end-0 z-10 p-6 md:p-8">
+					<h1 data-pagefind-meta="title"
+						class="text-white font-bold leading-tight mb-3 drop-shadow-lg
+						text-2xl sm:text-3xl md:text-[2.25rem]">
+						{entry.data.title}
+					</h1>
+					{tags.length > 0 && (
+						<div class="flex flex-wrap gap-2">
+							{tags.map((tag: string) => (
+								<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-white/15 text-white/90 backdrop-blur-sm border border-white/20">
+									{tag}
+								</span>
+							))}
+						</div>
+					)}
+				</div>
+			</div>
+		) : (
+			<div class="relative rounded-[var(--radius-large)] overflow-hidden onload-animation px-8 py-10
+				bg-gradient-to-br from-[oklch(0.97_0.01_var(--hue))] to-[oklch(0.92_0.04_var(--hue))]
+				dark:from-[oklch(0.22_0.02_var(--hue))] dark:to-[oklch(0.17_0.04_var(--hue))]
+				border border-black/5 dark:border-white/5"
+				style="animation-delay: var(--content-delay);">
+				<div class="absolute -top-12 -end-12 w-56 h-56 rounded-full opacity-20 bg-[var(--primary)] blur-3xl pointer-events-none"></div>
+				{category && (
+					<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold mb-4
+						bg-[var(--primary)]/15 text-[var(--primary)] border border-[var(--primary)]/20">
+						<Icon name="material-symbols:category-outline-rounded" class="text-sm" />
+						{category}
+					</span>
+				)}
+				<h1 data-pagefind-meta="title" class="font-bold text-90 text-2xl sm:text-3xl md:text-[2.25rem] leading-tight mb-3">
+					{entry.data.title}
+				</h1>
+				{tags.length > 0 && (
+					<div class="flex flex-wrap gap-2 mt-3">
+						{tags.map((tag: string) => (
+							<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/15">
+								{tag}
+							</span>
+						))}
+					</div>
+				)}
+			</div>
+		)}
+
+		<!-- ── Price / Action bar ── -->
+		{entry.data.price && (
+			<div class="card-base px-6 py-4 flex items-center justify-between onload-animation"
+				style="animation-delay: calc(var(--content-delay) + 80ms);">
+				<div class="flex items-center gap-3">
+					<div class="flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--primary)]/10">
+						<Icon name="material-symbols:payments-outline-rounded" class="text-[var(--primary)] text-xl" />
+					</div>
+					<div>
+						<p class="text-xs text-50 leading-none mb-1">{priceLabel[currentLocale] ?? priceLabel.en}</p>
+						<p class="text-xl font-bold text-[var(--primary)] leading-none">{entry.data.price}</p>
+					</div>
+				</div>
+				<div class="flex items-center gap-2">
+					<WishlistButton client:load id={productKey} size="md" />
+				</div>
+			</div>
+		)}
+
+		<!-- ── Main content ── -->
+		<div class="card-base z-10 px-6 md:px-9 pt-6 pb-6 onload-animation" style="animation-delay: calc(var(--content-delay) + 140ms);">
+			<Markdown class="markdown-content" data-pagefind-body>
+				<Content />
+			</Markdown>
+		</div>
+
+		<!-- ── Add to Cart ── -->
+		<div class="onload-animation" style="animation-delay: calc(var(--content-delay) + 200ms);">
+			<AddToCartButton
+				client:load
+				id={productKey}
+				title={entry.data.title}
+				price={entry.data.price}
+				url={productUrl}
+				locale={currentLocale}
+			/>
+		</div>
+
+	</div>
+
+	<RatingSection client:only="react" postSlug={entry.slug} postType="product" />
+	<CommentsSection client:only="react" postSlug={entry.slug} postType="product" />
 </MainGridLayout>
+
+<style>
+	.product-hero-wrap {
+		box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+	}
+	#read-progress {
+		border-radius: 0 2px 2px 0;
+	}
+</style>
+
+<script is:inline>
+(function () {
+	function initHeroParallax() {
+		var heroWrap = document.querySelector('.product-hero-wrap');
+		var heroImg = document.querySelector('.product-hero-img');
+		if (!heroWrap || !heroImg || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		var initialTop = heroWrap.getBoundingClientRect().top;
+
+		function onScroll() {
+			var rect = heroWrap.getBoundingClientRect();
+			if (rect.bottom < 0) return;
+
+			var drifted = initialTop - rect.top;
+			var MAX = 26;
+			var translate = Math.max(-MAX, Math.min(MAX, -drifted * 0.28));
+
+			heroImg.style.transform = 'scale(1.15) translateY(' + translate + 'px)';
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+	}
+
+	initHeroParallax();
+
+	document.addEventListener('swup:contentReplaced', initHeroParallax);
+})();
+</script>

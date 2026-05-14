@@ -17,6 +17,7 @@ interface Props {
 	price: string;
 	draft: boolean;
 	style: string;
+	lang?: string;
 }
 const {
 	entry,
@@ -26,44 +27,230 @@ const {
 	description,
 	price,
 	style,
+	lang = "en",
 } = Astro.props;
 const className = Astro.props.class;
+
+const viewDetailsText: Record<string, string> = {
+	en: "View Details",
+	ar: "عرض التفاصيل",
+	fa: "مشاهده جزئیات",
+};
+const viewDetails = viewDetailsText[lang] ?? viewDetailsText.en;
 
 const category = entry.data.category || "";
 const productId = getEntryTranslationKey(entry);
 const hasCover = image !== undefined && image !== null && image !== "";
 ---
-<div data-product-category={category} class:list={["card-base flex flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative", className]} style={style}>
-    {hasCover && <a href={url} aria-label={title}
-                    class="group relative w-full h-48 overflow-hidden">
-        <div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition"></div>
-        <ImageWrapper src={image} basePath={path.join("content/products/", getDir(entry.id))} alt={title}
-                  class="w-full h-full object-cover">
-        </ImageWrapper>
-    </a>}
 
-    <div class="px-5 pt-4 pb-5">
-        <a href={url}
-              class="transition group w-full block font-bold mb-2 text-[1.05rem] md:text-[1.125rem] leading-snug text-90 line-clamp-1
-        hover:text-[var(--primary)] dark:hover:text-[var(--primary)]
-        active:text-[var(--title-active)] dark:active:text-[var(--title-active)]
-        ">
-            {title}
-            <Icon class="inline text-[1.5rem] text-[var(--primary)] translate-y-0.5 opacity-0 group-hover:opacity-100 transition rtl:rotate-180" name="material-symbols:chevron-right-rounded"></Icon>
-        </a>
+<div
+	data-product-category={category}
+	class:list={["product-card group relative flex flex-col w-full rounded-[var(--radius-large)] overflow-hidden", className]}
+	style={style}
+>
+	{hasCover && (
+		<a href={url} aria-label={title} class="product-img-link relative block overflow-hidden" style="height: 220px;">
+			<!-- Category badge -->
+			{category && (
+				<span class="product-category-badge absolute top-3 start-3 z-20 px-2.5 py-1 text-xs font-semibold rounded-full
+					bg-[var(--primary)]/90 text-white backdrop-blur-sm shadow-sm
+					transition-all duration-300 group-hover:bg-[var(--primary)]">
+					{category}
+				</span>
+			)}
 
-        {description && <div class="transition text-75 mb-3 line-clamp-2">
-            {description}
-        </div>}
+			<!-- Dark overlay on hover -->
+			<div class="product-overlay absolute inset-0 z-10 bg-gradient-to-t from-black/50 via-transparent to-transparent
+				opacity-60 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none"></div>
 
-        {price && <div class="flex items-center justify-between">
-            <span class="text-sm font-semibold text-[var(--primary)]">
-                {price}
-            </span>
-            <WishlistButton client:load id={productId} size="sm" />
-        </div>}
-        {!price && <div class="flex items-center justify-end">
-            <WishlistButton client:load id={productId} size="sm" />
-        </div>}
-    </div>
+			<!-- Image with parallax -->
+			<div class="product-img-container absolute inset-0 overflow-hidden">
+				<ImageWrapper
+					src={image}
+					basePath={path.join("content/products/", getDir(entry.id))}
+					alt={title}
+					class="product-img w-full h-full object-cover scale-[1.08] transition-transform duration-700 ease-out group-hover:scale-[1.15]"
+				/>
+			</div>
+
+			<!-- View detail label on hover -->
+			<div class="absolute bottom-3 inset-x-0 z-20 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+				<span class="flex items-center gap-1 text-white text-xs font-medium px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
+					<Icon name="material-symbols:open-in-new-rounded" class="text-sm" />
+					<span>{viewDetails}</span>
+				</span>
+			</div>
+		</a>
+	)}
+
+	<!-- Card info -->
+	<div class="product-info flex flex-col flex-1 px-5 pt-4 pb-5 bg-[var(--card-bg)] transition-colors duration-300">
+		<a
+			href={url}
+			class="product-title block font-bold mb-2 text-[1.05rem] md:text-[1.1rem] leading-snug text-90 line-clamp-2
+				hover:text-[var(--primary)] active:text-[var(--title-active)] transition-colors duration-200"
+		>
+			{title}
+		</a>
+
+		{description && (
+			<p class="text-75 text-sm mb-4 line-clamp-2 leading-relaxed flex-1">
+				{description}
+			</p>
+		)}
+
+		<div class="flex items-center justify-between pt-3 mt-auto border-t border-black/5 dark:border-white/5">
+			{price ? (
+				<div class="flex items-center gap-1.5">
+					<Icon name="material-symbols:payments-outline-rounded" class="text-[var(--primary)] text-base opacity-80" />
+					<span class="text-sm font-bold text-[var(--primary)]">{price}</span>
+				</div>
+			) : (
+				<span></span>
+			)}
+			<WishlistButton client:load id={productId} size="sm" />
+		</div>
+	</div>
 </div>
+
+<style>
+	.product-card {
+		background: var(--card-bg);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
+		transition:
+			transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+			box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+		transform-style: preserve-3d;
+		will-change: transform;
+	}
+
+	:global(.dark) .product-card {
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04);
+	}
+
+	.product-card:hover {
+		box-shadow:
+			0 20px 40px rgba(0, 0, 0, 0.12),
+			0 8px 16px rgba(0, 0, 0, 0.08),
+			0 0 0 1px rgba(0, 0, 0, 0.06);
+		transform: translateY(-4px);
+	}
+
+	:global(.dark) .product-card:hover {
+		box-shadow:
+			0 20px 40px rgba(0, 0, 0, 0.5),
+			0 8px 16px rgba(0, 0, 0, 0.3),
+			0 0 0 1px rgba(255, 255, 255, 0.08);
+	}
+
+	/* Scroll-reveal: cards start hidden */
+	.product-card.scroll-hidden {
+		opacity: 0;
+		transform: translateY(32px);
+	}
+	.product-card.scroll-revealed {
+		opacity: 1;
+		transform: translateY(0);
+		transition:
+			opacity 0.55s cubic-bezier(0.23, 1, 0.32, 1),
+			transform 0.55s cubic-bezier(0.23, 1, 0.32, 1),
+			box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+	.product-card.scroll-revealed:hover {
+		transform: translateY(-4px);
+	}
+
+	/* 3D tilt — only on desktop via JS class */
+	.product-card.tilt-active {
+		transition:
+			box-shadow 0.15s ease,
+			transform 0.1s ease;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.product-card,
+		.product-card.scroll-revealed {
+			transition: none !important;
+			transform: none !important;
+			opacity: 1 !important;
+		}
+	}
+</style>
+
+<script>
+(function () {
+	function initCards() {
+		const cards = document.querySelectorAll<HTMLElement>('.product-card');
+		if (!cards.length) return;
+
+		const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		/* ── Scroll-reveal ── */
+		if (!prefersReduced) {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							const card = entry.target as HTMLElement;
+							card.classList.remove('scroll-hidden');
+							card.classList.add('scroll-revealed');
+							observer.unobserve(card);
+						}
+					});
+				},
+				{ threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+			);
+
+			cards.forEach((card, i) => {
+				if (!card.classList.contains('scroll-revealed')) {
+					card.classList.add('scroll-hidden');
+					card.style.transitionDelay = `${i * 60}ms`;
+					observer.observe(card);
+				}
+			});
+		}
+
+		/* ── 3D Tilt + Image Parallax (desktop only) ── */
+		if (prefersReduced || window.innerWidth < 768) return;
+
+		cards.forEach((card) => {
+			const imgEl = card.querySelector<HTMLElement>('.product-img');
+
+			function onMove(e: MouseEvent) {
+				const rect = card.getBoundingClientRect();
+				const x = e.clientX - rect.left;
+				const y = e.clientY - rect.top;
+				const cx = rect.width / 2;
+				const cy = rect.height / 2;
+
+				const rotY = ((x - cx) / cx) * 6;   // -6° to 6°
+				const rotX = ((y - cy) / cy) * -4;  // -4° to 4°
+
+				card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+
+				if (imgEl) {
+					imgEl.style.transform = `scale(1.15) translateX(${rotY * -1.8}px) translateY(${rotX * -1.8}px)`;
+				}
+			}
+
+			function onLeave() {
+				card.classList.remove('tilt-active');
+				card.style.transform = '';
+				if (imgEl) imgEl.style.transform = '';
+			}
+
+			function onEnter() {
+				card.classList.add('tilt-active');
+			}
+
+			card.addEventListener('mousemove', onMove);
+			card.addEventListener('mouseenter', onEnter);
+			card.addEventListener('mouseleave', onLeave);
+		});
+	}
+
+	/* Run on first load and after Swup page transitions */
+	initCards();
+	document.addEventListener('swup:contentReplaced', initCards);
+})();
+</script>

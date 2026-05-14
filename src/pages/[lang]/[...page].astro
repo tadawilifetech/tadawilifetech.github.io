@@ -27,16 +27,47 @@ const { products } = Astro.props as {
 };
 const currentLocale = Astro.params.lang as SiteLocale;
 const len = products.length;
+
+const headingI18n: Record<string, { badge: string; heading: string; sub: string }> = {
+    en: { badge: "Our Products", heading: "Sleep Health Solutions", sub: "Professional devices & accessories for better sleep" },
+    ar: { badge: "منتجاتنا", heading: "حلول صحة النوم", sub: "أجهزة واكسسوارات احترافية لنوم أفضل" },
+    fa: { badge: "محصولات ما", heading: "راهکارهای سلامت خواب", sub: "دستگاه‌ها و لوازم جانبی حرفه‌ای برای خواب بهتر" },
+};
+const headings = headingI18n[currentLocale] ?? headingI18n.en;
 ---
 
 <MainGridLayout lang={currentLocale}>
     <h1 class="sr-only">Tadawi Life Tech</h1>
+
+    <!-- Category filter header -->
     <div id="category-filter-header" class="hidden mb-4 card-base px-6 py-4 rounded-[var(--radius-large)] flex items-center justify-between">
         <span class="font-bold text-lg text-90" id="category-filter-label"></span>
         <a href={url(localizePath("/", currentLocale))} class="text-sm text-[var(--primary)] hover:underline" id="clear-category-filter">✕</a>
     </div>
+
+    <!-- Products section header with parallax -->
+    <div id="products-header" class="products-section-header relative overflow-hidden rounded-[var(--radius-large)] mb-6 px-8 py-7
+        bg-gradient-to-br from-[oklch(0.97_0.01_var(--hue))] to-[oklch(0.93_0.03_var(--hue))]
+        dark:from-[oklch(0.22_0.02_var(--hue))] dark:to-[oklch(0.18_0.03_var(--hue))]
+        border border-black/5 dark:border-white/5 onload-animation"
+        style="animation-delay: var(--content-delay);">
+
+        <!-- Decorative blobs (parallax) -->
+        <div class="parallax-blob absolute -top-10 -end-10 w-48 h-48 rounded-full opacity-20
+            bg-[oklch(0.70_0.18_var(--hue))] blur-3xl pointer-events-none"></div>
+        <div class="parallax-blob-2 absolute -bottom-8 -start-8 w-36 h-36 rounded-full opacity-15
+            bg-[oklch(0.65_0.20_var(--hue))] blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10">
+            <p class="text-xs font-semibold uppercase tracking-widest text-[var(--primary)] mb-1 opacity-80">{headings.badge}</p>
+            <h2 class="text-2xl font-bold text-90 mb-1">{headings.heading}</h2>
+            <p class="text-sm text-75">{headings.sub}</p>
+        </div>
+    </div>
+
+    <!-- Products grid -->
     <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {products.map((entry: CollectionEntry<"products">, i: number) => (
                 <ProductCard
                     entry={entry}
@@ -46,39 +77,73 @@ const len = products.length;
                     description={entry.data.description}
                     price={entry.data.price}
                     draft={entry.data.draft}
+                    lang={currentLocale}
                     class:list="onload-animation"
-                    style={`animation-delay: calc(var(--content-delay) + ${i * 50}ms);`}
+                    style={`animation-delay: calc(var(--content-delay) + ${i * 55}ms);`}
                 />
             ))}
         </div>
     </div>
-    <OurBrandCarousel client:load className="mb-4 onload-animation" animationDelay={`calc(var(--content-delay) + ${len * 50 + 100}ms)`}></OurBrandCarousel>
+
+    <OurBrandCarousel client:load className="mb-4 onload-animation" animationDelay={`calc(var(--content-delay) + ${len * 55 + 100}ms)`}></OurBrandCarousel>
 </MainGridLayout>
 
+<style>
+    .products-section-header {
+        transition: box-shadow 0.3s ease;
+    }
+    .parallax-blob,
+    .parallax-blob-2 {
+        transition: transform 0.1s linear;
+        will-change: transform;
+    }
+</style>
+
 <script is:inline>
+/* Category filter */
 function filterProductsByCategory() {
-    const params = new URLSearchParams(window.location.search);
-    const category = params.get('category');
-    const header = document.getElementById('category-filter-header');
-    const label = document.getElementById('category-filter-label');
-    const cards = document.querySelectorAll('[data-product-category]');
+    var params = new URLSearchParams(window.location.search);
+    var category = params.get('category');
+    var header = document.getElementById('category-filter-header');
+    var label = document.getElementById('category-filter-label');
+    var sectionHeader = document.getElementById('products-header');
+    var cards = document.querySelectorAll('[data-product-category]');
 
     if (category) {
         if (header) header.classList.remove('hidden');
         if (label) label.textContent = category;
-        cards.forEach(card => {
-            const cardCat = card.getAttribute('data-product-category') || '';
-            if (cardCat.trim().toLowerCase() === category.trim().toLowerCase()) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
+        if (sectionHeader) sectionHeader.classList.add('hidden');
+        cards.forEach(function(card) {
+            var cardCat = card.getAttribute('data-product-category') || '';
+            card.style.display = cardCat.trim().toLowerCase() === category.trim().toLowerCase() ? '' : 'none';
         });
     } else {
         if (header) header.classList.add('hidden');
-        cards.forEach(card => { card.style.display = ''; });
+        if (sectionHeader) sectionHeader.classList.remove('hidden');
+        cards.forEach(function(card) { card.style.display = ''; });
     }
 }
 filterProductsByCategory();
 document.addEventListener('swup:contentReplaced', filterProductsByCategory);
+
+/* Header blob parallax on scroll */
+(function() {
+    function initHeaderParallax() {
+        var header = document.getElementById('products-header');
+        if (!header) return;
+        var blob1 = header.querySelector('.parallax-blob');
+        var blob2 = header.querySelector('.parallax-blob-2');
+
+        function onScroll() {
+            var rect = header.getBoundingClientRect();
+            var progress = Math.max(0, Math.min(1, -rect.top / (rect.height + 100)));
+            if (blob1) blob1.style.transform = 'translateY(' + (progress * -25) + 'px) translateX(' + (progress * 12) + 'px)';
+            if (blob2) blob2.style.transform = 'translateY(' + (progress * 18) + 'px) translateX(' + (progress * -10) + 'px)';
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
+    initHeaderParallax();
+    document.addEventListener('swup:contentReplaced', initHeaderParallax);
+})();
 </script>

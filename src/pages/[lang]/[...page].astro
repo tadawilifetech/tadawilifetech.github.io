@@ -66,7 +66,7 @@ const headings = headingI18n[currentLocale] ?? headingI18n.en;
     </div>
 
     <!-- Products grid -->
-    <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+    <div class="transition flex flex-col rounded-[var(--radius-large)] bg-transparent py-0 md:gap-4 mb-4">
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {products.map((entry: CollectionEntry<"products">, i: number) => (
                 <ProductCard

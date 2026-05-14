@@ -1,4 +1,6 @@
 User-agent: *
 Disallow: /_astro/
+Disallow: /admin/
+Disallow: /admin-comments/
 
 Sitemap: https://tadawilifetech.com/sitemap-index.xml

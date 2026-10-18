@@ -9,6 +9,10 @@ tags: ["BiPAP", "التهوية غير الغازية", "انقطاع التنف
 lang: ar
 translationKey: heyer-bipap
 draft: false
+group: "sleep"
+order: 12
+gallery: ["/uploads/products/heyer-bipap-2.png"]
+downloads: [{"group":"التنزيلات","label":"بروشور PDF","file":"/uploads/products/heyer-bipap-brochure.pdf"}]
 ---
 
 تم تصميم Heyer BV30ST Pro للمرضى الذين يحتاجون إلى دعم تهوية أعلى من أجهزة CPAP التقليدية. يوفّر أوضاعاً علاجية متعددة وتحكماً منظماً في الضغط للاستخدام المنزلي أو السريري.
@@ -22,10 +26,3 @@ draft: false
 - المرضى ذوو احتياجات التنفس أثناء النوم الأكثر تعقيداً.
 - الحالات التي تحتاج إلى أوضاع دعم تلقائي أو مؤقت.
 - مقدمو الرعاية الذين يبحثون عن مرونة تهوية أوسع في جهاز واحد.
-
-## التنزيلات
-- [بروشور PDF](/uploads/products/heyer-bipap-brochure.pdf)
-
-## معرض الصور
-
-![جهاز Heyer BiPAP موديل BV30ST Pro 2](/uploads/products/heyer-bipap-2.png)

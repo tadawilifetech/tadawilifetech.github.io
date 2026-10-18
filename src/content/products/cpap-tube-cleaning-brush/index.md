@@ -9,6 +9,10 @@ tags: ["Cleaning Brush", "Tubing Care", "CPAP Accessory", "Hygiene"]
 lang: en
 translationKey: cpap-tube-cleaning-brush
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-tube-cleaning-brush-2.webp","/uploads/products/cpap-tube-cleaning-brush-3.webp"]
+downloads: []
 ---
 
 This dual-ended brush is designed to clean long tubing and small respiratory components with one tool. Regular use helps maintain airflow quality and supports better equipment hygiene.
@@ -22,9 +26,3 @@ This dual-ended brush is designed to clean long tubing and small respiratory com
 - Routine maintenance of CPAP and BiPAP tubing.
 - Users who wash hoses regularly and want more complete cleaning.
 - Home care kits focused on device hygiene.
-
-## Gallery
-
-![CPAP Tubing Cleaning Brush 2](/uploads/products/cpap-tube-cleaning-brush-2.webp)
-
-![CPAP Tubing Cleaning Brush 3](/uploads/products/cpap-tube-cleaning-brush-3.webp)

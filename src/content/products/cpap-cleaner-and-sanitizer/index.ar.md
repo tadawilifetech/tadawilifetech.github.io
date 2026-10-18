@@ -9,6 +9,10 @@ tags: ["منظف CPAP", "تعقيم", "تنظيف بالأوزون", "العنا
 lang: ar
 translationKey: cpap-cleaner-and-sanitizer
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-cleaner-and-sanitizer-2.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-3.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-4.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-5.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-6.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-7.jpeg"]
+downloads: []
 ---
 
 يستخدم هذا الجهاز المدمج تقنية الأوزون للمساعدة في تعقيم ملحقات التنفس وبعض الأدوات اليومية الصغيرة. ويجعله حجمه الصغير وبطاريته القابلة للشحن مناسباً للاستخدام المنزلي أو أثناء السفر.
@@ -22,17 +26,3 @@ draft: false
 - المستخدمون الذين يريدون خيار تعقيم محمول لملحقات PAP.
 - حقائب السفر والإعدادات المنزلية المدمجة.
 - الأشخاص الذين يعتنون بالأقنعة والأنابيب وقطع الترطيب والملحقات الصغيرة المشابهة.
-
-## معرض الصور
-
-![جهاز تنظيف وتعقيم CPAP بالأوزون 2](/uploads/products/cpap-cleaner-and-sanitizer-2.jpeg)
-
-![جهاز تنظيف وتعقيم CPAP بالأوزون 3](/uploads/products/cpap-cleaner-and-sanitizer-3.jpeg)
-
-![جهاز تنظيف وتعقيم CPAP بالأوزون 4](/uploads/products/cpap-cleaner-and-sanitizer-4.jpeg)
-
-![جهاز تنظيف وتعقيم CPAP بالأوزون 5](/uploads/products/cpap-cleaner-and-sanitizer-5.jpeg)
-
-![جهاز تنظيف وتعقيم CPAP بالأوزون 6](/uploads/products/cpap-cleaner-and-sanitizer-6.jpeg)
-
-![جهاز تنظيف وتعقيم CPAP بالأوزون 7](/uploads/products/cpap-cleaner-and-sanitizer-7.jpeg)

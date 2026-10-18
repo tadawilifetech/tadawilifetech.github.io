@@ -9,6 +9,10 @@ tags: ["BiPAP", "تهویه غیرتهاجمی", "آپنه خواب", "پشتی�
 lang: fa
 translationKey: heyer-bipap
 draft: false
+group: "sleep"
+order: 12
+gallery: ["/uploads/products/heyer-bipap-2.png"]
+downloads: [{"group":"دانلودها","label":"بروشور PDF","file":"/uploads/products/heyer-bipap-brochure.pdf"}]
 ---
 
 Heyer BV30ST Pro برای بیمارانی ساخته شده است که به سطح بالاتری از پشتیبانی تنفسی نسبت به CPAP معمول نیاز دارند. این دستگاه مدهای درمانی متنوع و کنترل فشار دقیق را برای منزل و کلینیک ارائه می‌دهد.
@@ -22,10 +26,3 @@ Heyer BV30ST Pro برای بیمارانی ساخته شده است که به س
 - بیمارانی با نیازهای پیچیده‌تر اختلالات تنفسی حین خواب.
 - مواردی که به مدهای تنفس خودبخودی یا زمان‌بندی‌شده نیاز دارند.
 - مراکزی که انعطاف تهویه بیشتر را در یک دستگاه می‌خواهند.
-
-## دانلودها
-- [بروشور PDF](/uploads/products/heyer-bipap-brochure.pdf)
-
-## گالری تصاویر
-
-![دستگاه BiPAP هایر مدل BV30ST Pro 2](/uploads/products/heyer-bipap-2.png)

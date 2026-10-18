@@ -9,6 +9,11 @@ tags: ["قناع CPAP", "قناع كامل الوجه", "قناع أنفي", "و
 lang: ar
 translationKey: cpap-mask
 draft: false
+group: "sleep"
+order: 20
+gallery: ["/uploads/products/cpap-mask-2.jpeg","/uploads/products/cpap-mask-3.jpeg","/uploads/products/cpap-mask-4.jpeg","/uploads/products/cpap-mask-5.jpeg"]
+downloads: [{"group":"التنزيلات","label":"بروشور PDF","file":"/uploads/products/cpap-mask-brochure.pdf"}]
+videos: [{"title":"قناع الوجه الكامل Heyer AF-02","youtube":"gNmKxojAz9s"},{"title":"قناع الوجه الكامل Heyer AF-03","youtube":"UMhczErYDXE"},{"title":"القناع الأنفي Heyer AN-03","youtube":"1YiR3S96SA8"},{"title":"القناع الأنفي Heyer AN-02","youtube":"79YhC4YPbGs"},{"title":"قناع الوسائد الأنفية Heyer AP-01","youtube":"f-RcObI7Hx0"}]
 ---
 
 اختيار القناع المناسب من أهم عناصر نجاح العلاج بالضغط الإيجابي. تساعد هذه الفئة المرضى على إيجاد توازن مناسب بين الإحكام والراحة وحرية الحركة أثناء النوم.
@@ -22,16 +27,3 @@ draft: false
 - المستخدمون الذين يختارون أول قناع CPAP لهم.
 - المرضى الذين يريدون تغيير نوع القناع لتحسين الراحة.
 - العلاج المنزلي الذي يحتاج إلى توازن بين الإحكام والحركة.
-
-## التنزيلات
-- [بروشور PDF](/uploads/products/cpap-mask-brochure.pdf)
-
-## معرض الصور
-
-![أقنعة CPAP 2](/uploads/products/cpap-mask-2.jpeg)
-
-![أقنعة CPAP 3](/uploads/products/cpap-mask-3.jpeg)
-
-![أقنعة CPAP 4](/uploads/products/cpap-mask-4.jpeg)
-
-![أقنعة CPAP 5](/uploads/products/cpap-mask-5.jpeg)

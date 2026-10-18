@@ -9,6 +9,10 @@ tags: ["Aeonmed", "Auto CPAP", "انقطاع التنفس أثناء النوم"
 lang: ar
 translationKey: aeonmed-auto-cpap
 draft: false
+group: "sleep"
+order: 11
+gallery: ["/uploads/products/aeonmed-auto-cpap-2.png","/uploads/products/aeonmed-auto-cpap-3.jpg"]
+downloads: [{"group":"التنزيلات","label":"بروشور PDF","file":"/uploads/products/aeonmed-auto-cpap-brochure.pdf"}]
 ---
 
 صُمم جهاز Aeonmed AS100A لتقديم علاج CPAP موثوق بواجهة سهلة للمريض ومزايا موجهة للراحة. وهو يدعم الضبط التلقائي للضغط والتحكم في الرطوبة والتأقلم الأسهل عند النوم.
@@ -22,12 +26,3 @@ draft: false
 - المستخدمون الذين يبدأون علاجاً منزلياً لانقطاع التنفس الانسدادي أثناء النوم.
 - المرضى الذين يريدون منصة CPAP تلقائية التعديل.
 - الإعدادات التي تحتاج إلى الترطيب ومزايا الراحة في جهاز واحد.
-
-## التنزيلات
-- [بروشور PDF](/uploads/products/aeonmed-auto-cpap-brochure.pdf)
-
-## معرض الصور
-
-![جهاز Aeonmed Auto CPAP AS100A 2](/uploads/products/aeonmed-auto-cpap-2.png)
-
-![جهاز Aeonmed Auto CPAP AS100A 3](/uploads/products/aeonmed-auto-cpap-3.jpg)

@@ -1,0 +1,86 @@
+---
+import { Icon } from "astro-icon/components";
+import PageHero from "@components/pages/PageHero.astro";
+import VideoPlayer from "@components/product/VideoPlayer.tsx";
+import { WHATSAPP_PHONE_RAW } from "@utils/contact";
+import { type SiteLocale, localizePath } from "@utils/locale-utils";
+import { url } from "@utils/url-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+const c = {
+	en: {
+		title: "Training Resources",
+		lead: "Step-by-step videos to help you set up, use and care for your sleep therapy device.",
+		videos: [
+			["oTo0WP2D_-A", "How to install the Aeonmed Auto CPAP device?", "Aeonmed AS series", "/products/aeonmed-auto-cpap/"],
+			["mY3hIi88RFg", "Best way to clean Aeonmed Auto CPAP device?", "Aeonmed AS series", "/products/aeonmed-auto-cpap/"],
+			["QLnMn3S5xgM", "How to install the Heyer Auto CPAP device?", "Heyer 20A Pro", "/products/heyer-auto-cpap-machine/"],
+		],
+		product: "View device",
+		helpTitle: "Need help with your device?",
+		help: "Register your device for support, or message our team on WhatsApp.",
+		register: "Register device",
+		whatsapp: "WhatsApp support",
+	},
+	ar: {
+		title: "مصادر التدريب",
+		lead: "فيديوهات خطوة بخطوة لمساعدتك على تركيب جهاز علاج النوم واستخدامه والعناية به.",
+		videos: [
+			["oTo0WP2D_-A", "كيف تركّب جهاز Aeonmed Auto CPAP؟", "Aeonmed AS series", "/products/aeonmed-auto-cpap/"],
+			["mY3hIi88RFg", "أفضل طريقة لتنظيف جهاز Aeonmed Auto CPAP", "Aeonmed AS series", "/products/aeonmed-auto-cpap/"],
+			["QLnMn3S5xgM", "كيف تركّب جهاز Heyer Auto CPAP؟", "Heyer 20A Pro", "/products/heyer-auto-cpap-machine/"],
+		],
+		product: "عرض الجهاز",
+		helpTitle: "تحتاج مساعدة بجهازك؟",
+		help: "سجّل جهازك للحصول على الدعم، أو راسل فريقنا عبر واتساب.",
+		register: "تسجيل الجهاز",
+		whatsapp: "الدعم عبر واتساب",
+	},
+	fa: {
+		title: "منابع آموزشی",
+		lead: "ویدیوهای گام‌به‌گام برای نصب، استفاده و نگهداری دستگاه درمان خواب.",
+		videos: [
+			["oTo0WP2D_-A", "نحوه نصب دستگاه Aeonmed Auto CPAP", "Aeonmed AS series", "/products/aeonmed-auto-cpap/"],
+			["mY3hIi88RFg", "بهترین روش تمیز کردن دستگاه Aeonmed Auto CPAP", "Aeonmed AS series", "/products/aeonmed-auto-cpap/"],
+			["QLnMn3S5xgM", "نحوه نصب دستگاه Heyer Auto CPAP", "Heyer 20A Pro", "/products/heyer-auto-cpap-machine/"],
+		],
+		product: "مشاهده دستگاه",
+		helpTitle: "برای دستگاه خود کمک لازم دارید؟",
+		help: "دستگاه خود را برای پشتیبانی ثبت کنید یا در واتساپ به تیم ما پیام دهید.",
+		register: "ثبت دستگاه",
+		whatsapp: "پشتیبانی واتساپ",
+	},
+}[locale];
+---
+<PageHero icon="material-symbols:smart-display-outline-rounded" title={c.title} lead={c.lead} />
+
+<div class="flex flex-col gap-6">
+    {c.videos.map(([id, title, device, href], i) => (
+        <section class="card-base p-4 md:p-6 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-5 items-center" data-reveal>
+            <VideoPlayer client:visible videos={[{ youtube: id, title }]} locale={locale} />
+            <div class="flex flex-col gap-3 px-2">
+                <span class="text-5xl font-black text-transparent [-webkit-text-stroke:1.5px_var(--primary)] opacity-60">{String(i + 1).padStart(2, "0")}</span>
+                <h2 class="text-xl md:text-2xl font-extrabold text-90 leading-snug">{title}</h2>
+                <span class="chip self-start"><Icon name="material-symbols:devices-other-outline-rounded" /> {device}</span>
+                <a href={url(localizePath(href, locale))} class="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--primary)] hover:gap-2.5 transition-all">
+                    {c.product} <Icon name="material-symbols:arrow-forward-rounded" class="rtl:rotate-180" />
+                </a>
+            </div>
+        </section>
+    ))}
+
+    <section class="card-base p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5" data-reveal>
+        <span class="icon-badge !w-14 !h-14"><Icon name="material-symbols:support-agent-rounded" class="text-3xl" /></span>
+        <div class="flex-1">
+            <h2 class="text-xl font-extrabold text-90">{c.helpTitle}</h2>
+            <p class="text-75 mt-1">{c.help}</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <a href={url(localizePath("/device-registration/", locale))} class="btn-grad">{c.register}</a>
+            <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}`} target="_blank" rel="noopener noreferrer" class="btn-whatsapp"><Icon name="fa6-brands:whatsapp" /> {c.whatsapp}</a>
+        </div>
+    </section>
+</div>

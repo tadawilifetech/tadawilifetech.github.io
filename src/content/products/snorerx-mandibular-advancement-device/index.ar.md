@@ -9,6 +9,10 @@ tags: ["SnoreRx", "MAD", "تخفيف الشخير", "جهاز فموي"]
 lang: ar
 translationKey: snorerx-mandibular-advancement-device
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/snorerx-mandibular-advancement-device-2.jpeg","/uploads/products/snorerx-mandibular-advancement-device-3.jpeg"]
+downloads: []
 ---
 
 يهدف هذا الجهاز الفموي القابل للتعديل إلى تقليل الشخير عبر تقديم الفك السفلي بلطف إلى الأمام. ويهدف تصميمه إلى تحسين تدفق الهواء الليلي من دون الحاجة إلى إعداد علاجي يعتمد على القناع.
@@ -22,9 +26,3 @@ draft: false
 - البالغون الذين يبحثون عن حل للشخير من دون قناع.
 - المستخدمون الذين يفضلون جهازاً فموياً مدمجاً.
 - الأشخاص الذين يستكشفون العلاج الفموي للنوم بإشراف مختص.
-
-## معرض الصور
-
-![جهاز SnoreRx لتقديم الفك السفلي 2](/uploads/products/snorerx-mandibular-advancement-device-2.jpeg)
-
-![جهاز SnoreRx لتقديم الفك السفلي 3](/uploads/products/snorerx-mandibular-advancement-device-3.jpeg)

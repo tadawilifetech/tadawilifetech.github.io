@@ -9,6 +9,11 @@ tags: ["ZEUS", "Snoring Relief", "TENS", "Airway Support"]
 lang: en
 translationKey: zeus-hypoglossal-nerve-stimulator
 draft: false
+group: "sleep"
+order: 35
+gallery: ["/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-4.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-5.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-6.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-7.webp"]
+downloads: [{"group":"Downloads","label":"Product PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-1.pdf"},{"group":"Downloads","label":"Product PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-2.pdf"},{"group":"Downloads","label":"Product PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-3.pdf"},{"group":"Downloads","label":"Thorax 2016 Pengo thorax journal article","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-paper-1.pdf"}]
+videos: [{"title":"Zeus","youtube":"uqZl9QQsvf0"}]
 ---
 
 ZEUS is a discreet external device that applies gentle stimulation beneath the chin to support upper-airway tone during sleep. It is designed for users seeking a non-invasive option for snoring management with a research-backed concept.
@@ -22,23 +27,3 @@ ZEUS is a discreet external device that applies gentle stimulation beneath the c
 - Adults looking for a non-mask, non-implant snoring solution.
 - Users interested in an external stimulation-based sleep aid.
 - Clinician-guided snoring therapy pathways.
-
-## Downloads
-- [Product PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-1.pdf)
-- [Product PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-2.pdf)
-- [Product PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-3.pdf)
-- [Thorax 2016 Pengo thorax journal article](/uploads/products/zeus-hypoglossal-nerve-stimulator-paper-1.pdf)
-
-## Gallery
-
-![ZEUS Hypoglossal Nerve Stimulator 1](/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp)
-
-![ZEUS Hypoglossal Nerve Stimulator 3](/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp)
-
-![ZEUS Hypoglossal Nerve Stimulator 4](/uploads/products/zeus-hypoglossal-nerve-stimulator-4.webp)
-
-![ZEUS Hypoglossal Nerve Stimulator 5](/uploads/products/zeus-hypoglossal-nerve-stimulator-5.webp)
-
-![ZEUS Hypoglossal Nerve Stimulator 6](/uploads/products/zeus-hypoglossal-nerve-stimulator-6.webp)
-
-![ZEUS Hypoglossal Nerve Stimulator 7](/uploads/products/zeus-hypoglossal-nerve-stimulator-7.webp)

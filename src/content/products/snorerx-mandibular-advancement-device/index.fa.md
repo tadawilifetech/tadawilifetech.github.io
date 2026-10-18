@@ -9,6 +9,10 @@ tags: ["SnoreRx", "MAD", "کاهش خروپف", "ابزار دهانی"]
 lang: fa
 translationKey: snorerx-mandibular-advancement-device
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/snorerx-mandibular-advancement-device-2.jpeg","/uploads/products/snorerx-mandibular-advancement-device-3.jpeg"]
+downloads: []
 ---
 
 این دستگاه قابل تنظیم برای کاهش خروپف با جلو آوردن ملایم فک پایین طراحی شده است. طراحی دهانی آن به بهبود جریان هوای شبانه بدون نیاز به ماسک کمک می‌کند.
@@ -22,9 +26,3 @@ draft: false
 - بزرگسالانی که راهکار بدون ماسک برای خروپف می‌خواهند.
 - کاربرانی که رویکرد دهانی و جمع‌وجور را ترجیح می‌دهند.
 - افرادی که درمان دهانی خواب را با راهنمایی متخصص بررسی می‌کنند.
-
-## گالری تصاویر
-
-![دستگاه جلوآورنده فک پایین SnoreRx 2](/uploads/products/snorerx-mandibular-advancement-device-2.jpeg)
-
-![دستگاه جلوآورنده فک پایین SnoreRx 3](/uploads/products/snorerx-mandibular-advancement-device-3.jpeg)

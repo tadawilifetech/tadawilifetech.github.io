@@ -1,0 +1,271 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+import AddToCartButton from "@components/AddToCartButton";
+import CommentsSection from "@components/CommentsSection";
+import ProductCard from "@components/ProductCard.astro";
+import RatingSection from "@components/RatingSection";
+import WishlistButton from "@components/WishlistButton";
+import Markdown from "@components/misc/Markdown.astro";
+import ProductGallery from "@components/product/ProductGallery.astro";
+import VideoPlayer from "@components/product/VideoPlayer.tsx";
+import { ORTHO_FAMILIES, PRODUCT_GROUPS } from "@constants/product-groups";
+import { getSortedProducts } from "@utils/content-utils";
+import { WHATSAPP_PHONE_RAW } from "@utils/contact";
+import { type SiteLocale, getEntryTranslationKey, localizePath } from "@utils/locale-utils";
+import { getProductUrlBySlug, url } from "@utils/url-utils";
+
+interface Props {
+	entry: CollectionEntry<"products">;
+	locale: SiteLocale;
+}
+
+const { entry, locale } = Astro.props;
+const { Content } = await entry.render();
+const d = entry.data;
+const productKey = getEntryTranslationKey(entry);
+const productUrl = getProductUrlBySlug(productKey, locale);
+const group = PRODUCT_GROUPS[d.group];
+const family = ORTHO_FAMILIES.find((f) => f.key === d.subcategory);
+
+const all = await getSortedProducts(locale);
+const related = all
+	.filter((p) => p.id !== entry.id && p.data.group === d.group)
+	.sort((a, b) => {
+		const score = (p: typeof a) =>
+			(d.subcategory && p.data.subcategory === d.subcategory ? 0 : 1) + (p.data.category === d.category ? 0 : 1);
+		return score(a) - score(b) || a.data.order - b.data.order;
+	})
+	.slice(0, 4);
+
+const downloadGroups = new Map<string, { label: string; file: string }[]>();
+for (const dl of d.downloads) {
+	const key = dl.group || "Downloads";
+	downloadGroups.set(key, [...(downloadGroups.get(key) ?? []), { label: dl.label, file: dl.file }]);
+}
+
+const t = {
+	en: {
+		home: "Home", price: "Price", inquire: "Ask about this product", watch: "Watch the video", details: "Product Details",
+		downloads: "Downloads", files: "files", faq: "Frequently Asked Questions", faqEmpty: "Questions about this product? Our team answers quickly on WhatsApp.",
+		askWhatsapp: "Ask on WhatsApp", related: "Related Products", sizes: "Size Guide", size: "Size",
+		trust: ["Genuine products", "Delivery across Oman", "Expert guidance"], viewAll: "View all",
+	},
+	ar: {
+		home: "الرئيسية", price: "السعر", inquire: "استفسر عن هذا المنتج", watch: "شاهد الفيديو", details: "تفاصيل المنتج",
+		downloads: "التنزيلات", files: "ملفات", faq: "الأسئلة الشائعة", faqEmpty: "لديك أسئلة عن هذا المنتج؟ يجيبك فريقنا بسرعة عبر واتساب.",
+		askWhatsapp: "اسأل عبر واتساب", related: "منتجات ذات صلة", sizes: "دليل المقاسات", size: "المقاس",
+		trust: ["منتجات أصلية", "توصيل في أنحاء عُمان", "إرشاد متخصص"], viewAll: "عرض الكل",
+	},
+	fa: {
+		home: "خانه", price: "قیمت", inquire: "پرسش درباره این محصول", watch: "مشاهده ویدیو", details: "جزئیات محصول",
+		downloads: "دانلودها", files: "فایل", faq: "سوالات متداول", faqEmpty: "سؤالی درباره این محصول دارید؟ تیم ما سریع در واتساپ پاسخ می‌دهد.",
+		askWhatsapp: "پرسش در واتساپ", related: "محصولات مرتبط", sizes: "راهنمای سایز", size: "سایز",
+		trust: ["محصولات اصل", "ارسال در سراسر عمان", "مشاوره تخصصی"], viewAll: "مشاهده همه",
+	},
+}[locale];
+
+const inquiryText = encodeURIComponent(`${t.inquire}: ${d.title}\n${Astro.site?.origin ?? "https://tadawilifetech.com"}${productUrl}`);
+const groupHref = url(localizePath(`/?group=${d.group}${family ? `&family=${family.key}` : ""}#products`, locale));
+---
+<div class="flex w-full flex-col gap-5 mb-4">
+    <!-- Breadcrumb -->
+    <nav class="flex flex-wrap items-center gap-1.5 text-sm text-50 px-1" aria-label="Breadcrumb" data-reveal>
+        <a href={url(localizePath("/", locale))} class="hover:text-[var(--primary)] transition">{t.home}</a>
+        <Icon name="material-symbols:chevron-right-rounded" class="rtl:rotate-180 text-30" />
+        <a href={groupHref} class="hover:text-[var(--primary)] transition">{group.label[locale]}</a>
+        {(family || d.category) && (
+            <>
+                <Icon name="material-symbols:chevron-right-rounded" class="rtl:rotate-180 text-30" />
+                <span>{family ? family.label[locale] : d.category}</span>
+            </>
+        )}
+    </nav>
+
+    <!-- Gallery + buy box -->
+    <section class="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-5 items-start">
+        <div class="card-base p-3 md:p-4" data-reveal="scale">
+            <ProductGallery images={[d.image, ...d.gallery]} title={d.title} imageVideo={d.imageVideo} locale={locale} />
+        </div>
+
+        <div class="card-base p-6 md:p-8 flex flex-col gap-5 lg:sticky lg:top-6" data-reveal data-reveal-delay="120">
+            <div class="flex flex-wrap gap-2">
+                <span class="chip !h-8 !text-xs">
+                    <Icon name={group.icon} class="text-sm" />
+                    {group.label[locale]}
+                </span>
+                {d.category && <span class="chip !h-8 !text-xs !bg-transparent border !border-black/10 dark:!border-white/10">{d.category}</span>}
+            </div>
+            <h1 data-pagefind-meta="title" class="text-2xl md:text-[2rem] font-extrabold leading-tight text-90">{d.title}</h1>
+            {d.description && <p class="text-75 leading-relaxed">{d.description}</p>}
+
+            {d.price && (
+                <div class="flex items-end justify-between gap-4 rounded-2xl p-4 bg-[var(--btn-regular-bg)]">
+                    <div>
+                        <div class="text-xs font-bold text-50 mb-1">{t.price}</div>
+                        <div class="text-3xl font-extrabold text-[var(--primary)] leading-none" dir="ltr">{d.price}</div>
+                    </div>
+                    <WishlistButton client:load id={productKey} size="md" />
+                </div>
+            )}
+
+            {d.sizes.length > 0 && (
+                <div>
+                    <div class="text-xs font-bold text-50 mb-2">{t.size} · {d.sizeLabel}</div>
+                    <div class="flex flex-wrap gap-2">
+                        {d.sizes.map((s) => <span class="chip !h-auto py-1.5 flex-col !gap-0 !items-start"><b>{s.size}</b><span class="text-[0.7rem] opacity-70" dir="ltr">{s.range}</span></span>)}
+                    </div>
+                </div>
+            )}
+
+            <div class="flex flex-wrap gap-2">
+                <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}&text=${inquiryText}`} target="_blank" rel="noopener noreferrer" class="btn-whatsapp flex-1">
+                    <Icon name="fa6-brands:whatsapp" class="text-lg" /> {t.inquire}
+                </a>
+                {d.videos.length > 0 && (
+                    <a href="#product-video" class="btn-soft">
+                        <Icon name="material-symbols:play-circle-outline-rounded" class="text-lg" /> {t.watch}
+                    </a>
+                )}
+            </div>
+
+            <ul class="grid grid-cols-3 gap-2 pt-4 border-t border-black/5 dark:border-white/10">
+                {t.trust.map((item, i) => (
+                    <li class="flex flex-col items-center text-center gap-1.5 text-xs font-semibold text-75">
+                        <Icon name={["material-symbols:verified-outline-rounded", "material-symbols:local-shipping-outline-rounded", "material-symbols:support-agent-rounded"][i]} class="text-2xl text-[var(--primary)]" />
+                        {item}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </section>
+
+    <!-- Videos play before the readable product information (Website.md items 13–19) -->
+    {d.videos.length > 0 && (
+        <section id="product-video" class="card-base p-3 md:p-4 scroll-mt-24 w-full max-w-5xl mx-auto" data-reveal>
+            <VideoPlayer client:visible videos={d.videos} locale={locale} />
+        </section>
+    )}
+
+    <!-- Description -->
+    <section class="card-base reading-surface px-6 md:px-10 py-8" data-reveal>
+        <h2 class="section-eyebrow mb-4">{t.details}</h2>
+        <Markdown class="markdown-content" data-pagefind-body>
+            <Content />
+        </Markdown>
+    </section>
+
+    {d.sizes.length > 0 && (
+        <section class="card-base px-6 md:px-10 py-7" data-reveal>
+            <h2 class="text-lg font-extrabold text-90 mb-4 flex items-center gap-2">
+                <Icon name="material-symbols:straighten-outline-rounded" class="text-[var(--primary)] text-2xl" /> {t.sizes}
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="text-50 text-start"><th class="py-2 px-3 text-start">{t.size}</th><th class="py-2 px-3 text-start">{d.sizeLabel}</th></tr>
+                    </thead>
+                    <tbody>
+                        {d.sizes.map((s) => (
+                            <tr class="border-t border-black/5 dark:border-white/10">
+                                <td class="py-2.5 px-3 font-bold text-[var(--primary)]">{s.size}</td>
+                                <td class="py-2.5 px-3 text-75" dir="ltr" style="text-align: start">{s.range}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    )}
+
+    <!-- Downloads: grouped drop-down lists (e.g. Brochure / Clinical Studies) -->
+    {downloadGroups.size > 0 && (
+        <section class="card-base px-6 md:px-10 py-7" data-reveal>
+            <h2 class="text-lg font-extrabold text-90 mb-4 flex items-center gap-2">
+                <Icon name="material-symbols:download-rounded" class="text-[var(--primary)] text-2xl" /> {t.downloads}
+            </h2>
+            <div class="flex flex-col gap-3">
+                {[...downloadGroups.entries()].map(([name, files], gi) => (
+                    <details class="faq-item" open={downloadGroups.size === 1 || gi === 0}>
+                        <summary>
+                            <span class="flex items-center gap-3">
+                                <Icon name="material-symbols:folder-open-outline-rounded" class="text-xl text-[var(--primary)]" />
+                                <span>{name}</span>
+                                <span class="text-xs font-semibold text-50">({files.length} {t.files})</span>
+                            </span>
+                            <span class="faq-icon"><Icon name="material-symbols:add-rounded" /></span>
+                        </summary>
+                        <ul class="px-3 pb-3 flex flex-col gap-1">
+                            {files.map((f) => (
+                                <li>
+                                    <a href={url(f.file)} target="_blank" rel="noopener" class="group flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[var(--btn-plain-bg-hover)] transition">
+                                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#e5484d]/10 text-[#e5484d]">
+                                            <Icon name="material-symbols:picture-as-pdf-outline-rounded" class="text-xl" />
+                                        </span>
+                                        <span class="flex-1 text-sm font-semibold text-75 group-hover:text-[var(--primary)] transition">{f.label}</span>
+                                        <Icon name="material-symbols:download-rounded" class="text-lg text-30 group-hover:text-[var(--primary)]" />
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </details>
+                ))}
+            </div>
+        </section>
+    )}
+
+    <!-- Product FAQ (Website.md item 9) -->
+    <section class="card-base px-6 md:px-10 py-7" data-reveal>
+        <h2 class="text-lg font-extrabold text-90 mb-4 flex items-center gap-2">
+            <Icon name="material-symbols:help-outline-rounded" class="text-[var(--primary)] text-2xl" /> {t.faq}
+        </h2>
+        {d.faq.length > 0 ? (
+            <div class="flex flex-col gap-2.5">
+                {d.faq.map((f, i) => (
+                    <details class="faq-item" open={i === 0}>
+                        <summary><span>{f.q}</span><span class="faq-icon"><Icon name="material-symbols:add-rounded" /></span></summary>
+                        <div class="faq-answer text-75">{f.a}</div>
+                    </details>
+                ))}
+            </div>
+        ) : (
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl p-5 bg-[var(--btn-regular-bg)]">
+                <p class="text-75">{t.faqEmpty}</p>
+                <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}&text=${inquiryText}`} target="_blank" rel="noopener noreferrer" class="btn-whatsapp shrink-0">
+                    <Icon name="fa6-brands:whatsapp" class="text-lg" /> {t.askWhatsapp}
+                </a>
+            </div>
+        )}
+    </section>
+
+    <div data-reveal>
+        <AddToCartButton client:load id={productKey} title={d.title} price={d.price} url={productUrl} locale={locale} />
+    </div>
+
+    {related.length > 0 && (
+        <section class="mt-2" data-reveal>
+            <div class="flex items-end justify-between mb-4 px-1">
+                <h2 class="section-title">{t.related}</h2>
+                <a href={groupHref} class="text-sm font-bold text-[var(--primary)] hover:underline">{t.viewAll}</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {related.map((p) => (
+                    <ProductCard
+                        entry={p}
+                        title={p.data.title}
+                        url={getProductUrlBySlug(getEntryTranslationKey(p), locale)}
+                        image={p.data.image}
+                        description={p.data.description}
+                        price={p.data.price}
+                        draft={p.data.draft}
+                        lang={locale}
+                        style=""
+                    />
+                ))}
+            </div>
+        </section>
+    )}
+</div>
+
+<RatingSection client:only="react" postSlug={entry.slug} postType="product" />
+<CommentsSection client:only="react" postSlug={entry.slug} postType="product" />

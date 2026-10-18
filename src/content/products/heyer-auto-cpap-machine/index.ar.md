@@ -9,6 +9,11 @@ tags: ["Auto CPAP", "انقطاع التنفس أثناء النوم", "APAP", "
 lang: ar
 translationKey: heyer-auto-cpap-machine
 draft: false
+group: "sleep"
+order: 10
+gallery: ["/uploads/products/heyer-auto-cpap-machine-2.jpeg","/uploads/products/heyer-auto-cpap-machine-3.jpeg","/uploads/products/heyer-auto-cpap-machine-4.jpeg"]
+downloads: [{"group":"التنزيلات","label":"بروشور PDF","file":"/uploads/products/heyer-auto-cpap-machine-brochure.pdf"}]
+videos: [{"title":"Heyer Auto CPAP 20A Pro","youtube":"DiCDhkv9MTA"}]
 ---
 
 صُمّم جهاز Heyer 20A Pro للمرضى الذين يحتاجون إلى دعم هوائي ثابت ومريح في المنزل. يجمع بين الاستجابة التلقائية للضغط، ووظيفة الرامب، والترطيب لتحسين الالتزام بالعلاج وتقليل الانزعاج.
@@ -22,14 +27,3 @@ draft: false
 - المرضى الموصوف لهم علاج CPAP أو APAP لانقطاع التنفس الانسدادي أثناء النوم.
 - المستخدمون الذين يريدون إعداداً أكثر راحة مع الرامب وتخفيف ضغط الزفير.
 - العلاج المنزلي الذي يحتاج إلى استخدام يومي موثوق.
-
-## التنزيلات
-- [بروشور PDF](/uploads/products/heyer-auto-cpap-machine-brochure.pdf)
-
-## معرض الصور
-
-![جهاز Heyer Auto CPAP موديل 20A Pro 2](/uploads/products/heyer-auto-cpap-machine-2.jpeg)
-
-![جهاز Heyer Auto CPAP موديل 20A Pro 3](/uploads/products/heyer-auto-cpap-machine-3.jpeg)
-
-![جهاز Heyer Auto CPAP موديل 20A Pro 4](/uploads/products/heyer-auto-cpap-machine-4.jpeg)

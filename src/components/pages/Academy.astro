@@ -1,0 +1,151 @@
+---
+import { Icon } from "astro-icon/components";
+import PageHero from "@components/pages/PageHero.astro";
+import { type SiteLocale, localizePath } from "@utils/locale-utils";
+import { url } from "@utils/url-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+const cpap = (anchor: string) => url(localizePath(`/understanding-cpap-therapy/#${anchor}`, locale));
+
+const c = {
+	en: {
+		eyebrow: "CPAP and BiPAP Academy",
+		title: "Sleep Therapy Academy",
+		lead: "Education, Guidance & Patient Support",
+		intro:
+			"At Tadawi Life Tech, we believe that education and awareness play an important role in helping individuals better understand sleep-related breathing disorders and the available therapy options. Sleep Therapy Academy was created to provide educational resources, practical guidance, and useful information for individuals who would like to learn more about sleep apnea and commonly used therapy solutions.",
+		learn: "What You Will Learn",
+		apneaTitle: "Understanding Sleep Apnea",
+		apnea: "Learn about sleep apnea, its common symptoms, risk factors, and its impact on overall health and quality of life.",
+		apneaCta: "Take the Sleep Assessment",
+		topics: [
+			["cpap", "material-symbols:air-rounded", "Understanding CPAP Therapy", "How CPAP therapy works and how it helps maintain an open airway during sleep."],
+			["bipap", "material-symbols:pulmonology-outline-rounded", "Understanding BiPAP Therapy", "How BiPAP differs from CPAP and its commonly prescribed applications."],
+			["mad", "material-symbols:dentistry-outline", "Oral Appliance Therapy (MAD)", "Mandibular Advancement Devices for snoring and certain cases of OSA."],
+			["equipment", "material-symbols:devices-other-outline-rounded", "Choosing the Right Equipment", "Sleep therapy devices, masks, and accessories used in sleep apnea management."],
+			["getting-started", "material-symbols:rocket-launch-outline-rounded", "Getting Started with Therapy", "Practical tips for improving comfort and adapting to therapy."],
+			["mask-selection", "material-symbols:masks-outline-rounded", "Mask Selection Guide", "Different mask types and what to consider when selecting one."],
+			["cleaning", "material-symbols:cleaning-services-outline-rounded", "Cleaning & Maintenance", "Proper cleaning, maintenance, and care of your equipment."],
+			["faq-tips", "material-symbols:tips-and-updates-outline-rounded", "Common Questions & Practical Tips", "Answers to frequently asked questions about everyday use."],
+			["sleep-study-reports", "material-symbols:monitor-heart-outline-rounded", "Understanding Sleep Study Reports", "AHI, ODI, SpO₂ and other common terms explained."],
+			["resources", "material-symbols:library-books-outline-rounded", "Educational Resources", "Articles, guides, videos, and informational materials."],
+		],
+		commitmentTitle: "Our Commitment",
+		commitment: "Our goal is to provide reliable educational information and practical resources that help individuals better understand sleep health and become more familiar with available therapy options.",
+		noticeTitle: "Important Notice",
+		notice: "The information provided through Sleep Therapy Academy is intended for educational purposes only and does not replace professional medical advice, diagnosis, or treatment. Individuals should consult their physician or qualified healthcare professional regarding any medical concerns, diagnosis, or treatment decisions.",
+		videos: "Watch training videos",
+	},
+	ar: {
+		eyebrow: "أكاديمية CPAP و BiPAP",
+		title: "أكاديمية علاج النوم",
+		lead: "التثقيف والإرشاد ودعم المرضى",
+		intro:
+			"في تداوي لايف تك نؤمن بأن التثقيف والتوعية يلعبان دوراً مهماً في مساعدة الأفراد على فهم اضطرابات التنفس المرتبطة بالنوم وخيارات العلاج المتاحة بشكل أفضل. أُنشئت أكاديمية علاج النوم لتقديم مصادر تعليمية وإرشادات عملية ومعلومات مفيدة لمن يرغب في معرفة المزيد عن انقطاع النفس أثناء النوم وحلول العلاج الشائعة.",
+		learn: "ماذا ستتعلم",
+		apneaTitle: "فهم انقطاع النفس أثناء النوم",
+		apnea: "تعرّف على انقطاع النفس أثناء النوم وأعراضه الشائعة وعوامل الخطر وتأثيره على الصحة العامة وجودة الحياة.",
+		apneaCta: "ابدأ تقييم النوم",
+		topics: [
+			["cpap", "material-symbols:air-rounded", "فهم علاج CPAP", "كيف يعمل علاج CPAP وكيف يساعد على إبقاء مجرى الهواء مفتوحاً أثناء النوم."],
+			["bipap", "material-symbols:pulmonology-outline-rounded", "فهم علاج BiPAP", "الفرق بين BiPAP و CPAP واستخداماته الشائعة."],
+			["mad", "material-symbols:dentistry-outline", "العلاج بأجهزة الفم (MAD)", "أجهزة تقديم الفك السفلي للشخير وبعض حالات انقطاع النفس الانسدادي."],
+			["equipment", "material-symbols:devices-other-outline-rounded", "اختيار المعدات المناسبة", "أجهزة علاج النوم والأقنعة والملحقات المستخدمة."],
+			["getting-started", "material-symbols:rocket-launch-outline-rounded", "البدء بالعلاج", "نصائح عملية لتحسين الراحة والتكيّف مع العلاج."],
+			["mask-selection", "material-symbols:masks-outline-rounded", "دليل اختيار القناع", "أنواع الأقنعة المختلفة وما يجب مراعاته عند الاختيار."],
+			["cleaning", "material-symbols:cleaning-services-outline-rounded", "التنظيف والصيانة", "التنظيف والصيانة والعناية الصحيحة بمعداتك."],
+			["faq-tips", "material-symbols:tips-and-updates-outline-rounded", "أسئلة شائعة ونصائح عملية", "إجابات عن الأسئلة المتكررة حول الاستخدام اليومي."],
+			["sleep-study-reports", "material-symbols:monitor-heart-outline-rounded", "فهم تقارير دراسة النوم", "شرح AHI و ODI و SpO₂ ومصطلحات أخرى."],
+			["resources", "material-symbols:library-books-outline-rounded", "مصادر تعليمية", "مقالات وأدلة وفيديوهات ومواد توعوية."],
+		],
+		commitmentTitle: "التزامنا",
+		commitment: "هدفنا تقديم معلومات تعليمية موثوقة ومصادر عملية تساعد الأفراد على فهم صحة النوم بشكل أفضل والتعرّف على خيارات العلاج المتاحة.",
+		noticeTitle: "تنبيه مهم",
+		notice: "المعلومات المقدمة من خلال أكاديمية علاج النوم مخصصة لأغراض تثقيفية فقط ولا تغني عن الاستشارة الطبية المتخصصة أو التشخيص أو العلاج. يجب على الأفراد استشارة طبيبهم أو مختص رعاية صحية مؤهل بشأن أي مخاوف طبية أو قرارات تشخيص أو علاج.",
+		videos: "شاهد الفيديوهات التدريبية",
+	},
+	fa: {
+		eyebrow: "آکادمی CPAP و BiPAP",
+		title: "آکادمی درمان خواب",
+		lead: "آموزش، راهنمایی و پشتیبانی بیماران",
+		intro:
+			"در تداوی لایف تک باور داریم که آموزش و آگاهی نقش مهمی در کمک به افراد برای درک بهتر اختلالات تنفسی مرتبط با خواب و گزینه‌های درمانی موجود دارد. آکادمی درمان خواب با هدف ارائه منابع آموزشی، راهنمایی‌های کاربردی و اطلاعات مفید برای افرادی ایجاد شده است که می‌خواهند درباره آپنه خواب و راهکارهای درمانی رایج بیشتر بدانند.",
+		learn: "آنچه یاد خواهید گرفت",
+		apneaTitle: "آشنایی با آپنه خواب",
+		apnea: "با آپنه خواب، علائم رایج، عوامل خطر و تأثیر آن بر سلامت عمومی و کیفیت زندگی آشنا شوید.",
+		apneaCta: "شروع ارزیابی خواب",
+		topics: [
+			["cpap", "material-symbols:air-rounded", "آشنایی با درمان CPAP", "درمان CPAP چگونه کار می‌کند و چطور راه هوایی را در خواب باز نگه می‌دارد."],
+			["bipap", "material-symbols:pulmonology-outline-rounded", "آشنایی با درمان BiPAP", "تفاوت BiPAP با CPAP و کاربردهای رایج آن."],
+			["mad", "material-symbols:dentistry-outline", "درمان با ابزار دهانی (MAD)", "دستگاه‌های جلوآورنده فک برای خروپف و برخی موارد آپنه انسدادی."],
+			["equipment", "material-symbols:devices-other-outline-rounded", "انتخاب تجهیزات مناسب", "دستگاه‌ها، ماسک‌ها و لوازم جانبی درمان خواب."],
+			["getting-started", "material-symbols:rocket-launch-outline-rounded", "شروع درمان", "نکات کاربردی برای راحتی بیشتر و سازگاری با درمان."],
+			["mask-selection", "material-symbols:masks-outline-rounded", "راهنمای انتخاب ماسک", "انواع ماسک و نکات مهم در انتخاب آن."],
+			["cleaning", "material-symbols:cleaning-services-outline-rounded", "تمیزکاری و نگهداری", "تمیز کردن، نگهداری و مراقبت صحیح از تجهیزات."],
+			["faq-tips", "material-symbols:tips-and-updates-outline-rounded", "سؤالات رایج و نکات کاربردی", "پاسخ به سؤالات متداول درباره استفاده روزمره."],
+			["sleep-study-reports", "material-symbols:monitor-heart-outline-rounded", "آشنایی با گزارش تست خواب", "توضیح AHI، ODI، SpO₂ و اصطلاحات رایج."],
+			["resources", "material-symbols:library-books-outline-rounded", "منابع آموزشی", "مقالات، راهنماها، ویدیوها و مطالب اطلاع‌رسانی."],
+		],
+		commitmentTitle: "تعهد ما",
+		commitment: "هدف ما ارائه اطلاعات آموزشی معتبر و منابع کاربردی است که به افراد کمک می‌کند سلامت خواب را بهتر درک کنند و با گزینه‌های درمانی موجود آشنا شوند.",
+		noticeTitle: "اطلاعیه مهم",
+		notice: "اطلاعات ارائه‌شده در آکادمی درمان خواب صرفاً جنبه آموزشی دارد و جایگزین مشاوره، تشخیص یا درمان پزشکی تخصصی نیست. افراد باید درباره هرگونه نگرانی پزشکی، تشخیص یا تصمیم درمانی با پزشک یا متخصص مراقبت‌های بهداشتی واجد شرایط مشورت کنند.",
+		videos: "مشاهده ویدیوهای آموزشی",
+	},
+}[locale];
+---
+<PageHero icon="material-symbols:school-outline-rounded" eyebrow={c.eyebrow} title={c.title} lead={c.lead} />
+
+<section class="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-5 mb-10">
+    <div class="card-base reading-surface p-7 md:p-10" data-reveal>
+        <p class="text-lg md:text-xl leading-loose text-90">{c.intro}</p>
+    </div>
+    <a href={url(localizePath("/sleep-assessment/", locale))} class="apnea-card group relative overflow-hidden rounded-[var(--radius-large)] p-7 md:p-8 text-white flex flex-col gap-4" data-reveal data-reveal-delay="120">
+        <span class="apnea-wave" aria-hidden="true">
+            <svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 30 Q 25 5 50 30 T 100 30 T 150 30 T 200 30 T 250 30 T 300 30" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+        </span>
+        <span class="grid place-items-center w-14 h-14 rounded-2xl bg-white/15"><Icon name="material-symbols:bedtime-outline-rounded" class="text-3xl" /></span>
+        <span class="text-2xl font-extrabold">{c.apneaTitle}</span>
+        <span class="opacity-85 leading-relaxed flex-1">{c.apnea}</span>
+        <span class="inline-flex items-center gap-2 font-bold transition group-hover:gap-3">{c.apneaCta} <Icon name="material-symbols:arrow-forward-rounded" class="rtl:rotate-180" /></span>
+    </a>
+</section>
+
+<section class="mb-10">
+    <h2 class="section-title mb-5 px-1" data-reveal>{c.learn}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {c.topics.map(([anchor, icon, title, text], i) => (
+            <a href={anchor === "resources" ? url(localizePath("/training-resources/", locale)) : cpap(anchor)} class="card-base lift-card group flex gap-4 p-5" data-reveal data-reveal-delay={String((i % 3) * 80)}>
+                <span class="icon-badge transition group-hover:bg-[var(--primary)] group-hover:text-white"><Icon name={icon} class="text-2xl" /></span>
+                <span class="flex flex-col gap-1">
+                    <span class="font-extrabold text-90 group-hover:text-[var(--primary)] transition">{title}</span>
+                    <span class="text-sm text-50 leading-relaxed">{text}</span>
+                </span>
+            </a>
+        ))}
+    </div>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+    <div class="card-base reading-surface p-7 md:p-9" data-reveal>
+        <h2 class="flex items-center gap-3 text-xl font-extrabold text-90 mb-3"><Icon name="material-symbols:volunteer-activism-outline-rounded" class="text-3xl text-[var(--primary)]" />{c.commitmentTitle}</h2>
+        <p class="text-75 leading-loose">{c.commitment}</p>
+        <a href={url(localizePath("/training-resources/", locale))} class="btn-soft mt-5">{c.videos} <Icon name="material-symbols:arrow-forward-rounded" class="rtl:rotate-180" /></a>
+    </div>
+    <div class="notice-card rounded-[var(--radius-large)] p-7 md:p-9" data-reveal data-reveal-delay="120">
+        <h2 class="flex items-center gap-3 text-xl font-extrabold mb-3"><Icon name="material-symbols:info-outline-rounded" class="text-3xl" />{c.noticeTitle}</h2>
+        <p class="leading-loose">{c.notice}</p>
+    </div>
+</section>
+
+<style>
+    .apnea-card { background: linear-gradient(150deg, oklch(0.36 0.14 270), oklch(0.5 0.15 245)); box-shadow: 0 18px 44px oklch(0.4 0.15 265 / 0.3); }
+    .apnea-wave { position: absolute; inset-inline: 0; bottom: 1.2rem; height: 3.5rem; opacity: 0.18; color: white; }
+    .apnea-wave svg { width: 200%; height: 100%; animation: wave-slide 6s linear infinite; }
+    @keyframes wave-slide { to { transform: translateX(-50%); } }
+    .notice-card { background: oklch(0.96 0.04 85); color: oklch(0.38 0.08 70); border: 1px solid oklch(0.88 0.08 85); }
+    :global(.dark) .notice-card { background: oklch(0.27 0.04 80); color: oklch(0.88 0.08 85); border-color: oklch(0.38 0.06 80); }
+</style>

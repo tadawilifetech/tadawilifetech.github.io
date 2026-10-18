@@ -1,0 +1,400 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+import OurBrandCarousel from "@components/OurBrandCarousel";
+import ProductCard from "@components/ProductCard.astro";
+import HeroContent from "@components/home/HeroContent.astro";
+import { ORTHOPEDIC_FAQ, ORTHO_FAMILIES, PRODUCT_GROUPS } from "@constants/product-groups";
+import { type SiteLocale, getEntryTranslationKey, localizePath } from "@utils/locale-utils";
+import { getProductUrlBySlug, url } from "@utils/url-utils";
+
+interface Props {
+	locale: SiteLocale;
+	products: CollectionEntry<"products">[];
+}
+
+const { locale, products } = Astro.props;
+const byOrder = (a: CollectionEntry<"products">, b: CollectionEntry<"products">) => a.data.order - b.data.order;
+const sleep = products.filter((p) => p.data.group === "sleep").sort(byOrder);
+const ortho = products.filter((p) => p.data.group === "orthopedic").sort(byOrder);
+const sleepCategories = [...new Set(sleep.map((p) => (p.data.category ?? "").trim()).filter(Boolean))];
+const href = (p: string) => url(localizePath(p, locale));
+
+const t = {
+	en: {
+		quick: [
+			{ icon: "material-symbols:bedtime-outline-rounded", title: "Sleep Assessment", text: "6 short steps · instant risk result", href: "/sleep-assessment/" },
+			{ icon: "material-symbols:auto-awesome-rounded", title: "Ask our AI", text: "Instant answers, no searching", action: "assistant" },
+			{ icon: "material-symbols:app-registration-rounded", title: "Register your device", text: "Records & ongoing support", href: "/device-registration/" },
+			{ icon: "material-symbols:stethoscope-rounded", title: "For physicians", text: "Online referral form", href: "/healthcare-professionals/" },
+		],
+		productsEyebrow: "Our Products",
+		productsTitle: "Solutions for better sleep and better movement",
+		productsLead: "Choose a category to explore products with prices and full details.",
+		all: "All",
+		items: "products",
+		catalogTitle: "Ortino Orthopedic Catalog",
+		catalogText: "Every brace in one printable catalog with sizes and prices in OMR.",
+		catalogCta: "Open catalog",
+		faqTitle: "Orthopedic Braces – FAQ",
+		journeyEyebrow: "Your journey",
+		journeyTitle: "From first question to restful nights",
+		journey: [
+			{ icon: "material-symbols:quiz-outline-rounded", title: "Assess", text: "Check your risk with our online sleep assessment.", href: "/sleep-assessment/" },
+			{ icon: "material-symbols:monitor-heart-outline-rounded", title: "Test at home", text: "A comfortable home sleep study, reviewed by specialists.", href: "/products/at-home-sleep-study/" },
+			{ icon: "material-symbols:air-rounded", title: "Start therapy", text: "CPAP, BiPAP, oral appliances or positional therapy.", href: "/understanding-cpap-therapy/" },
+			{ icon: "material-symbols:support-agent-rounded", title: "Ongoing support", text: "Training videos, device registration and follow-up.", href: "/training-resources/" },
+		],
+		academyEyebrow: "Sleep Therapy Academy",
+		academyTitle: "Learn with confidence",
+		academy: [
+			{ icon: "material-symbols:school-outline-rounded", title: "Sleep Therapy Academy", text: "Education, guidance & patient support for CPAP and BiPAP users.", href: "/sleep-therapy-academy/" },
+			{ icon: "material-symbols:description-outline-rounded", title: "Read your sleep study", text: "AHI, ODI, SpO₂ and other report terms explained simply.", href: "/understanding-cpap-therapy/#sleep-study-reports" },
+			{ icon: "material-symbols:smart-display-outline-rounded", title: "Training videos", text: "Install and clean your Aeonmed or Heyer device step by step.", href: "/training-resources/" },
+		],
+		learnMore: "Learn more",
+		brands: "Trusted brands",
+	},
+	ar: {
+		quick: [
+			{ icon: "material-symbols:bedtime-outline-rounded", title: "تقييم النوم", text: "6 خطوات قصيرة · نتيجة فورية", href: "/sleep-assessment/" },
+			{ icon: "material-symbols:auto-awesome-rounded", title: "اسأل الذكاء الاصطناعي", text: "إجابات فورية دون بحث", action: "assistant" },
+			{ icon: "material-symbols:app-registration-rounded", title: "سجّل جهازك", text: "سجلات ودعم مستمر", href: "/device-registration/" },
+			{ icon: "material-symbols:stethoscope-rounded", title: "للأطباء", text: "نموذج إحالة إلكتروني", href: "/healthcare-professionals/" },
+		],
+		productsEyebrow: "منتجاتنا",
+		productsTitle: "حلول لنوم أفضل وحركة أفضل",
+		productsLead: "اختر فئة لاستعراض المنتجات بالأسعار والتفاصيل الكاملة.",
+		all: "الكل",
+		items: "منتجات",
+		catalogTitle: "كتالوج Ortino لدعامات العظام",
+		catalogText: "جميع الدعامات في كتالوج واحد قابل للطباعة مع المقاسات والأسعار بالريال العماني.",
+		catalogCta: "افتح الكتالوج",
+		faqTitle: "دعامات العظام – الأسئلة الشائعة",
+		journeyEyebrow: "رحلتك",
+		journeyTitle: "من السؤال الأول إلى ليالٍ هادئة",
+		journey: [
+			{ icon: "material-symbols:quiz-outline-rounded", title: "التقييم", text: "تحقق من مستوى الخطر عبر تقييم النوم الإلكتروني.", href: "/sleep-assessment/" },
+			{ icon: "material-symbols:monitor-heart-outline-rounded", title: "الفحص في المنزل", text: "دراسة نوم منزلية مريحة يراجعها مختصون.", href: "/products/at-home-sleep-study/" },
+			{ icon: "material-symbols:air-rounded", title: "بدء العلاج", text: "CPAP أو BiPAP أو أجهزة الفم أو العلاج الوضعي.", href: "/understanding-cpap-therapy/" },
+			{ icon: "material-symbols:support-agent-rounded", title: "دعم مستمر", text: "فيديوهات تدريبية وتسجيل الأجهزة والمتابعة.", href: "/training-resources/" },
+		],
+		academyEyebrow: "أكاديمية علاج النوم",
+		academyTitle: "تعلّم بثقة",
+		academy: [
+			{ icon: "material-symbols:school-outline-rounded", title: "أكاديمية علاج النوم", text: "تثقيف وإرشاد ودعم لمستخدمي CPAP و BiPAP.", href: "/sleep-therapy-academy/" },
+			{ icon: "material-symbols:description-outline-rounded", title: "افهم تقرير دراسة النوم", text: "شرح مبسّط لمؤشرات AHI و ODI و SpO₂.", href: "/understanding-cpap-therapy/#sleep-study-reports" },
+			{ icon: "material-symbols:smart-display-outline-rounded", title: "فيديوهات تدريبية", text: "تركيب وتنظيف جهاز Aeonmed أو Heyer خطوة بخطوة.", href: "/training-resources/" },
+		],
+		learnMore: "اعرف المزيد",
+		brands: "علامات تجارية موثوقة",
+	},
+	fa: {
+		quick: [
+			{ icon: "material-symbols:bedtime-outline-rounded", title: "ارزیابی خواب", text: "۶ مرحله کوتاه · نتیجه فوری", href: "/sleep-assessment/" },
+			{ icon: "material-symbols:auto-awesome-rounded", title: "از هوش مصنوعی بپرسید", text: "پاسخ فوری بدون جستجو", action: "assistant" },
+			{ icon: "material-symbols:app-registration-rounded", title: "ثبت دستگاه", text: "ثبت سوابق و پشتیبانی مستمر", href: "/device-registration/" },
+			{ icon: "material-symbols:stethoscope-rounded", title: "ویژه پزشکان", text: "فرم ارجاع آنلاین", href: "/healthcare-professionals/" },
+		],
+		productsEyebrow: "محصولات ما",
+		productsTitle: "راهکارهایی برای خواب بهتر و حرکت بهتر",
+		productsLead: "یک دسته را انتخاب کنید تا محصولات را با قیمت و جزئیات کامل ببینید.",
+		all: "همه",
+		items: "محصول",
+		catalogTitle: "کاتالوگ بریس‌های ارتوپدی اورتینو",
+		catalogText: "همه بریس‌ها در یک کاتالوگ قابل چاپ با سایز و قیمت به ریال عمان.",
+		catalogCta: "مشاهده کاتالوگ",
+		faqTitle: "بریس‌های ارتوپدی – سوالات متداول",
+		journeyEyebrow: "مسیر شما",
+		journeyTitle: "از اولین سؤال تا شب‌های آرام",
+		journey: [
+			{ icon: "material-symbols:quiz-outline-rounded", title: "ارزیابی", text: "ریسک خود را با ارزیابی آنلاین خواب بسنجید.", href: "/sleep-assessment/" },
+			{ icon: "material-symbols:monitor-heart-outline-rounded", title: "تست در منزل", text: "تست خواب راحت در منزل با بررسی متخصصان.", href: "/products/at-home-sleep-study/" },
+			{ icon: "material-symbols:air-rounded", title: "شروع درمان", text: "CPAP، BiPAP، ابزار دهانی یا درمان وضعیتی.", href: "/understanding-cpap-therapy/" },
+			{ icon: "material-symbols:support-agent-rounded", title: "پشتیبانی مستمر", text: "ویدیوهای آموزشی، ثبت دستگاه و پیگیری.", href: "/training-resources/" },
+		],
+		academyEyebrow: "آکادمی درمان خواب",
+		academyTitle: "با اطمینان یاد بگیرید",
+		academy: [
+			{ icon: "material-symbols:school-outline-rounded", title: "آکادمی درمان خواب", text: "آموزش، راهنمایی و پشتیبانی برای کاربران CPAP و BiPAP.", href: "/sleep-therapy-academy/" },
+			{ icon: "material-symbols:description-outline-rounded", title: "گزارش تست خواب", text: "توضیح ساده شاخص‌های AHI، ODI و SpO₂.", href: "/understanding-cpap-therapy/#sleep-study-reports" },
+			{ icon: "material-symbols:smart-display-outline-rounded", title: "ویدیوهای آموزشی", text: "نصب و تمیز کردن دستگاه Aeonmed یا Heyer گام‌به‌گام.", href: "/training-resources/" },
+		],
+		learnMore: "بیشتر بدانید",
+		brands: "برندهای معتبر",
+	},
+}[locale];
+
+const groupImages = {
+	sleep: "/uploads/products/heyer-auto-cpap-machine-1.jpeg",
+	orthopedic: "/uploads/orthopedic/ortino-tlso-brace-1.webp",
+};
+const card = (entry: CollectionEntry<"products">, i: number) => ({
+	entry,
+	url: getProductUrlBySlug(getEntryTranslationKey(entry), locale),
+	delay: Math.min(i, 8) * 50,
+});
+---
+<h1 class="sr-only">Tadawi Life Tech</h1>
+
+<!-- Mobile / tablet hero (desktop hero lives in the 3D banner) -->
+<div class="lg:hidden mb-5">
+    <HeroContent locale={locale} variant="card" />
+</div>
+
+<!-- Quick actions -->
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-10">
+    {t.quick.map((q, i) => {
+        const inner = (
+            <>
+                <span class="icon-badge transition group-hover:scale-110"><Icon name={q.icon} class="text-2xl" /></span>
+                <span class="flex flex-col min-w-0">
+                    <span class="font-extrabold text-90 leading-tight">{q.title}</span>
+                    <span class="text-xs md:text-sm text-50 mt-0.5">{q.text}</span>
+                </span>
+            </>
+        );
+        const cls = "group card-base lift-card flex flex-col md:flex-row md:items-center gap-3 p-4 md:p-5 text-start";
+        return q.action ? (
+            <button type="button" class={cls} data-open-assistant data-reveal data-reveal-delay={String(i * 70)}>{inner}</button>
+        ) : (
+            <a href={href(q.href!)} class={cls} data-reveal data-reveal-delay={String(i * 70)}>{inner}</a>
+        );
+    })}
+</section>
+
+<!-- Products: two families (Website.md item 11) -->
+<section id="products" class="scroll-mt-24 mb-12" data-showcase>
+    <div class="mb-6 px-1" data-reveal>
+        <p class="section-eyebrow">{t.productsEyebrow}</p>
+        <h2 class="section-title mt-2">{t.productsTitle}</h2>
+        <p class="section-lead mt-2">{t.productsLead}</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6" role="tablist">
+        {(["sleep", "orthopedic"] as const).map((g, i) => {
+            const count = g === "sleep" ? sleep.length : ortho.length;
+            return (
+                <button type="button" role="tab" data-group-tab={g} aria-selected={i === 0 ? "true" : "false"}
+                        class="group-tab group relative overflow-hidden rounded-[var(--radius-large)] text-start p-5 md:p-6 min-h-[9.5rem] flex items-center gap-4"
+                        data-reveal="scale" data-reveal-delay={String(i * 90)}>
+                    <span class="group-tab-bg" aria-hidden="true"></span>
+                    <span class="relative z-10 flex-1 min-w-0">
+                        <span class="flex items-center gap-2 text-xs font-bold opacity-80 mb-1.5">
+                            <Icon name={PRODUCT_GROUPS[g].icon} class="text-base" /> {count} {t.items}
+                        </span>
+                        <span class="block text-xl md:text-2xl font-extrabold leading-tight">{PRODUCT_GROUPS[g].label[locale]}</span>
+                        <span class="block text-sm opacity-80 mt-1.5 leading-snug">{PRODUCT_GROUPS[g].tagline[locale]}</span>
+                    </span>
+                    <img src={url(groupImages[g])} alt="" class="group-tab-img relative z-10 w-24 h-24 md:w-32 md:h-32 object-contain shrink-0" loading="lazy" />
+                </button>
+            );
+        })}
+    </div>
+
+    <!-- Sleep apnea panel -->
+    <div data-group-panel="sleep" role="tabpanel">
+        <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-2 mb-4" data-chip-row>
+            <button type="button" class="chip is-active" data-chip="">{t.all}</button>
+            {sleepCategories.map((c) => <button type="button" class="chip" data-chip={c}>{c}</button>)}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {sleep.map((entry, i) => {
+                const c = card(entry, i);
+                return (
+                    <div data-product-item data-category={(entry.data.category ?? "").trim()} class="flex" data-reveal data-reveal-delay={String(c.delay)}>
+                        <ProductCard entry={entry} title={entry.data.title} url={c.url} image={entry.data.image} description={entry.data.description} price={entry.data.price} draft={entry.data.draft} lang={locale} style="" />
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+
+    <!-- Orthopedic panel -->
+    <div data-group-panel="orthopedic" role="tabpanel" hidden>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+            {ORTHO_FAMILIES.map((f, i) => {
+                const n = ortho.filter((p) => p.data.subcategory === f.key).length;
+                return (
+                    <button type="button" class="family-tab card-base p-4 text-start flex flex-col gap-2" data-family-tab={f.key} aria-pressed={i === 0 ? "true" : "false"}>
+                        <span class="icon-badge !w-11 !h-11"><Icon name={f.icon} class="text-2xl" /></span>
+                        <span class="font-extrabold text-90 leading-tight">{f.label[locale]}</span>
+                        <span class="text-xs text-50">{f.desc[locale]} · {n}</span>
+                    </button>
+                );
+            })}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {ortho.map((entry, i) => {
+                const c = card(entry, i);
+                return (
+                    <div data-product-item data-family={entry.data.subcategory} data-category={(entry.data.category ?? "").trim()} class="flex">
+                        <ProductCard entry={entry} title={entry.data.title} url={c.url} image={entry.data.image} description={entry.data.description} price={entry.data.price} draft={entry.data.draft} lang={locale} style="" />
+                    </div>
+                );
+            })}
+        </div>
+
+        <a href={href("/orthopedic-catalog/")} class="catalog-cta group mt-6 flex flex-col sm:flex-row sm:items-center gap-4 rounded-[var(--radius-large)] p-6 md:p-7 text-white overflow-hidden relative">
+            <span class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15">
+                <Icon name="material-symbols:menu-book-outline-rounded" class="text-3xl" />
+            </span>
+            <span class="relative z-10 flex-1">
+                <span class="block text-lg font-extrabold">{t.catalogTitle}</span>
+                <span class="block text-sm opacity-85 mt-1">{t.catalogText}</span>
+            </span>
+            <span class="relative z-10 inline-flex items-center gap-2 h-11 px-5 rounded-full bg-white text-[#3340b8] font-bold text-sm transition group-hover:gap-3">
+                {t.catalogCta}
+                <Icon name="material-symbols:arrow-forward-rounded" class="rtl:rotate-180" />
+            </span>
+        </a>
+
+        <div class="card-base mt-6 p-6 md:p-8">
+            <h3 class="text-lg font-extrabold text-90 mb-4 flex items-center gap-2">
+                <Icon name="material-symbols:help-outline-rounded" class="text-2xl text-[var(--primary)]" /> {t.faqTitle}
+            </h3>
+            <div class="flex flex-col gap-2.5">
+                {(ORTHOPEDIC_FAQ[locale] ?? ORTHOPEDIC_FAQ.en).map((f, i) => (
+                    <details class="faq-item" open={i === 0}>
+                        <summary><span>{f.q}</span><span class="faq-icon"><Icon name="material-symbols:add-rounded" /></span></summary>
+                        <div class="faq-answer text-75">{f.a}</div>
+                    </details>
+                ))}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Patient journey -->
+<section class="mb-12">
+    <div class="mb-6 px-1" data-reveal>
+        <p class="section-eyebrow">{t.journeyEyebrow}</p>
+        <h2 class="section-title mt-2">{t.journeyTitle}</h2>
+    </div>
+    <ol class="journey grid grid-cols-1 md:grid-cols-4 gap-4">
+        {t.journey.map((s, i) => (
+            <li data-reveal data-reveal-delay={String(i * 100)}>
+                <a href={href(s.href)} class="card-base lift-card group relative flex h-full flex-col gap-3 p-5">
+                    <span class="flex items-center justify-between">
+                        <span class="icon-badge"><Icon name={s.icon} class="text-2xl" /></span>
+                        <span class="journey-num">{String(i + 1).padStart(2, "0")}</span>
+                    </span>
+                    <span class="font-extrabold text-90 text-lg">{s.title}</span>
+                    <span class="text-sm text-50 leading-relaxed">{s.text}</span>
+                </a>
+            </li>
+        ))}
+    </ol>
+</section>
+
+<!-- Academy teaser -->
+<section class="mb-12">
+    <div class="mb-6 px-1" data-reveal>
+        <p class="section-eyebrow">{t.academyEyebrow}</p>
+        <h2 class="section-title mt-2">{t.academyTitle}</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {t.academy.map((a, i) => (
+            <a href={href(a.href)} class="academy-card card-base lift-card group relative overflow-hidden flex flex-col gap-3 p-6" data-reveal data-reveal-delay={String(i * 100)}>
+                <span class="icon-badge"><Icon name={a.icon} class="text-2xl" /></span>
+                <span class="font-extrabold text-90 text-lg">{a.title}</span>
+                <span class="text-sm text-50 leading-relaxed flex-1">{a.text}</span>
+                <span class="inline-flex items-center gap-1 text-sm font-bold text-[var(--primary)] transition group-hover:gap-2">
+                    {t.learnMore} <Icon name="material-symbols:arrow-forward-rounded" class="rtl:rotate-180" />
+                </span>
+            </a>
+        ))}
+    </div>
+</section>
+
+<OurBrandCarousel client:visible className="mb-4" />
+
+<style>
+    .group-tab { color: var(--deep-text); background: var(--card-bg); border: 1.5px solid transparent; transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.35s ease, border-color 0.3s ease; }
+    :global(.dark) .group-tab { color: rgb(255 255 255 / 0.9); }
+    .group-tab:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgb(30 40 90 / 0.12); }
+    .group-tab-bg { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease; background: radial-gradient(120% 120% at 100% 0%, oklch(0.62 0.16 230) 0%, oklch(0.45 0.17 268) 55%, oklch(0.3 0.12 272) 100%); }
+    .group-tab[aria-selected="true"] { color: white; box-shadow: 0 18px 40px oklch(0.45 0.17 268 / 0.35); }
+    .group-tab[aria-selected="true"] .group-tab-bg { opacity: 1; }
+    .group-tab-img { filter: drop-shadow(0 10px 18px rgb(0 0 0 / 0.18)); transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); border-radius: 1rem; background: white; padding: 0.4rem; }
+    .group-tab:hover .group-tab-img { transform: rotate(-4deg) scale(1.06); }
+    .family-tab { border: 1.5px solid transparent; transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; }
+    .family-tab:hover { transform: translateY(-2px); }
+    .family-tab[aria-pressed="true"] { border-color: var(--primary); box-shadow: 0 10px 28px oklch(0.55 0.15 268 / 0.18); }
+    [data-product-item] > :global(*) { width: 100%; }
+    [data-product-item][hidden] { display: none !important; }
+    .catalog-cta { background: linear-gradient(120deg, oklch(0.42 0.17 268), oklch(0.55 0.15 235)); box-shadow: 0 16px 40px oklch(0.45 0.17 268 / 0.3); }
+    .catalog-cta::after { content: ""; position: absolute; inset-inline-end: -3rem; top: -3rem; width: 14rem; height: 14rem; border-radius: 999px; background: rgb(255 255 255 / 0.08); }
+    .journey-num { font-size: 2rem; font-weight: 900; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px color-mix(in oklch, var(--primary) 45%, transparent); }
+    .academy-card::after { content: ""; position: absolute; inset-inline-end: -2.5rem; bottom: -2.5rem; width: 8rem; height: 8rem; border-radius: 999px; background: color-mix(in oklch, var(--primary) 8%, transparent); transition: transform 0.5s ease; }
+    .academy-card:hover::after { transform: scale(1.5); }
+</style>
+
+<script>
+function initShowcase() {
+    const root = document.querySelector<HTMLElement>("[data-showcase]");
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = "1";
+
+    const tabs = root.querySelectorAll<HTMLButtonElement>("[data-group-tab]");
+    const panels = root.querySelectorAll<HTMLElement>("[data-group-panel]");
+    const chips = root.querySelectorAll<HTMLButtonElement>("[data-chip]");
+    const familyTabs = root.querySelectorAll<HTMLButtonElement>("[data-family-tab]");
+
+    const reveal = (scope: HTMLElement) => scope.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("is-revealed"));
+
+    const selectGroup = (g: string) => {
+        tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.groupTab === g)));
+        panels.forEach((p) => {
+            p.hidden = p.dataset.groupPanel !== g;
+            if (!p.hidden) reveal(p);
+        });
+    };
+    const filterSleep = (category: string) => {
+        chips.forEach((c) => c.classList.toggle("is-active", c.dataset.chip === category));
+        root.querySelectorAll<HTMLElement>('[data-group-panel="sleep"] [data-product-item]').forEach((item) => {
+            item.hidden = !!category && item.dataset.category?.toLowerCase() !== category.toLowerCase();
+        });
+    };
+    const selectFamily = (family: string) => {
+        familyTabs.forEach((f) => f.setAttribute("aria-pressed", String(f.dataset.familyTab === family)));
+        root.querySelectorAll<HTMLElement>('[data-group-panel="orthopedic"] [data-product-item]').forEach((item) => {
+            item.hidden = item.dataset.family !== family;
+        });
+    };
+
+    tabs.forEach((tab) => tab.addEventListener("click", () => selectGroup(tab.dataset.groupTab!)));
+    chips.forEach((chip) => chip.addEventListener("click", () => filterSleep(chip.dataset.chip ?? "")));
+    familyTabs.forEach((f) => f.addEventListener("click", () => selectFamily(f.dataset.familyTab!)));
+
+    // Deep links: ?group=orthopedic&family=knee  or  ?category=CPAP%20Devices (sidebar widget)
+    const params = new URLSearchParams(window.location.search);
+    selectFamily(params.get("family") || familyTabs[0]?.dataset.familyTab || "");
+    const category = params.get("category");
+    if (category) {
+        const item = root.querySelector<HTMLElement>(`[data-product-item][data-category="${CSS.escape(category)}"]`);
+        const inOrtho = item?.closest<HTMLElement>('[data-group-panel="orthopedic"]');
+        if (inOrtho) {
+            selectGroup("orthopedic");
+            if (item?.dataset.family) selectFamily(item.dataset.family);
+        } else {
+            selectGroup("sleep");
+            filterSleep(category);
+        }
+    } else {
+        selectGroup(params.get("group") === "orthopedic" ? "orthopedic" : "sleep");
+    }
+    if (params.has("group") || params.has("category")) {
+        requestAnimationFrame(() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" }));
+    }
+
+    document.querySelectorAll("[data-open-assistant]").forEach((btn) =>
+        btn.addEventListener("click", () => window.dispatchEvent(new CustomEvent("assistant:open"))),
+    );
+}
+
+initShowcase();
+const bind = () => window.swup?.hooks.on("page:view", initShowcase);
+if (window.swup?.hooks) bind();
+else document.addEventListener("swup:enable", bind, { once: true });
+</script>

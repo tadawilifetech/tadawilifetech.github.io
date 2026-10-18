@@ -1,0 +1,307 @@
+---
+import { Icon } from "astro-icon/components";
+import PageHero from "@components/pages/PageHero.astro";
+import { type SiteLocale, localizePath } from "@utils/locale-utils";
+import { url } from "@utils/url-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+
+type Topic = [id: string, icon: string, title: string, text: string];
+const c = {
+	en: {
+		title: "Understanding CPAP Therapy",
+		lead: "Learn how CPAP therapy works and how it helps maintain an open airway during sleep.",
+		toc: "On this page",
+		topics: [
+			["cpap", "material-symbols:air-rounded", "Understanding CPAP Therapy", "Learn how CPAP therapy works and how it helps maintain an open airway during sleep."],
+			["bipap", "material-symbols:pulmonology-outline-rounded", "Understanding BiPAP Therapy", "Learn about BiPAP therapy, how it differs from CPAP, and its commonly prescribed applications for patients requiring additional respiratory support."],
+			["mad", "material-symbols:dentistry-outline", "Understanding Oral Appliance Therapy (MAD)", "Learn about Mandibular Advancement Devices (MAD) and their role in the management of snoring and certain cases of obstructive sleep apnea."],
+			["equipment", "material-symbols:devices-other-outline-rounded", "Choosing the Right Sleep Therapy Equipment", "Explore information about sleep therapy devices, masks, and accessories commonly used in sleep apnea management."],
+			["getting-started", "material-symbols:rocket-launch-outline-rounded", "Getting Started with Therapy", "Practical guidance for individuals beginning sleep therapy, including helpful tips for improving comfort and adapting to therapy."],
+			["mask-selection", "material-symbols:masks-outline-rounded", "Mask Selection Guide", "Learn about different mask types and important considerations when selecting a suitable mask."],
+			["cleaning", "material-symbols:cleaning-services-outline-rounded", "Cleaning & Maintenance", "Guidance on proper cleaning, maintenance, and care of sleep therapy equipment."],
+			["faq-tips", "material-symbols:tips-and-updates-outline-rounded", "Common Questions & Practical Tips", "Find answers to frequently asked questions and practical tips related to sleep therapy equipment and everyday use."],
+			["resources", "material-symbols:library-books-outline-rounded", "Educational Resources", "Access educational articles, guides, videos, and informational materials related to sleep health and sleep therapy."],
+		] as Topic[],
+		links: { cpap: "Explore CPAP devices", masks: "See CPAP masks & videos", mad: "Oral appliances", videos: "Training videos", blog: "Articles & guides" },
+		reportsTitle: "Understanding Sleep Study Reports",
+		reportsSub: "Understanding Common Sleep Study Terms and Parameters",
+		reportsIntro: [
+			"Sleep studies provide valuable information about breathing patterns, oxygen levels, and other physiological parameters during sleep. Understanding some of the commonly used terms can help individuals become more familiar with the information that may appear in a sleep study report.",
+			"The information provided below is intended for educational purposes and explains commonly used sleep study parameters and terminology.",
+		],
+		ahiTitle: "Apnea-Hypopnea Index (AHI)",
+		ahi: [
+			"The Apnea-Hypopnea Index (AHI) is one of the most commonly used parameters in sleep studies. It represents the frequency of breathing interruptions and reductions that occur during sleep.",
+			"AHI is widely used in sleep medicine and is commonly referenced when classifying the severity of sleep-disordered breathing.",
+		],
+		ahiTable: "Commonly Used AHI Classification",
+		ahiRows: [["Less than 5", "Normal"], ["5 to 14.9", "Mild"], ["15 to 29.9", "Moderate"], ["30 or higher", "Severe"]],
+		ahiHead: ["AHI", "Classification"],
+		terms: [
+			["material-symbols:water-drop-outline-rounded", "Oxygen Desaturation Index (ODI)", "The Oxygen Desaturation Index (ODI) reflects the number of times oxygen levels decrease during sleep. ODI is commonly reviewed alongside other sleep study parameters to better understand oxygen-related changes that may occur during the night."],
+			["material-symbols:spo2-outline-rounded", "Oxygen Saturation (SpO₂)", "Oxygen saturation (SpO₂) represents the percentage of oxygen carried in the blood and is routinely monitored during sleep studies. Monitoring oxygen saturation during sleep provides information about oxygen levels throughout the recording period."],
+			["material-symbols:trending-down-rounded", "Lowest Oxygen Saturation", "Many sleep study reports include the lowest recorded oxygen saturation observed during the study. This parameter reflects the lowest oxygen level measured during the monitoring period."],
+			["material-symbols:pause-circle-outline-rounded", "Apnea", "Apnea refers to a temporary pause in breathing during sleep. Sleep studies may record the number and type of apnea events that occur throughout the night."],
+			["material-symbols:compress-rounded", "Hypopnea", "Hypopnea refers to a partial reduction in airflow during sleep. Sleep studies commonly record hypopnea events in addition to apnea events when evaluating breathing patterns."],
+			["material-symbols:do-not-disturb-on-outline-rounded", "Obstructive Sleep Apnea (OSA)", "Obstructive Sleep Apnea (OSA) is the most common type of sleep apnea and occurs when the upper airway becomes narrowed or blocked during sleep. OSA is one of the most frequently evaluated conditions in sleep medicine."],
+			["material-symbols:neurology-outline-rounded", "Central Sleep Apnea (CSA)", "Central Sleep Apnea (CSA) occurs when breathing disturbances are related to reduced respiratory drive from the central nervous system. CSA differs from OSA in its underlying mechanism."],
+			["material-symbols:graphic-eq-rounded", "Snoring", "Many sleep studies record snoring-related information. Snoring may occur independently or alongside other sleep-related breathing disorders."],
+			["material-symbols:hotel-outline-rounded", "Body Position During Sleep", "Some sleep studies evaluate body position throughout the night. Sleeping position may influence breathing patterns in certain individuals."],
+			["material-symbols:cardiology-outline-rounded", "Heart Rate During Sleep", "Heart rate monitoring is commonly included in sleep studies and provides information regarding heart rate patterns during sleep."],
+		],
+		resultsTitle: "Understanding Sleep Study Results",
+		results: [
+			"Sleep studies may contain multiple parameters and measurements that are reviewed collectively by qualified healthcare professionals as part of the overall evaluation process.",
+			"Each sleep study is unique, and the significance of individual findings should always be considered within the context of the complete clinical assessment.",
+		],
+		refsTitle: "Scientific References",
+		refs: ["American Academy of Sleep Medicine (AASM)", "American Thoracic Society (ATS)", "Harvard Medical School Sleep Medicine Program"],
+		noticeTitle: "Important Notice",
+		notice: "The information provided on this page is intended for educational purposes only and is designed to help readers understand common sleep study terminology and parameters. It should not be considered a medical diagnosis, medical interpretation, or treatment recommendation. Individuals should consult their physician or qualified healthcare professional regarding any medical concerns or decisions related to their health.",
+	},
+	ar: {
+		title: "فهم علاج CPAP",
+		lead: "تعرّف على كيفية عمل علاج CPAP وكيف يساعد على إبقاء مجرى الهواء مفتوحاً أثناء النوم.",
+		toc: "في هذه الصفحة",
+		topics: [
+			["cpap", "material-symbols:air-rounded", "فهم علاج CPAP", "تعرّف على كيفية عمل علاج CPAP وكيف يساعد على إبقاء مجرى الهواء مفتوحاً أثناء النوم."],
+			["bipap", "material-symbols:pulmonology-outline-rounded", "فهم علاج BiPAP", "تعرّف على علاج BiPAP وكيف يختلف عن CPAP واستخداماته الشائعة للمرضى الذين يحتاجون دعماً تنفسياً إضافياً."],
+			["mad", "material-symbols:dentistry-outline", "فهم العلاج بأجهزة الفم (MAD)", "تعرّف على أجهزة تقديم الفك السفلي (MAD) ودورها في التعامل مع الشخير وبعض حالات انقطاع النفس الانسدادي أثناء النوم."],
+			["equipment", "material-symbols:devices-other-outline-rounded", "اختيار معدات علاج النوم المناسبة", "استكشف معلومات عن أجهزة علاج النوم والأقنعة والملحقات الشائعة في علاج انقطاع النفس أثناء النوم."],
+			["getting-started", "material-symbols:rocket-launch-outline-rounded", "البدء بالعلاج", "إرشادات عملية لمن يبدأ علاج النوم، بما في ذلك نصائح مفيدة لتحسين الراحة والتكيّف مع العلاج."],
+			["mask-selection", "material-symbols:masks-outline-rounded", "دليل اختيار القناع", "تعرّف على أنواع الأقنعة المختلفة والاعتبارات المهمة عند اختيار القناع المناسب."],
+			["cleaning", "material-symbols:cleaning-services-outline-rounded", "التنظيف والصيانة", "إرشادات حول التنظيف الصحيح وصيانة معدات علاج النوم والعناية بها."],
+			["faq-tips", "material-symbols:tips-and-updates-outline-rounded", "أسئلة شائعة ونصائح عملية", "اعثر على إجابات للأسئلة المتكررة ونصائح عملية حول معدات علاج النوم والاستخدام اليومي."],
+			["resources", "material-symbols:library-books-outline-rounded", "مصادر تعليمية", "اطّلع على مقالات وأدلة وفيديوهات ومواد توعوية حول صحة النوم وعلاجه."],
+		] as Topic[],
+		links: { cpap: "تصفّح أجهزة CPAP", masks: "أقنعة CPAP والفيديوهات", mad: "أجهزة الفم", videos: "الفيديوهات التدريبية", blog: "مقالات وأدلة" },
+		reportsTitle: "فهم تقارير دراسة النوم",
+		reportsSub: "فهم المصطلحات والمؤشرات الشائعة في دراسة النوم",
+		reportsIntro: [
+			"توفّر دراسات النوم معلومات قيّمة عن أنماط التنفس ومستويات الأكسجين ومؤشرات فسيولوجية أخرى أثناء النوم. ويساعد فهم بعض المصطلحات الشائعة على التعرّف على المعلومات التي قد تظهر في تقرير دراسة النوم.",
+			"المعلومات التالية لأغراض تثقيفية وتشرح المؤشرات والمصطلحات الشائعة في دراسات النوم.",
+		],
+		ahiTitle: "مؤشر انقطاع وضعف التنفس (AHI)",
+		ahi: [
+			"يُعد مؤشر انقطاع وضعف التنفس (AHI) من أكثر المؤشرات استخداماً في دراسات النوم، وهو يمثل تكرار انقطاعات وانخفاضات التنفس التي تحدث أثناء النوم.",
+			"يُستخدم AHI على نطاق واسع في طب النوم ويُعتمد عليه عادةً في تصنيف شدة اضطرابات التنفس أثناء النوم.",
+		],
+		ahiTable: "التصنيف الشائع لمؤشر AHI",
+		ahiRows: [["أقل من 5", "طبيعي"], ["5 إلى 14.9", "خفيف"], ["15 إلى 29.9", "متوسط"], ["30 أو أكثر", "شديد"]],
+		ahiHead: ["AHI", "التصنيف"],
+		terms: [
+			["material-symbols:water-drop-outline-rounded", "مؤشر انخفاض الأكسجين (ODI)", "يعكس مؤشر انخفاض الأكسجين (ODI) عدد مرات انخفاض مستوى الأكسجين أثناء النوم، ويُراجع عادةً مع مؤشرات أخرى لفهم التغيرات المتعلقة بالأكسجين أثناء الليل."],
+			["material-symbols:spo2-outline-rounded", "تشبّع الأكسجين (SpO₂)", "يمثل تشبّع الأكسجين (SpO₂) نسبة الأكسجين المحمول في الدم، ويُراقب بشكل روتيني في دراسات النوم ليقدّم معلومات عن مستويات الأكسجين طوال فترة التسجيل."],
+			["material-symbols:trending-down-rounded", "أدنى تشبّع للأكسجين", "تتضمن كثير من تقارير دراسة النوم أدنى قيمة مسجلة لتشبّع الأكسجين، وهي تعكس أقل مستوى أكسجين تم قياسه خلال فترة المراقبة."],
+			["material-symbols:pause-circle-outline-rounded", "انقطاع النفس (Apnea)", "يشير انقطاع النفس إلى توقف مؤقت في التنفس أثناء النوم، وقد تسجّل دراسات النوم عدد ونوع هذه الأحداث خلال الليل."],
+			["material-symbols:compress-rounded", "ضعف التنفس (Hypopnea)", "يشير ضعف التنفس إلى انخفاض جزئي في تدفق الهواء أثناء النوم، وتسجّل دراسات النوم عادةً أحداثه إلى جانب أحداث انقطاع النفس."],
+			["material-symbols:do-not-disturb-on-outline-rounded", "انقطاع النفس الانسدادي أثناء النوم (OSA)", "يُعد انقطاع النفس الانسدادي النوع الأكثر شيوعاً، ويحدث عندما يضيق مجرى الهواء العلوي أو ينسد أثناء النوم، وهو من أكثر الحالات تقييماً في طب النوم."],
+			["material-symbols:neurology-outline-rounded", "انقطاع النفس المركزي (CSA)", "يحدث انقطاع النفس المركزي عندما ترتبط اضطرابات التنفس بانخفاض الدافع التنفسي من الجهاز العصبي المركزي، ويختلف عن OSA في آليته."],
+			["material-symbols:graphic-eq-rounded", "الشخير", "تسجّل كثير من دراسات النوم معلومات متعلقة بالشخير، وقد يحدث الشخير منفرداً أو مع اضطرابات تنفس أخرى مرتبطة بالنوم."],
+			["material-symbols:hotel-outline-rounded", "وضعية الجسم أثناء النوم", "تقيّم بعض دراسات النوم وضعية الجسم طوال الليل، إذ قد تؤثر وضعية النوم على أنماط التنفس لدى بعض الأشخاص."],
+			["material-symbols:cardiology-outline-rounded", "معدل ضربات القلب أثناء النوم", "تتضمن دراسات النوم عادةً مراقبة معدل ضربات القلب، مما يوفّر معلومات عن أنماط نبض القلب أثناء النوم."],
+		],
+		resultsTitle: "فهم نتائج دراسة النوم",
+		results: [
+			"قد تحتوي دراسات النوم على عدة مؤشرات وقياسات يراجعها مختصو الرعاية الصحية المؤهلون مجتمعةً كجزء من عملية التقييم الشاملة.",
+			"كل دراسة نوم فريدة، ويجب دائماً النظر إلى أهمية كل نتيجة في سياق التقييم السريري الكامل.",
+		],
+		refsTitle: "المراجع العلمية",
+		refs: ["الأكاديمية الأمريكية لطب النوم (AASM)", "الجمعية الأمريكية لأمراض الصدر (ATS)", "برنامج طب النوم في كلية الطب بجامعة هارفارد"],
+		noticeTitle: "تنبيه مهم",
+		notice: "المعلومات الواردة في هذه الصفحة لأغراض تثقيفية فقط وتهدف إلى مساعدة القراء على فهم المصطلحات والمؤشرات الشائعة في دراسات النوم، ولا تُعد تشخيصاً طبياً أو تفسيراً طبياً أو توصية علاجية. يجب على الأفراد استشارة طبيبهم أو مختص رعاية صحية مؤهل بشأن أي مخاوف أو قرارات طبية تتعلق بصحتهم.",
+	},
+	fa: {
+		title: "آشنایی با درمان CPAP",
+		lead: "بیاموزید درمان CPAP چگونه کار می‌کند و چطور به باز ماندن راه هوایی در خواب کمک می‌کند.",
+		toc: "در این صفحه",
+		topics: [
+			["cpap", "material-symbols:air-rounded", "آشنایی با درمان CPAP", "بیاموزید درمان CPAP چگونه کار می‌کند و چطور به باز ماندن راه هوایی در خواب کمک می‌کند."],
+			["bipap", "material-symbols:pulmonology-outline-rounded", "آشنایی با درمان BiPAP", "با درمان BiPAP، تفاوت آن با CPAP و کاربردهای رایج آن برای بیمارانی که به حمایت تنفسی بیشتری نیاز دارند آشنا شوید."],
+			["mad", "material-symbols:dentistry-outline", "آشنایی با درمان ابزار دهانی (MAD)", "با دستگاه‌های جلوآورنده فک پایین (MAD) و نقش آن‌ها در کنترل خروپف و برخی موارد آپنه انسدادی خواب آشنا شوید."],
+			["equipment", "material-symbols:devices-other-outline-rounded", "انتخاب تجهیزات مناسب درمان خواب", "درباره دستگاه‌ها، ماسک‌ها و لوازم جانبی رایج در درمان آپنه خواب اطلاعات کسب کنید."],
+			["getting-started", "material-symbols:rocket-launch-outline-rounded", "شروع درمان", "راهنمایی‌های کاربردی برای افرادی که درمان خواب را آغاز می‌کنند، شامل نکاتی برای راحتی بیشتر و سازگاری با درمان."],
+			["mask-selection", "material-symbols:masks-outline-rounded", "راهنمای انتخاب ماسک", "با انواع ماسک و نکات مهم در انتخاب ماسک مناسب آشنا شوید."],
+			["cleaning", "material-symbols:cleaning-services-outline-rounded", "تمیزکاری و نگهداری", "راهنمای تمیز کردن، نگهداری و مراقبت صحیح از تجهیزات درمان خواب."],
+			["faq-tips", "material-symbols:tips-and-updates-outline-rounded", "سؤالات رایج و نکات کاربردی", "پاسخ سؤالات متداول و نکات کاربردی درباره تجهیزات درمان خواب و استفاده روزمره."],
+			["resources", "material-symbols:library-books-outline-rounded", "منابع آموزشی", "دسترسی به مقالات، راهنماها، ویدیوها و مطالب آموزشی درباره سلامت و درمان خواب."],
+		] as Topic[],
+		links: { cpap: "مشاهده دستگاه‌های CPAP", masks: "ماسک‌های CPAP و ویدیوها", mad: "ابزارهای دهانی", videos: "ویدیوهای آموزشی", blog: "مقالات و راهنماها" },
+		reportsTitle: "آشنایی با گزارش تست خواب",
+		reportsSub: "آشنایی با اصطلاحات و شاخص‌های رایج تست خواب",
+		reportsIntro: [
+			"تست‌های خواب اطلاعات ارزشمندی درباره الگوی تنفس، سطح اکسیژن و سایر شاخص‌های فیزیولوژیک در خواب ارائه می‌دهند. آشنایی با برخی اصطلاحات رایج کمک می‌کند با اطلاعات گزارش تست خواب آشناتر شوید.",
+			"اطلاعات زیر جنبه آموزشی دارد و شاخص‌ها و اصطلاحات رایج تست خواب را توضیح می‌دهد.",
+		],
+		ahiTitle: "شاخص آپنه–هیپوپنه (AHI)",
+		ahi: [
+			"شاخص آپنه–هیپوپنه (AHI) یکی از پرکاربردترین شاخص‌ها در تست خواب است و تعداد دفعات قطع و کاهش تنفس در طول خواب را نشان می‌دهد.",
+			"AHI به‌طور گسترده در طب خواب استفاده می‌شود و معمولاً برای طبقه‌بندی شدت اختلالات تنفسی خواب به کار می‌رود.",
+		],
+		ahiTable: "طبقه‌بندی رایج AHI",
+		ahiRows: [["کمتر از ۵", "طبیعی"], ["۵ تا ۱۴٫۹", "خفیف"], ["۱۵ تا ۲۹٫۹", "متوسط"], ["۳۰ یا بیشتر", "شدید"]],
+		ahiHead: ["AHI", "طبقه‌بندی"],
+		terms: [
+			["material-symbols:water-drop-outline-rounded", "شاخص افت اکسیژن (ODI)", "شاخص افت اکسیژن (ODI) تعداد دفعات کاهش سطح اکسیژن در خواب را نشان می‌دهد و معمولاً همراه با سایر شاخص‌ها برای درک بهتر تغییرات اکسیژن در طول شب بررسی می‌شود."],
+			["material-symbols:spo2-outline-rounded", "اشباع اکسیژن (SpO₂)", "اشباع اکسیژن (SpO₂) درصد اکسیژن حمل‌شده در خون است و به‌طور معمول در تست خواب پایش می‌شود تا اطلاعاتی درباره سطح اکسیژن در طول ثبت ارائه دهد."],
+			["material-symbols:trending-down-rounded", "کمترین اشباع اکسیژن", "بسیاری از گزارش‌های تست خواب کمترین مقدار ثبت‌شده اشباع اکسیژن را شامل می‌شوند که پایین‌ترین سطح اکسیژن اندازه‌گیری‌شده در طول پایش است."],
+			["material-symbols:pause-circle-outline-rounded", "آپنه", "آپنه به توقف موقت تنفس در خواب گفته می‌شود و تست خواب ممکن است تعداد و نوع این رخدادها را در طول شب ثبت کند."],
+			["material-symbols:compress-rounded", "هیپوپنه", "هیپوپنه به کاهش نسبی جریان هوا در خواب گفته می‌شود و معمولاً همراه با رخدادهای آپنه در ارزیابی الگوی تنفس ثبت می‌شود."],
+			["material-symbols:do-not-disturb-on-outline-rounded", "آپنه انسدادی خواب (OSA)", "آپنه انسدادی خواب شایع‌ترین نوع آپنه است و زمانی رخ می‌دهد که راه هوایی فوقانی در خواب تنگ یا مسدود شود؛ این عارضه از پربررسی‌ترین شرایط در طب خواب است."],
+			["material-symbols:neurology-outline-rounded", "آپنه مرکزی خواب (CSA)", "آپنه مرکزی زمانی رخ می‌دهد که اختلال تنفس به کاهش فرمان تنفسی از سیستم عصبی مرکزی مربوط باشد و از نظر سازوکار با OSA متفاوت است."],
+			["material-symbols:graphic-eq-rounded", "خروپف", "بسیاری از تست‌های خواب اطلاعات مربوط به خروپف را ثبت می‌کنند. خروپف ممکن است به‌تنهایی یا همراه با سایر اختلالات تنفسی خواب رخ دهد."],
+			["material-symbols:hotel-outline-rounded", "وضعیت بدن در خواب", "برخی تست‌های خواب وضعیت بدن را در طول شب ارزیابی می‌کنند، زیرا وضعیت خوابیدن ممکن است بر الگوی تنفس برخی افراد اثر بگذارد."],
+			["material-symbols:cardiology-outline-rounded", "ضربان قلب در خواب", "پایش ضربان قلب معمولاً بخشی از تست خواب است و اطلاعاتی درباره الگوی ضربان قلب در خواب ارائه می‌دهد."],
+		],
+		resultsTitle: "آشنایی با نتایج تست خواب",
+		results: [
+			"تست خواب ممکن است شامل چندین شاخص و اندازه‌گیری باشد که توسط متخصصان واجد شرایط به‌صورت مجموعه‌ای در فرایند ارزیابی کلی بررسی می‌شوند.",
+			"هر تست خواب منحصربه‌فرد است و اهمیت هر یافته باید همواره در چارچوب ارزیابی بالینی کامل در نظر گرفته شود.",
+		],
+		refsTitle: "منابع علمی",
+		refs: ["آکادمی طب خواب آمریکا (AASM)", "انجمن قفسه سینه آمریکا (ATS)", "برنامه طب خواب دانشکده پزشکی هاروارد"],
+		noticeTitle: "اطلاعیه مهم",
+		notice: "اطلاعات این صفحه صرفاً جنبه آموزشی دارد و برای کمک به درک اصطلاحات و شاخص‌های رایج تست خواب طراحی شده است و نباید به‌عنوان تشخیص، تفسیر پزشکی یا توصیه درمانی تلقی شود. افراد باید درباره هرگونه نگرانی یا تصمیم پزشکی مرتبط با سلامت خود با پزشک یا متخصص واجد شرایط مشورت کنند.",
+	},
+}[locale];
+
+const L = (p: string) => url(localizePath(p, locale));
+const topicLinks: Record<string, { href: string; label: string }> = {
+	cpap: { href: L("/products/heyer-auto-cpap-machine/"), label: c.links.cpap },
+	bipap: { href: L("/products/heyer-bipap/"), label: "Heyer BiPAP" },
+	mad: { href: L("/products/oniris-mandibular-advancement-device/"), label: c.links.mad },
+	equipment: { href: L("/#products"), label: c.links.cpap },
+	"mask-selection": { href: L("/products/cpap-mask/"), label: c.links.masks },
+	cleaning: { href: L("/training-resources/"), label: c.links.videos },
+	resources: { href: L("/blog/"), label: c.links.blog },
+};
+const severity = ["#16a34a", "#eab308", "#f97316", "#e5484d"];
+const toc = [...c.topics.map(([id, , title]) => [id, title]), ["sleep-study-reports", c.reportsTitle]];
+---
+<PageHero icon="material-symbols:air-rounded" title={c.title} lead={c.lead} />
+
+<div class="grid grid-cols-1 lg:grid-cols-[15rem_1fr] gap-6 items-start">
+    <nav class="hidden lg:block sticky top-6 card-base p-4" aria-label={c.toc}>
+        <p class="text-xs font-bold uppercase tracking-wider text-50 px-2 mb-2">{c.toc}</p>
+        <ol class="flex flex-col gap-0.5 text-sm">
+            {toc.map(([id, title]) => (
+                <li><a href={`#${id}`} class="toc-link block rounded-lg px-2 py-1.5 text-75 hover:text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)] transition" data-toc={id}>{title}</a></li>
+            ))}
+        </ol>
+    </nav>
+
+    <div class="flex flex-col gap-4 min-w-0">
+        {c.topics.map(([id, icon, title, text], i) => (
+            <section id={id} class="card-base reading-surface scroll-mt-24 p-6 md:p-8 flex flex-col sm:flex-row gap-5" data-reveal data-toc-section>
+                <span class="topic-visual" style={`--h:${230 + i * 9}`}><Icon name={icon} class="text-4xl" /></span>
+                <div class="flex-1">
+                    <h2 class="text-xl font-extrabold text-90">{title}</h2>
+                    <p class="text-75 leading-loose mt-2">{text}</p>
+                    {topicLinks[id] && (
+                        <a href={topicLinks[id].href} class="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[var(--primary)] hover:gap-2.5 transition-all">
+                            {topicLinks[id].label} <Icon name="material-symbols:arrow-forward-rounded" class="rtl:rotate-180" />
+                        </a>
+                    )}
+                </div>
+            </section>
+        ))}
+
+        <!-- Sleep study reports -->
+        <section id="sleep-study-reports" class="scroll-mt-24 mt-6 flex flex-col gap-4" data-toc-section>
+            <div class="px-1" data-reveal>
+                <p class="section-eyebrow">{c.reportsSub}</p>
+                <h2 class="section-title mt-2">{c.reportsTitle}</h2>
+            </div>
+            <div class="card-base reading-surface p-6 md:p-8" data-reveal>
+                {c.reportsIntro.map((p) => <p class="text-75 leading-loose mb-3 last:mb-0">{p}</p>)}
+            </div>
+
+            <div class="card-base p-6 md:p-8" data-reveal>
+                <h3 class="flex items-center gap-3 text-xl font-extrabold text-90"><span class="icon-badge"><Icon name="material-symbols:monitoring-rounded" class="text-2xl" /></span>{c.ahiTitle}</h3>
+                {c.ahi.map((p) => <p class="text-75 leading-loose mt-3">{p}</p>)}
+                <h4 class="font-bold text-90 mt-6 mb-3">{c.ahiTable}</h4>
+                <div class="ahi-scale" dir="ltr">
+                    {c.ahiRows.map(([range, label], i) => (
+                        <div class="ahi-cell" style={`--c:${severity[i]}; --i:${i}`}>
+                            <span class="ahi-bar"></span>
+                            <span class="ahi-label" dir="auto">{label}</span>
+                            <span class="ahi-range" dir="auto">{c.ahiHead[0]} {range}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {c.terms.map(([icon, title, text], i) => (
+                    <div class="card-base lift-card p-6 flex gap-4" data-reveal data-reveal-delay={String((i % 2) * 90)}>
+                        <span class="icon-badge"><Icon name={icon} class="text-2xl" /></span>
+                        <div>
+                            <h3 class="font-extrabold text-90">{title}</h3>
+                            <p class="text-sm text-75 leading-relaxed mt-1.5">{text}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div class="card-base reading-surface p-6 md:p-8" data-reveal>
+                <h3 class="text-xl font-extrabold text-90 mb-3">{c.resultsTitle}</h3>
+                {c.results.map((p) => <p class="text-75 leading-loose mb-3 last:mb-0">{p}</p>)}
+                <h4 class="font-bold text-90 mt-6 mb-3">{c.refsTitle}</h4>
+                <ul class="flex flex-wrap gap-2">
+                    {c.refs.map((r) => <li class="chip !h-auto py-2"><Icon name="material-symbols:menu-book-outline-rounded" /> {r}</li>)}
+                </ul>
+            </div>
+
+            <div class="notice-card rounded-[var(--radius-large)] p-6 md:p-8" data-reveal>
+                <h3 class="flex items-center gap-3 text-lg font-extrabold mb-2"><Icon name="material-symbols:info-outline-rounded" class="text-2xl" />{c.noticeTitle}</h3>
+                <p class="leading-loose text-sm md:text-base">{c.notice}</p>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+    .topic-visual {
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        width: 5rem;
+        height: 5rem;
+        border-radius: 1.4rem;
+        color: white;
+        background: linear-gradient(140deg, oklch(0.5 0.17 var(--h)), oklch(0.65 0.13 calc(var(--h) - 40)));
+        box-shadow: 0 12px 26px oklch(0.45 0.15 var(--h) / 0.3);
+    }
+    .ahi-scale { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+    @media (max-width: 640px) { .ahi-scale { grid-template-columns: repeat(2, 1fr); } }
+    .ahi-cell { display: flex; flex-direction: column; gap: 0.4rem; padding: 0.9rem; border-radius: 1rem; background: color-mix(in oklch, var(--c) 10%, transparent); }
+    .ahi-bar { height: 0.5rem; border-radius: 999px; background: var(--c); transform-origin: left; animation: bar-grow 1s cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: calc(var(--i) * 140ms + 200ms); }
+    @keyframes bar-grow { from { transform: scaleX(0); } }
+    .ahi-label { font-weight: 800; color: var(--c); font-size: 1.05rem; }
+    .ahi-range { font-size: 0.82rem; opacity: 0.75; }
+    .toc-link.is-current { color: var(--primary); background: var(--btn-plain-bg-hover); font-weight: 700; }
+    .notice-card { background: oklch(0.96 0.04 85); color: oklch(0.38 0.08 70); border: 1px solid oklch(0.88 0.08 85); }
+    :global(.dark) .notice-card { background: oklch(0.27 0.04 80); color: oklch(0.88 0.08 85); border-color: oklch(0.38 0.06 80); }
+</style>
+
+<script>
+function initToc() {
+    const links = document.querySelectorAll<HTMLAnchorElement>("[data-toc]");
+    if (!links.length) return;
+    const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+            if (!e.isIntersecting) continue;
+            links.forEach((l) => l.classList.toggle("is-current", l.dataset.toc === e.target.id));
+        }
+    }, { rootMargin: "-30% 0px -60% 0px" });
+    document.querySelectorAll("[data-toc-section]").forEach((s) => io.observe(s));
+}
+initToc();
+const bind = () => window.swup?.hooks.on("page:view", initToc);
+if (window.swup?.hooks) bind();
+else document.addEventListener("swup:enable", bind, { once: true });
+</script>

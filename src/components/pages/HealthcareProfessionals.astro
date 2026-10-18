@@ -1,0 +1,108 @@
+---
+import { Icon } from "astro-icon/components";
+import SmartForm from "@components/forms/SmartForm.tsx";
+import PageHero from "@components/pages/PageHero.astro";
+import { PATIENT_DATA_PORTAL_URL } from "@utils/contact";
+import type { SiteLocale } from "@utils/locale-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+
+const services = {
+	en: ["Home Sleep Test", "Auto CPAP Device", "BiPAP Device", "CPAP / BiPAP Mask", "Oxygen Concentrator", "Mandibular Advancement Device (MAD)", "Positional Snoring Belt", "Hypoglossal Nerve Stimulation (HGNS)", "Nasal Irrigation", "Nebulizer", "Orthopedic Brace", "Other"],
+	ar: ["دراسة النوم المنزلية", "جهاز Auto CPAP", "جهاز BiPAP", "قناع CPAP / BiPAP", "مكثّف الأكسجين", "جهاز تقديم الفك السفلي (MAD)", "حزام الشخير الوضعي", "تحفيز العصب تحت اللسان (HGNS)", "غسول الأنف", "جهاز الاستنشاق (نيبولايزر)", "دعامة عظام", "أخرى"],
+	fa: ["تست خواب در منزل", "دستگاه Auto CPAP", "دستگاه BiPAP", "ماسک CPAP / BiPAP", "اکسیژن‌ساز", "دستگاه جلوآورنده فک (MAD)", "کمربند وضعیتی ضد خروپف", "تحریک عصب زیرزبانی (HGNS)", "شستشوی بینی", "نبولایزر", "بریس ارتوپدی", "سایر"],
+}[locale];
+
+const c = {
+	en: {
+		title: "Healthcare Professionals", lead: "Refer patients online and access the patient data portal.",
+		referralTitle: "Online Referral Form", referralLead: "Refer a patient in under a minute. Our team contacts the patient directly.",
+		physician: "Referring Physician Information", doctor: "Doctor Name", clinic: "Hospital / Clinic Name",
+		patient: "Patient Information", patientName: "Patient Name", patientMobile: "Patient Mobile Number",
+		requested: "Requested Product / Service", items: "Products / services", notes: "Notes (optional)",
+		submit: "Submit Referral",
+		thanksTitle: "Thank You", thanks: ["Your referral has been submitted successfully.", "The Tadawi Life Tech team will contact the patient directly regarding the requested product or service."],
+		portalTitle: "Patient Data Portal", portal: "Access patients’ therapy data securely through the device cloud portal.", portalCta: "Open Patient Data Portal",
+		labels: { required: "This field is required.", sending: "Sending…", whatsappHint: "Your referral is sent to our WhatsApp and email for documentation.", email: "Also send by email", again: "Submit another referral" },
+	},
+	ar: {
+		title: "مقدمو الرعاية الصحية", lead: "أحِل المرضى إلكترونياً وادخل إلى بوابة بيانات المرضى.",
+		referralTitle: "نموذج الإحالة الإلكتروني", referralLead: "أحِل مريضاً في أقل من دقيقة، وسيتواصل فريقنا مع المريض مباشرة.",
+		physician: "معلومات الطبيب المحيل", doctor: "اسم الطبيب", clinic: "اسم المستشفى / العيادة",
+		patient: "معلومات المريض", patientName: "اسم المريض", patientMobile: "رقم جوال المريض",
+		requested: "المنتج / الخدمة المطلوبة", items: "المنتجات / الخدمات", notes: "ملاحظات (اختياري)",
+		submit: "إرسال الإحالة",
+		thanksTitle: "شكراً لك", thanks: ["تم إرسال الإحالة بنجاح.", "سيتواصل فريق تداوي لايف تك مع المريض مباشرة بخصوص المنتج أو الخدمة المطلوبة."],
+		portalTitle: "بوابة بيانات المرضى", portal: "اطّلع على بيانات علاج المرضى بأمان عبر بوابة سحابة الأجهزة.", portalCta: "افتح بوابة بيانات المرضى",
+		labels: { required: "هذا الحقل مطلوب.", sending: "جارٍ الإرسال…", whatsappHint: "تُرسل الإحالة إلى واتساب والبريد الإلكتروني لدينا للتوثيق.", email: "أرسل أيضاً بالبريد الإلكتروني", again: "إرسال إحالة أخرى" },
+	},
+	fa: {
+		title: "متخصصان سلامت", lead: "بیماران را آنلاین ارجاع دهید و به پورتال داده بیماران دسترسی داشته باشید.",
+		referralTitle: "فرم ارجاع آنلاین", referralLead: "در کمتر از یک دقیقه بیمار را ارجاع دهید؛ تیم ما مستقیماً با بیمار تماس می‌گیرد.",
+		physician: "اطلاعات پزشک ارجاع‌دهنده", doctor: "نام پزشک", clinic: "نام بیمارستان / کلینیک",
+		patient: "اطلاعات بیمار", patientName: "نام بیمار", patientMobile: "شماره همراه بیمار",
+		requested: "محصول / خدمت درخواستی", items: "محصولات / خدمات", notes: "توضیحات (اختیاری)",
+		submit: "ثبت ارجاع",
+		thanksTitle: "سپاسگزاریم", thanks: ["ارجاع شما با موفقیت ثبت شد.", "تیم تداوی لایف تک درباره محصول یا خدمت درخواستی مستقیماً با بیمار تماس خواهد گرفت."],
+		portalTitle: "پورتال داده بیماران", portal: "از طریق پورتال ابری دستگاه، به‌صورت امن به داده‌های درمانی بیماران دسترسی داشته باشید.", portalCta: "ورود به پورتال داده بیماران",
+		labels: { required: "این فیلد الزامی است.", sending: "در حال ارسال…", whatsappHint: "ارجاع شما برای مستندسازی به واتساپ و ایمیل ما ارسال می‌شود.", email: "ارسال با ایمیل", again: "ثبت ارجاع دیگر" },
+	},
+}[locale];
+
+const sections = [
+	{ title: c.physician, fields: [
+		{ name: "doctor", label: c.doctor, type: "text" as const },
+		{ name: "clinic", label: c.clinic, type: "text" as const },
+	] },
+	{ title: c.patient, fields: [
+		{ name: "patientName", label: c.patientName, type: "text" as const, required: true },
+		{ name: "patientMobile", label: c.patientMobile, type: "tel" as const, required: true, placeholder: "+968" },
+	] },
+	{ title: c.requested, fields: [
+		{ name: "services", label: c.items, type: "checkboxes" as const, options: services, required: true },
+		{ name: "notes", label: c.notes, type: "textarea" as const },
+	] },
+];
+---
+<PageHero icon="material-symbols:stethoscope-rounded" title={c.title} lead={c.lead} />
+
+<div class="grid grid-cols-1 lg:grid-cols-[1fr_20rem] gap-6 items-start">
+    <section>
+        <div class="px-1 mb-4" data-reveal>
+            <p class="section-eyebrow">1</p>
+            <h2 class="section-title mt-1">{c.referralTitle}</h2>
+            <p class="section-lead mt-1">{c.referralLead}</p>
+        </div>
+        <SmartForm
+            client:visible
+            formType="referral"
+            locale={locale}
+            heading={c.referralTitle}
+            sections={sections}
+            submitLabel={c.submit}
+            thankYou={{ title: c.thanksTitle, lines: c.thanks }}
+            labels={c.labels}
+        />
+    </section>
+
+    <aside class="lg:sticky lg:top-6 flex flex-col gap-4" data-reveal data-reveal-delay="120">
+        <p class="section-eyebrow px-1">2</p>
+        <a href={PATIENT_DATA_PORTAL_URL} target="_blank" rel="noopener noreferrer" class="portal-card group relative overflow-hidden rounded-[var(--radius-large)] p-7 text-white flex flex-col gap-4">
+            <span class="grid place-items-center w-14 h-14 rounded-2xl bg-white/15"><Icon name="material-symbols:cloud-sync-outline-rounded" class="text-3xl" /></span>
+            <span class="text-2xl font-extrabold">{c.portalTitle}</span>
+            <span class="opacity-85 leading-relaxed">{c.portal}</span>
+            <span class="inline-flex items-center justify-center gap-2 h-12 rounded-full bg-white text-[#2b3bb8] font-bold transition group-hover:gap-3">
+                {c.portalCta} <Icon name="material-symbols:open-in-new-rounded" />
+            </span>
+        </a>
+    </aside>
+</div>
+
+<style>
+    .portal-card { background: linear-gradient(150deg, oklch(0.32 0.13 270), oklch(0.5 0.15 230)); box-shadow: 0 18px 44px oklch(0.4 0.15 265 / 0.3); }
+    .portal-card::after { content: ""; position: absolute; inset-inline-end: -3rem; top: -3rem; width: 11rem; height: 11rem; border-radius: 999px; background: rgb(255 255 255 / 0.08); transition: transform 0.5s ease; }
+    .portal-card:hover::after { transform: scale(1.4); }
+</style>

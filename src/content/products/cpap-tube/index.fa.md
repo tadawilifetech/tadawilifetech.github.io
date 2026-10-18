@@ -9,6 +9,10 @@ tags: ["تیوب CPAP", "شلنگ 19 میلی‌متری", "شلنگ", "اتصا
 lang: fa
 translationKey: cpap-tube
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-tube-2.webp","/uploads/products/cpap-tube-3.avif","/uploads/products/cpap-tube-4.webp"]
+downloads: []
 ---
 
 این تیوب استاندارد برای ایجاد جریان هوای یکنواخت بین دستگاه و ماسک طراحی شده است. ساختار منعطف آن برای استفاده روزمره مناسب است و با بیشتر سیستم‌های استاندارد PAP سازگار می‌ماند.
@@ -22,11 +26,3 @@ draft: false
 - تعویض دوره‌ای شلنگ CPAP یا BiPAP.
 - کاربرانی که به سازگاری گسترده با ماسک‌های استاندارد نیاز دارند.
 - چیدمان‌های خانگی که به یک شلنگ روزمره قابل اعتماد نیاز دارند.
-
-## گالری تصاویر
-
-![تیوب CPAP هایر 19 میلی‌متری 2](/uploads/products/cpap-tube-2.webp)
-
-![تیوب CPAP هایر 19 میلی‌متری 3](/uploads/products/cpap-tube-3.avif)
-
-![تیوب CPAP هایر 19 میلی‌متری 4](/uploads/products/cpap-tube-4.webp)

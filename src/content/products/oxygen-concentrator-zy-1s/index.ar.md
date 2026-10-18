@@ -9,6 +9,10 @@ tags: ["جهاز أكسجين", "أكسجين محمول", "دعم تنفسي", 
 lang: ar
 translationKey: oxygen-concentrator-zy-1s
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/oxygen-concentrator-zy-1s-2.jpeg","/uploads/products/oxygen-concentrator-zy-1s-3.jpeg","/uploads/products/oxygen-concentrator-zy-1s-4.jpeg","/uploads/products/oxygen-concentrator-zy-1s-5.webp","/uploads/products/oxygen-concentrator-zy-1s-6.webp","/uploads/products/oxygen-concentrator-zy-1s-7.webp","/uploads/products/oxygen-concentrator-zy-1s-8.webp"]
+downloads: [{"group":"التنزيلات","label":"بروشور PDF","file":"/uploads/products/oxygen-concentrator-zy-1s-brochure.pdf"}]
 ---
 
 صُمم ZY-1S لتقديم علاج أكسجين محمول ضمن هيكل مدمج مزود بمقبض للحمل. ويُعد خياراً عملياً للاستخدام المنزلي والتنقل اليومي عندما تكون سهولة التشغيل وثبات الدعم التنفسي من الأولويات.
@@ -22,22 +26,3 @@ draft: false
 - المستخدمون الذين يحتاجون إلى جهاز أكسجين مدمج للمنزل.
 - خطط الدعم التنفسي التي تستفيد من قابلية الحمل.
 - الإعدادات التي تحتاج إلى سهولة المناولة ووضوح شاشة العرض.
-
-## التنزيلات
-- [بروشور PDF](/uploads/products/oxygen-concentrator-zy-1s-brochure.pdf)
-
-## معرض الصور
-
-![جهاز الأكسجين المحمول ZY-1S 2](/uploads/products/oxygen-concentrator-zy-1s-2.jpeg)
-
-![جهاز الأكسجين المحمول ZY-1S 3](/uploads/products/oxygen-concentrator-zy-1s-3.jpeg)
-
-![جهاز الأكسجين المحمول ZY-1S 4](/uploads/products/oxygen-concentrator-zy-1s-4.jpeg)
-
-![جهاز الأكسجين المحمول ZY-1S 5](/uploads/products/oxygen-concentrator-zy-1s-5.webp)
-
-![جهاز الأكسجين المحمول ZY-1S 6](/uploads/products/oxygen-concentrator-zy-1s-6.webp)
-
-![جهاز الأكسجين المحمول ZY-1S 7](/uploads/products/oxygen-concentrator-zy-1s-7.webp)
-
-![جهاز الأكسجين المحمول ZY-1S 8](/uploads/products/oxygen-concentrator-zy-1s-8.webp)

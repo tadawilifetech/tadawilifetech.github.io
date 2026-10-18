@@ -9,6 +9,10 @@ tags: ["SnoreRx", "MAD", "Snoring Relief", "Oral Appliance"]
 lang: en
 translationKey: snorerx-mandibular-advancement-device
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/snorerx-mandibular-advancement-device-2.jpeg","/uploads/products/snorerx-mandibular-advancement-device-3.jpeg"]
+downloads: []
 ---
 
 This adjustable mandibular advancement device is intended to reduce snoring by gently moving the lower jaw forward. Its oral design aims to improve nighttime airflow without a mask-based setup.
@@ -22,9 +26,3 @@ This adjustable mandibular advancement device is intended to reduce snoring by g
 - Adults looking for a mask-free snoring solution.
 - Users who prefer a compact oral appliance approach.
 - People exploring clinician-guided oral sleep therapy.
-
-## Gallery
-
-![SnoreRx Mandibular Advancement Device 2](/uploads/products/snorerx-mandibular-advancement-device-2.jpeg)
-
-![SnoreRx Mandibular Advancement Device 3](/uploads/products/snorerx-mandibular-advancement-device-3.jpeg)

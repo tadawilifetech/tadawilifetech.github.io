@@ -9,6 +9,10 @@ tags: ["CPAP Mat", "Silicone Mat", "Device Protection", "Noise Reduction"]
 lang: en
 translationKey: cpap-mat
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-mat-2.webp","/uploads/products/cpap-mat-3.jpg","/uploads/products/cpap-mat-4.jpg"]
+downloads: []
 ---
 
 This silicone protector mat creates a stable base for CPAP and BiPAP devices on bedside tables and clinical surfaces. It helps absorb vibration, reduce device movement, and protect furniture from condensation or spills.
@@ -22,11 +26,3 @@ This silicone protector mat creates a stable base for CPAP and BiPAP devices on 
 - Bedside PAP setups with humidifiers.
 - Users who want a cleaner and quieter device area.
 - Clinics or homes that want added surface protection.
-
-## Gallery
-
-![CPAP Silicone Protector Mat 2](/uploads/products/cpap-mat-2.webp)
-
-![CPAP Silicone Protector Mat 3](/uploads/products/cpap-mat-3.jpg)
-
-![CPAP Silicone Protector Mat 4](/uploads/products/cpap-mat-4.jpg)

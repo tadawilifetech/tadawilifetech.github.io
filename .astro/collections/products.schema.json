@@ -88,6 +88,130 @@
           "type": "string",
           "default": ""
         },
+        "group": {
+          "type": "string",
+          "enum": [
+            "sleep",
+            "orthopedic"
+          ],
+          "default": "sleep"
+        },
+        "subcategory": {
+          "type": "string",
+          "default": ""
+        },
+        "order": {
+          "type": "number",
+          "default": 100
+        },
+        "gallery": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "imageVideo": {
+          "type": "string",
+          "default": ""
+        },
+        "videos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "default": ""
+              },
+              "youtube": {
+                "type": "string",
+                "default": ""
+              },
+              "src": {
+                "type": "string",
+                "default": ""
+              },
+              "poster": {
+                "type": "string",
+                "default": ""
+              },
+              "end": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "downloads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": "string",
+                "default": ""
+              },
+              "label": {
+                "type": "string"
+              },
+              "file": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "file"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "sizes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "size": {
+                "type": "string"
+              },
+              "range": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "size",
+              "range"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "sizeLabel": {
+          "type": "string",
+          "default": ""
+        },
+        "faq": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "a": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "q",
+              "a"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
         "$schema": {
           "type": "string"
         }

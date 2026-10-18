@@ -9,6 +9,10 @@ tags: ["زیرانداز CPAP", "زیرانداز سیلیکونی", "محافظ
 lang: fa
 translationKey: cpap-mat
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-mat-2.webp","/uploads/products/cpap-mat-3.jpg","/uploads/products/cpap-mat-4.jpg"]
+downloads: []
 ---
 
 این زیرانداز سیلیکونی یک پایه پایدار برای دستگاه‌های CPAP و BiPAP روی میز کنار تخت یا سطوح درمانی ایجاد می‌کند. به جذب لرزش، کاهش حرکت دستگاه و محافظت از سطح در برابر میعان یا ریزش مایعات کمک می‌کند.
@@ -22,11 +26,3 @@ draft: false
 - چیدمان‌های PAP کنار تخت همراه با مرطوب‌ساز.
 - کاربرانی که فضای تمیزتر و آرام‌تری برای دستگاه می‌خواهند.
 - خانه‌ها و کلینیک‌هایی که محافظت بیشتر از سطح نیاز دارند.
-
-## گالری تصاویر
-
-![زیرانداز سیلیکونی محافظ CPAP 2](/uploads/products/cpap-mat-2.webp)
-
-![زیرانداز سیلیکونی محافظ CPAP 3](/uploads/products/cpap-mat-3.jpg)
-
-![زیرانداز سیلیکونی محافظ CPAP 4](/uploads/products/cpap-mat-4.jpg)

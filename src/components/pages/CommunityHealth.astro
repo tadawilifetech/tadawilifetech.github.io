@@ -1,0 +1,123 @@
+---
+import { Icon } from "astro-icon/components";
+import PageHero from "@components/pages/PageHero.astro";
+import { CONTACT_EMAIL, WHATSAPP_PHONE_RAW } from "@utils/contact";
+import { type SiteLocale, localizePath } from "@utils/locale-utils";
+import { url } from "@utils/url-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+const c = {
+	en: {
+		title: "Community Health Programs & Partnerships",
+		lead: "Advancing Sleep Health Through Education and Collaboration",
+		intro: [
+			"Tadawi Life Tech is committed to supporting educational initiatives, public awareness programs, and community health efforts related to sleep health, respiratory care, and rehabilitation.",
+			"We welcome collaboration with government organizations, healthcare institutions, charitable foundations, corporate social responsibility (CSR) programs, and community partners to support meaningful health-focused initiatives.",
+		],
+		impactTitle: "Areas of Community Impact",
+		impact: ["Sleep Health Awareness & Education", "Patient & Family Education", "Sleep Assessment & Early Identification Initiatives", "Community Health & Social Responsibility Programs"],
+		oppTitle: "Partnership Opportunities",
+		opp: "We welcome opportunities to collaborate on programs that promote health awareness, patient education, and community well-being.",
+		withTitle: "We welcome collaboration with:",
+		partners: ["Government Organizations", "Hospitals and Clinics", "Charitable Foundations", "Non-Governmental Organizations (NGOs)", "Corporate Social Responsibility (CSR) Programs", "Community Health Initiatives"],
+		ctaTitle: "Partner With Us",
+		cta: "To explore partnership opportunities or discuss potential collaborative initiatives, please contact the Tadawi Life Tech team.",
+		closing: "Together, we can help improve awareness, education, and access to sleep health resources across Oman.",
+		contact: "Contact our team", whatsapp: "WhatsApp", subject: "Partnership enquiry",
+	},
+	ar: {
+		title: "برامج صحة المجتمع والشراكات",
+		lead: "نعزز صحة النوم من خلال التثقيف والتعاون",
+		intro: [
+			"تلتزم تداوي لايف تك بدعم المبادرات التعليمية وبرامج التوعية العامة وجهود صحة المجتمع المتعلقة بصحة النوم والرعاية التنفسية وإعادة التأهيل.",
+			"نرحب بالتعاون مع الجهات الحكومية والمؤسسات الصحية والمؤسسات الخيرية وبرامج المسؤولية الاجتماعية للشركات والشركاء المجتمعيين لدعم مبادرات صحية هادفة.",
+		],
+		impactTitle: "مجالات الأثر المجتمعي",
+		impact: ["التوعية والتثقيف بصحة النوم", "تثقيف المرضى وأسرهم", "مبادرات تقييم النوم والاكتشاف المبكر", "برامج صحة المجتمع والمسؤولية الاجتماعية"],
+		oppTitle: "فرص الشراكة",
+		opp: "نرحب بفرص التعاون في برامج تعزز الوعي الصحي وتثقيف المرضى ورفاهية المجتمع.",
+		withTitle: "نرحب بالتعاون مع:",
+		partners: ["الجهات الحكومية", "المستشفيات والعيادات", "المؤسسات الخيرية", "المنظمات غير الحكومية", "برامج المسؤولية الاجتماعية للشركات", "مبادرات صحة المجتمع"],
+		ctaTitle: "كن شريكاً لنا",
+		cta: "لاستكشاف فرص الشراكة أو مناقشة مبادرات تعاون محتملة، يرجى التواصل مع فريق تداوي لايف تك.",
+		closing: "معاً يمكننا تحسين الوعي والتثقيف والوصول إلى مصادر صحة النوم في جميع أنحاء عُمان.",
+		contact: "تواصل مع فريقنا", whatsapp: "واتساب", subject: "استفسار عن شراكة",
+	},
+	fa: {
+		title: "برنامه‌های سلامت جامعه و همکاری‌ها",
+		lead: "ارتقای سلامت خواب از طریق آموزش و همکاری",
+		intro: [
+			"تداوی لایف تک متعهد به حمایت از ابتکارات آموزشی، برنامه‌های آگاهی عمومی و فعالیت‌های سلامت جامعه در حوزه سلامت خواب، مراقبت تنفسی و توانبخشی است.",
+			"ما از همکاری با سازمان‌های دولتی، مؤسسات درمانی، بنیادهای خیریه، برنامه‌های مسئولیت اجتماعی شرکت‌ها (CSR) و شرکای اجتماعی برای حمایت از ابتکارات ارزشمند سلامت‌محور استقبال می‌کنیم.",
+		],
+		impactTitle: "حوزه‌های اثرگذاری اجتماعی",
+		impact: ["آگاهی‌بخشی و آموزش سلامت خواب", "آموزش بیمار و خانواده", "ابتکارات ارزیابی خواب و شناسایی زودهنگام", "برنامه‌های سلامت جامعه و مسئولیت اجتماعی"],
+		oppTitle: "فرصت‌های همکاری",
+		opp: "از فرصت‌های همکاری در برنامه‌هایی که آگاهی سلامت، آموزش بیمار و رفاه جامعه را ارتقا می‌دهند استقبال می‌کنیم.",
+		withTitle: "از همکاری با این نهادها استقبال می‌کنیم:",
+		partners: ["سازمان‌های دولتی", "بیمارستان‌ها و کلینیک‌ها", "بنیادهای خیریه", "سازمان‌های مردم‌نهاد (NGO)", "برنامه‌های مسئولیت اجتماعی شرکت‌ها (CSR)", "ابتکارات سلامت جامعه"],
+		ctaTitle: "با ما همکاری کنید",
+		cta: "برای بررسی فرصت‌های همکاری یا گفتگو درباره ابتکارات مشترک، با تیم تداوی لایف تک تماس بگیرید.",
+		closing: "با هم می‌توانیم آگاهی، آموزش و دسترسی به منابع سلامت خواب را در سراسر عمان بهبود دهیم.",
+		contact: "تماس با تیم ما", whatsapp: "واتساپ", subject: "درخواست همکاری",
+	},
+}[locale];
+const impactIcons = ["material-symbols:campaign-outline-rounded", "material-symbols:family-restroom-rounded", "material-symbols:quiz-outline-rounded", "material-symbols:diversity-3-rounded"];
+const partnerIcons = ["material-symbols:account-balance-outline-rounded", "material-symbols:local-hospital-outline-rounded", "material-symbols:volunteer-activism-outline-rounded", "material-symbols:public", "material-symbols:handshake-outline-rounded", "material-symbols:groups-outline-rounded"];
+---
+<PageHero icon="material-symbols:diversity-3-rounded" title={c.title} lead={c.lead} />
+
+<section class="card-base reading-surface p-7 md:p-10 mb-8" data-reveal>
+    {c.intro.map((p) => <p class="text-lg leading-loose text-90 mb-4 last:mb-0">{p}</p>)}
+</section>
+
+<section class="mb-10">
+    <h2 class="section-title mb-5 px-1" data-reveal>{c.impactTitle}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {c.impact.map((item, i) => (
+            <div class="impact-card card-base lift-card p-6 flex flex-col gap-4" data-reveal data-reveal-delay={String(i * 90)}>
+                <span class="impact-icon"><Icon name={impactIcons[i]} class="text-3xl" /></span>
+                <span class="font-extrabold text-90 leading-snug">{item}</span>
+            </div>
+        ))}
+    </div>
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-5 mb-8">
+    <div class="card-base reading-surface p-7 md:p-9" data-reveal>
+        <h2 class="text-xl font-extrabold text-90 flex items-center gap-3"><Icon name="material-symbols:handshake-outline-rounded" class="text-3xl text-[var(--primary)]" /> {c.oppTitle}</h2>
+        <p class="text-75 leading-loose mt-3">{c.opp}</p>
+    </div>
+    <div class="card-base p-7 md:p-9" data-reveal data-reveal-delay="120">
+        <h3 class="font-extrabold text-90 mb-4">{c.withTitle}</h3>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {c.partners.map((p, i) => (
+                <li class="flex items-center gap-3 rounded-xl p-3 bg-[var(--btn-regular-bg)] font-semibold text-90 text-sm">
+                    <Icon name={partnerIcons[i]} class="text-xl text-[var(--primary)] shrink-0" /> {p}
+                </li>
+            ))}
+        </ul>
+    </div>
+</section>
+
+<section class="partner-cta relative overflow-hidden rounded-[var(--radius-large)] p-8 md:p-12 text-white text-center flex flex-col items-center gap-4 mb-4" data-reveal="scale">
+    <Icon name="material-symbols:diversity-3-rounded" class="text-5xl opacity-90" />
+    <h2 class="text-2xl md:text-3xl font-black">{c.ctaTitle}</h2>
+    <p class="max-w-2xl opacity-90 leading-relaxed">{c.cta}</p>
+    <p class="max-w-2xl font-bold text-lg">{c.closing}</p>
+    <div class="flex flex-wrap justify-center gap-2 mt-2">
+        <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(c.subject)}`} class="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-white text-[#2b3bb8] font-bold"><Icon name="material-symbols:mail-outline-rounded" /> {c.contact}</a>
+        <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}&text=${encodeURIComponent(c.subject)}`} target="_blank" rel="noopener noreferrer" class="btn-whatsapp"><Icon name="fa6-brands:whatsapp" /> {c.whatsapp}</a>
+        <a href={url(localizePath("/contact/", locale))} class="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-white/15 border border-white/30 font-bold"><Icon name="material-symbols:call" /></a>
+    </div>
+</section>
+
+<style>
+    .impact-icon { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 1.25rem; color: white; background: linear-gradient(140deg, oklch(0.52 0.16 265), oklch(0.66 0.13 220)); box-shadow: 0 12px 26px oklch(0.45 0.15 265 / 0.25); transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+    .impact-card:hover .impact-icon { transform: rotate(-8deg) scale(1.08); }
+    .partner-cta { background: linear-gradient(130deg, oklch(0.3 0.12 272), oklch(0.45 0.16 260) 55%, oklch(0.55 0.13 220)); box-shadow: 0 20px 50px oklch(0.35 0.15 268 / 0.3); }
+    .partner-cta::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / 0.14) 1px, transparent 1px); background-size: 22px 22px; mask-image: radial-gradient(circle at center, black, transparent 75%); pointer-events: none; }
+</style>

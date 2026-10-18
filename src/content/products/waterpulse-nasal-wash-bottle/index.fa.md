@@ -9,6 +9,11 @@ tags: ["Waterpulse", "شست‌وشوی بینی", "شست‌وشوی سینوس
 lang: fa
 translationKey: waterpulse-nasal-wash-bottle
 draft: false
+group: "sleep"
+order: 60
+gallery: ["/uploads/products/waterpulse-nasal-wash-bottle-2.png","/uploads/products/waterpulse-nasal-wash-bottle-3.png","/uploads/products/waterpulse-nasal-wash-bottle-4.png"]
+downloads: [{"group":"دانلودها","label":"بروشور PDF","file":"/uploads/products/waterpulse-nasal-wash-bottle-brochure.pdf"}]
+videos: [{"title":"Waterpulse Nasal Wash Bottle","youtube":"gXXssphAe9o"}]
 ---
 
 Waterpulse YT-300 یک بطری کاربردی برای پاک‌سازی منظم بینی در خانه است. این محصول به عبور محلول سالین در مجاری بینی کمک می‌کند تا مخاط، گردوغبار و آلرژن‌ها را خارج کرده و راحتی تنفس را بهتر کند.
@@ -22,14 +27,3 @@ Waterpulse YT-300 یک بطری کاربردی برای پاک‌سازی منظ
 - کاربرانی که یک گزینه ساده و دستی برای شست‌وشوی بینی می‌خواهند.
 - افرادی که با گرفتگی روزانه یا آلرژی فصلی درگیر هستند.
 - خانواده‌هایی که به یک محصول پایه برای مراقبت خانگی سینوس نیاز دارند.
-
-## دانلودها
-- [بروشور PDF](/uploads/products/waterpulse-nasal-wash-bottle-brochure.pdf)
-
-## گالری تصاویر
-
-![بطری شست‌وشوی بینی Waterpulse مدل YT-300 2](/uploads/products/waterpulse-nasal-wash-bottle-2.png)
-
-![بطری شست‌وشوی بینی Waterpulse مدل YT-300 3](/uploads/products/waterpulse-nasal-wash-bottle-3.png)
-
-![بطری شست‌وشوی بینی Waterpulse مدل YT-300 4](/uploads/products/waterpulse-nasal-wash-bottle-4.png)

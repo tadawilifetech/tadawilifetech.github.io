@@ -1,97 +1,223 @@
 ---
 import { Icon } from "astro-icon/components";
-import { navBarConfig, siteConfig } from "../config";
-import { LinkPresets } from "../constants/link-presets";
-import { LinkPreset, type NavBarLink } from "../types/config";
+import { siteConfig } from "../config";
+import { NAV_GROUPS, groupedNav } from "../constants/site-nav";
+import { WHATSAPP_PHONE_DISPLAY, WHATSAPP_PHONE_RAW } from "../utils/contact";
 import { getLocaleFromPathname, localizePath } from "../utils/locale-utils";
 import { url } from "../utils/url-utils";
+import CartPanel from "./CartPanel.tsx";
 import LanguageSwitcher from "./LanguageSwitcher.tsx";
 import LightDarkSwitch from "./LightDarkSwitch.tsx";
 import Search from "./Search.tsx";
-import CartPanel from "./CartPanel.tsx";
 import DisplaySettings from "./widget/DisplaySettings.tsx";
-import NavMenuPanel from "./widget/NavMenuPanel.astro";
 
 const className = Astro.props.class;
 const disableEntranceAnimation = Astro.props.disableEntranceAnimation ?? false;
 
-let links: NavBarLink[] = navBarConfig.links.map(
-	(item: NavBarLink | LinkPreset): NavBarLink => {
-		if (typeof item === "number") {
-			return LinkPresets[item];
-		}
-		return item;
-	},
-);
 const currentLocale = getLocaleFromPathname(Astro.url.pathname);
+const nav = groupedNav();
+const href = (path: string) => url(localizePath(path, currentLocale));
+const menuLabel = { en: "Menu", ar: "القائمة", fa: "منو" }[currentLocale];
+const callLabel = { en: "Call us", ar: "اتصل بنا", fa: "تماس" }[currentLocale];
 ---
 <div id="navbar" class:list={["z-50", {"onload-animation": !disableEntranceAnimation}]}>
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
-        <a href={url(localizePath('/', currentLocale))} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-4 font-bold active:scale-95" aria-label={siteConfig.title}>
-            <div class="flex flex-row items-center text-[var(--primary)]">
-                <img src={url('/logo-tadawi.svg')} alt="Tadawi Life Tech" class="block h-7 w-auto max-w-[9.5rem] md:h-8" loading="eager" decoding="async" />
-                <span class="sr-only">{siteConfig.title}</span>
-            </div>
+        "card-base nav-shell !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between gap-2 px-3 md:px-4"]}>
+        <a href={href('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-2 md:px-3 font-bold active:scale-95 shrink-0" aria-label={siteConfig.title}>
+            <img src={url('/logo-tadawi.svg')} alt="Tadawi Life Tech" class="block h-7 w-auto max-w-[8.5rem] md:h-8" loading="eager" decoding="async" />
         </a>
-        <div class="hidden md:flex">
-            {links.map((l) => {
-                return <a aria-label={l.name} href={l.external ? l.url : url(localizePath(l.url, currentLocale))} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
-                >
-                    <div class="flex items-center">
-                        <span data-i18n={l.i18nKey}>{l.name}</span>
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 rtl:ml-0 rtl:mr-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
-                    </div>
-                </a>;
+
+        <nav class="hidden xl:flex items-center" aria-label="Main">
+            {nav.map((entry) => {
+                if ("items" in entry) {
+                    const group = NAV_GROUPS[entry.group];
+                    return (
+                        <div class="nav-dropdown relative" data-nav-group={entry.group}>
+                            <button type="button" class="nav-link btn-plain scale-animation rounded-lg h-11 px-3 font-bold gap-1" aria-haspopup="true" aria-expanded="false">
+                                <span>{group.label[currentLocale]}</span>
+                                <Icon name="material-symbols:keyboard-arrow-down-rounded" class="nav-chevron text-[1.1rem] transition-transform" />
+                            </button>
+                            <div class="nav-dropdown-panel">
+                                <div class="card-base float-panel !top-0 p-2 w-[22rem] shadow-2xl border border-black/5 dark:border-white/10">
+                                    {entry.items.map((item) => (
+                                        <a href={href(item.href)} class="nav-dropdown-item group/item flex items-start gap-3 rounded-xl px-3 py-2.5 transition hover:bg-[var(--btn-plain-bg-hover)]" data-nav-key={item.key}>
+                                            <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--btn-regular-bg)] text-[var(--primary)] transition group-hover/item:bg-[var(--primary)] group-hover/item:text-white">
+                                                <Icon name={item.icon} class="text-[1.2rem]" />
+                                            </span>
+                                            <span class="flex flex-col">
+                                                <span class="text-sm font-bold text-90 group-hover/item:text-[var(--primary)] transition">{item.label[currentLocale]}</span>
+                                                <span class="text-xs text-50 leading-snug">{item.desc[currentLocale]}</span>
+                                            </span>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }
+                return (
+                    <a href={href(entry.href)} class="nav-link btn-plain scale-animation rounded-lg h-11 px-3 font-bold" data-nav-key={entry.key}>
+                        <span>{entry.label[currentLocale]}</span>
+                    </a>
+                );
             })}
-        </div>
-        <div class="flex">
-            <!--<SearchPanel client:load>-->
+        </nav>
+
+        <div class="flex items-center">
+            <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="nav-phone hidden lg:inline-flex items-center gap-2 h-10 rounded-full ps-1.5 pe-3.5 me-1 text-sm font-bold" aria-label={`${callLabel} ${WHATSAPP_PHONE_DISPLAY}`}>
+                <span class="nav-phone-icon flex h-7 w-7 items-center justify-center rounded-full">
+                    <Icon name="material-symbols:call" class="text-[1rem]" />
+                </span>
+                <span dir="ltr">{WHATSAPP_PHONE_DISPLAY}</span>
+            </a>
+            <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 lg:!hidden" aria-label={`${callLabel} ${WHATSAPP_PHONE_DISPLAY}`}>
+                <Icon name="material-symbols:call-outline-rounded" class="text-[1.25rem]" />
+            </a>
             <Search client:load></Search>
             <CartPanel client:load locale={currentLocale}></CartPanel>
-            <LanguageSwitcher client:load></LanguageSwitcher>
+            <LanguageSwitcher client:load locale={currentLocale}></LanguageSwitcher>
             {!siteConfig.themeColor.fixed && (
                     <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
                         <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
                     </button>
             )}
             <LightDarkSwitch client:load></LightDarkSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
-                <Icon name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
+            <button aria-label={menuLabel} aria-controls="nav-menu-panel" aria-expanded="false" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 xl:!hidden" id="nav-menu-switch">
+                <Icon name="material-symbols:menu-rounded" class="text-[1.4rem]"></Icon>
             </button>
         </div>
-        <NavMenuPanel links={links}></NavMenuPanel>
         <DisplaySettings client:only="react"></DisplaySettings>
     </div>
 </div>
 
-<script>
-function loadButtonScript() {
-    let settingBtn = document.getElementById("display-settings-switch");
-    if (settingBtn) {
-        settingBtn.onclick = function () {
-            let settingPanel = document.getElementById("display-setting");
-            if (settingPanel) {
-                settingPanel.classList.toggle("float-panel-closed");
-            }
-        };
+<style>
+    .nav-dropdown-panel {
+        position: absolute;
+        top: 100%;
+        inset-inline-start: -0.5rem;
+        padding-top: 0.6rem;
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+        pointer-events: none;
+        transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 60;
     }
+    .nav-dropdown:hover .nav-dropdown-panel,
+    .nav-dropdown:focus-within .nav-dropdown-panel,
+    .nav-dropdown.is-open .nav-dropdown-panel {
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+    }
+    .nav-dropdown:hover .nav-chevron,
+    .nav-dropdown.is-open .nav-chevron {
+        transform: rotate(180deg);
+    }
+    .nav-link {
+        white-space: nowrap;
+        font-size: 0.93rem;
+        padding-inline: 0.6rem;
+    }
+    .nav-phone { white-space: nowrap; }
+    .nav-link.is-active {
+        color: var(--primary);
+    }
+    .nav-link.is-active::after {
+        content: "";
+        position: absolute;
+        inset-inline: 0.9rem;
+        bottom: 0.3rem;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--primary);
+    }
+    .nav-phone {
+        color: var(--primary);
+        background: color-mix(in oklch, var(--primary) 10%, transparent);
+        border: 1px solid color-mix(in oklch, var(--primary) 22%, transparent);
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .nav-phone:hover {
+        background: color-mix(in oklch, var(--primary) 18%, transparent);
+        transform: translateY(-1px);
+    }
+    .nav-phone-icon {
+        background: var(--primary);
+        color: white;
+        animation: phone-ring 4s ease-in-out infinite;
+    }
+    @keyframes phone-ring {
+        0%, 88%, 100% { transform: rotate(0); }
+        90% { transform: rotate(-14deg); }
+        92% { transform: rotate(14deg); }
+        94% { transform: rotate(-10deg); }
+        96% { transform: rotate(8deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .nav-phone-icon { animation: none; }
+    }
+</style>
 
-    let menuBtn = document.getElementById("nav-menu-switch");
-    if (menuBtn) {
-        menuBtn.onclick = function () {
-            let menuPanel = document.getElementById("nav-menu-panel");
-            if (menuPanel) {
-                menuPanel.classList.toggle("float-panel-closed");
-            }
-        };
-    }
+<script>
+import { stripLocaleFromPathname } from "../utils/locale-utils";
+
+function markActive() {
+    const path = stripLocaleFromPathname(window.location.pathname);
+    document.querySelectorAll<HTMLElement>("#navbar [data-nav-key], #nav-menu-panel [data-nav-key]").forEach((el) => {
+        const key = el.dataset.navKey;
+        const active = key === "home"
+            ? path === "/"
+            : path.startsWith(`/${key}/`) || (key === "blog" && path.startsWith("/posts/"));
+        el.classList.toggle("is-active", active);
+        if (active) el.setAttribute("aria-current", "page");
+        else el.removeAttribute("aria-current");
+    });
+    document.querySelectorAll<HTMLElement>("#navbar .nav-dropdown").forEach((dd) => {
+        const hasActive = !!dd.querySelector(".is-active");
+        dd.querySelector(".nav-link")?.classList.toggle("is-active", hasActive);
+    });
 }
 
-loadButtonScript();
+function setupNavbar() {
+    const settingBtn = document.getElementById("display-settings-switch");
+    if (settingBtn && !settingBtn.dataset.bound) {
+        settingBtn.dataset.bound = "1";
+        settingBtn.addEventListener("click", () => {
+            document.getElementById("display-setting")?.classList.toggle("float-panel-closed");
+        });
+    }
+
+    // Click / keyboard support for dropdowns (hover handled in CSS)
+    document.querySelectorAll<HTMLElement>("#navbar .nav-dropdown").forEach((dd) => {
+        if (dd.dataset.bound) return;
+        dd.dataset.bound = "1";
+        const trigger = dd.querySelector<HTMLButtonElement>("button");
+        trigger?.addEventListener("click", () => {
+            const open = !dd.classList.contains("is-open");
+            document.querySelectorAll("#navbar .nav-dropdown.is-open").forEach((o) => o.classList.remove("is-open"));
+            dd.classList.toggle("is-open", open);
+            trigger.setAttribute("aria-expanded", String(open));
+        });
+        dd.addEventListener("mouseleave", () => {
+            dd.classList.remove("is-open");
+            trigger?.setAttribute("aria-expanded", "false");
+        });
+    });
+
+    markActive();
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    document.querySelectorAll("#navbar .nav-dropdown.is-open").forEach((o) => o.classList.remove("is-open"));
+});
+
+setupNavbar();
+const bindSwup = () => window.swup?.hooks.on("page:view", markActive);
+if (window.swup?.hooks) bindSwup();
+else document.addEventListener("swup:enable", bindSwup, { once: true });
 </script>
 
 {import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>
@@ -111,7 +237,6 @@ async function loadPagefind() {
         window.pagefind = pagefind;
 
         document.dispatchEvent(new CustomEvent('pagefindready'));
-        console.log('Pagefind loaded and initialized successfully, event dispatched.');
     } catch (error) {
         console.error('Failed to load Pagefind:', error);
         window.pagefind = {
@@ -119,7 +244,6 @@ async function loadPagefind() {
             options: () => Promise.resolve(),
         };
         document.dispatchEvent(new CustomEvent('pagefindloaderror'));
-        console.log('Pagefind load error, event dispatched.');
     }
 }
 

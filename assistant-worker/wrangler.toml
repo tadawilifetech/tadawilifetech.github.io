@@ -1,0 +1,20 @@
+name = "tadawi-assistant-api"
+main = "index.js"
+compatibility_date = "2026-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+SITE_URL = "https://tadawilifetech.com"
+FORMS_TO_EMAIL = "info@tadawilifetech.com"
+FORMS_FROM_EMAIL = "Tadawi Website <forms@tadawilifetech.com>"
+
+# Optional: keep a copy of every referral / device registration
+# [[kv_namespaces]]
+# binding = "FORMS"
+# id = "<kv-namespace-id>"
+
+# Deploy:
+#   cd assistant-worker && npm install
+#   npx wrangler secret put ANTHROPIC_API_KEY
+#   npx wrangler secret put RESEND_API_KEY      (optional – emails form submissions)
+#   npx wrangler deploy

@@ -9,6 +9,10 @@ tags: ["برس تمیزکننده", "نگهداری تیوب", "اکسسوری C
 lang: fa
 translationKey: cpap-tube-cleaning-brush
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-tube-cleaning-brush-2.webp","/uploads/products/cpap-tube-cleaning-brush-3.webp"]
+downloads: []
 ---
 
 این برس دو سر برای تمیزکردن تیوب‌های بلند و قطعات کوچک تنفسی با یک ابزار طراحی شده است. استفاده منظم به حفظ کیفیت جریان هوا و بهداشت بهتر تجهیزات کمک می‌کند.
@@ -22,9 +26,3 @@ draft: false
 - نگهداری دوره‌ای تیوب‌های CPAP و BiPAP.
 - کاربرانی که شلنگ را مرتب می‌شویند و تمیزکاری کامل‌تری می‌خواهند.
 - کیت‌های مراقبت خانگی با تمرکز بر بهداشت تجهیزات.
-
-## گالری تصاویر
-
-![برس تمیزکننده تیوب CPAP 2](/uploads/products/cpap-tube-cleaning-brush-2.webp)
-
-![برس تمیزکننده تیوب CPAP 3](/uploads/products/cpap-tube-cleaning-brush-3.webp)

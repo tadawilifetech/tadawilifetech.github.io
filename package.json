@@ -69,6 +69,7 @@
     "stylus": "^0.64.0",
     "svelte": "^5.39.8",
     "tailwindcss": "^3.4.19",
+    "three": "0.170.0",
     "typescript": "^5.9.3",
     "unist-util-visit": "^5.0.0"
   },
@@ -83,6 +84,7 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@types/sanitize-html": "^2.16.0",
+    "@types/three": "0.170.0",
     "@vite-pwa/astro": "^1.2.0",
     "postcss-import": "^16.1.1",
     "postcss-nesting": "^13.0.2"

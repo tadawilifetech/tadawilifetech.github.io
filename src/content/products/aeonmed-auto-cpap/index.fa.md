@@ -9,6 +9,10 @@ tags: ["Aeonmed", "Auto CPAP", "آپنه خواب", "APAP"]
 lang: fa
 translationKey: aeonmed-auto-cpap
 draft: false
+group: "sleep"
+order: 11
+gallery: ["/uploads/products/aeonmed-auto-cpap-2.png","/uploads/products/aeonmed-auto-cpap-3.jpg"]
+downloads: [{"group":"دانلودها","label":"بروشور PDF","file":"/uploads/products/aeonmed-auto-cpap-brochure.pdf"}]
 ---
 
 Aeonmed AS100A برای ارائه درمان CPAP قابل اعتماد با رابط کاربری ساده و ویژگی‌های راحتی‌محور طراحی شده است. این دستگاه تنظیم خودکار فشار، کنترل رطوبت و عادت‌پذیری راحت‌تر هنگام خواب را پشتیبانی می‌کند.
@@ -22,12 +26,3 @@ Aeonmed AS100A برای ارائه درمان CPAP قابل اعتماد با ر
 - کاربرانی که درمان خانگی آپنه انسدادی خواب را شروع می‌کنند.
 - بیمارانی که یک پلتفرم CPAP خودتنظیم می‌خواهند.
 - چیدمان‌هایی که مرطوب‌سازی و امکانات راحتی را در یک دستگاه نیاز دارند.
-
-## دانلودها
-- [بروشور PDF](/uploads/products/aeonmed-auto-cpap-brochure.pdf)
-
-## گالری تصاویر
-
-![دستگاه Auto CPAP آئونمد AS100A 2](/uploads/products/aeonmed-auto-cpap-2.png)
-
-![دستگاه Auto CPAP آئونمد AS100A 3](/uploads/products/aeonmed-auto-cpap-3.jpg)

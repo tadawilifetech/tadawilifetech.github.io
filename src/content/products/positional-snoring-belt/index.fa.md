@@ -9,6 +9,11 @@ tags: ["کمربند خروپف", "درمان پوزیشنال", "خواب په�
 lang: fa
 translationKey: positional-snoring-belt
 draft: false
+group: "sleep"
+order: 40
+gallery: ["/uploads/products/positional-snoring-belt-2.jpeg","/uploads/products/positional-snoring-belt-3.jpeg","/uploads/products/positional-snoring-belt-4.jpeg","/uploads/products/positional-snoring-belt-5.jpeg","/uploads/products/positional-snoring-belt-6.jpeg","/uploads/products/positional-snoring-belt-7.jpeg"]
+downloads: []
+videos: [{"title":"","src":"/uploads/videos/positional-snoring-belt.mp4","poster":"/uploads/videos/positional-snoring-belt-poster.webp"}]
 ---
 
 این کمربند برای کاربرانی طراحی شده است که خروپف یا اختلال تنفسی آن‌ها هنگام خوابیدن به پشت بیشتر می‌شود. طراحی ارگونومیک آن به حفظ خواب پهلو و بهبود جریان هوا کمک می‌کند.
@@ -22,17 +27,3 @@ draft: false
 - افراد دارای خروپف پوزیشنال.
 - کاربرانی که برای حفظ خواب پهلو به کمک نیاز دارند.
 - برنامه‌های درمان خانگی پوزیشنال.
-
-## گالری تصاویر
-
-![کمربند ضدخروپف پوزیشنال 2](/uploads/products/positional-snoring-belt-2.jpeg)
-
-![کمربند ضدخروپف پوزیشنال 3](/uploads/products/positional-snoring-belt-3.jpeg)
-
-![کمربند ضدخروپف پوزیشنال 4](/uploads/products/positional-snoring-belt-4.jpeg)
-
-![کمربند ضدخروپف پوزیشنال 5](/uploads/products/positional-snoring-belt-5.jpeg)
-
-![کمربند ضدخروپف پوزیشنال 6](/uploads/products/positional-snoring-belt-6.jpeg)
-
-![کمربند ضدخروپف پوزیشنال 7](/uploads/products/positional-snoring-belt-7.jpeg)

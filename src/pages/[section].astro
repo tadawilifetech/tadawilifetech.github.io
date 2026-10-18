@@ -1,0 +1,17 @@
+---
+import SectionPage from "@components/pages/SectionPage.astro";
+import { SECTION_KEYS, type SectionKey, navItem } from "@constants/site-nav";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+
+export function getStaticPaths() {
+	return SECTION_KEYS.map((section) => ({ params: { section } }));
+}
+
+const section = Astro.params.section as SectionKey;
+const item = navItem(section);
+const title = item?.label.en ?? "Orthopedic Catalog";
+---
+
+<MainGridLayout title={title} description={item?.desc.en ?? title} lang="en">
+	<SectionPage section={section} locale="en" />
+</MainGridLayout>

@@ -1,32 +1,171 @@
 ---
 import { Icon } from "astro-icon/components";
-import { type NavBarLink } from "../../types/config";
+import { NAV_GROUPS, SITE_NAV } from "../../constants/site-nav";
+import { WHATSAPP_PHONE_DISPLAY, WHATSAPP_PHONE_RAW } from "../../utils/contact";
+import { type SiteLocale, localizePath } from "../../utils/locale-utils";
 import { url } from "../../utils/url-utils";
 
 interface Props {
-	links: NavBarLink[];
+	locale: SiteLocale;
 }
 
-const links = Astro.props.links;
+const { locale } = Astro.props;
+const t = {
+	en: { lang: "Language", close: "Close menu", whatsapp: "WhatsApp" },
+	ar: { lang: "اللغة", close: "إغلاق القائمة", whatsapp: "واتساب" },
+	fa: { lang: "زبان", close: "بستن منو", whatsapp: "واتساپ" },
+}[locale];
+const languages = [
+	{ code: "en", label: "English" },
+	{ code: "ar", label: "العربية" },
+	{ code: "fa", label: "فارسی" },
+];
+let lastGroup: string | undefined;
 ---
-<div id="nav-menu-panel" class:list={["float-panel float-panel-closed absolute transition-all fixed ltr:right-4 rtl:left-4 px-2 py-2"]}>
-    {links.map((link) => (
-        <a href={link.external ? link.url : url(link.url)} class="group flex justify-between items-center py-2 ps-3 pe-1 rounded-lg gap-8
-            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
-        "
-           target={link.external ? "_blank" : null}
-        >
-            <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
-                <span data-i18n={link.i18nKey}>{link.name}</span>
+<div id="nav-menu-panel" class="nav-drawer float-panel-closed" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="nav-drawer-backdrop" data-drawer-close></div>
+    <aside class="nav-drawer-sheet">
+        <div class="flex items-center justify-between px-5 pt-5 pb-3">
+            <img src={url('/logo-tadawi.svg')} alt="Tadawi Life Tech" class="h-8 w-auto" />
+            <button class="btn-plain scale-animation rounded-full h-10 w-10" aria-label={t.close} data-drawer-close>
+                <Icon name="material-symbols:close-rounded" class="text-[1.4rem]" />
+            </button>
+        </div>
+
+        <!-- Language switch: prominent, labelled in all three languages, first thing in the menu -->
+        <div class="px-5 pb-4">
+            <div class="flex items-center gap-2 mb-2 text-xs font-bold tracking-wide text-50">
+                <Icon name="material-symbols:translate-rounded" class="text-base text-[var(--primary)]" />
+                <span>Language · اللغة · زبان</span>
             </div>
-            {!link.external && <Icon name="material-symbols:chevron-right-rounded"
-                  class="transition text-[1.25rem] text-[var(--primary)] rtl:rotate-180"
-            >
-            </Icon>}
-            {link.external && <Icon name="fa6-solid:arrow-up-right-from-square"
-                  class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
-            >
-            </Icon>}
-        </a>
-    ))}
+            <div class="grid grid-cols-3 gap-1.5 rounded-2xl p-1.5 bg-[var(--btn-regular-bg)]">
+                {languages.map((l) => (
+                    <button type="button" data-switch-lang={l.code} dir={l.code === "en" ? "ltr" : "rtl"}
+                        class:list={["drawer-lang h-11 rounded-xl text-sm font-bold transition", { "is-current": l.code === locale }]}
+                        aria-pressed={l.code === locale ? "true" : "false"}>
+                        {l.label}
+                    </button>
+                ))}
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto px-3 pb-4" aria-label="Main">
+            {SITE_NAV.map((item, i) => {
+                const header = item.group && item.group !== lastGroup ? NAV_GROUPS[item.group].label[locale] : null;
+                lastGroup = item.group;
+                return (
+                    <>
+                        {header && <div class="px-3 pt-4 pb-1 text-[0.7rem] font-bold uppercase tracking-widest text-[var(--primary)] opacity-80">{header}</div>}
+                        <a href={url(localizePath(item.href, locale))} data-nav-key={item.key}
+                           class="drawer-link group flex items-center gap-3 rounded-xl px-3 py-2.5"
+                           style={`--i:${i}`}>
+                            <span class="drawer-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition">
+                                <Icon name={item.icon} class="text-[1.15rem]" />
+                            </span>
+                            <span class="flex-1 min-w-0">
+                                <span class="block font-bold text-90 text-[0.95rem] leading-tight">{item.label[locale]}</span>
+                                <span class="block text-xs text-50 truncate">{item.desc[locale]}</span>
+                            </span>
+                            <Icon name="material-symbols:chevron-right-rounded" class="text-[1.2rem] text-30 rtl:rotate-180" />
+                        </a>
+                    </>
+                );
+            })}
+        </nav>
+
+        <div class="grid grid-cols-2 gap-2 p-4 border-t border-black/5 dark:border-white/10">
+            <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="flex items-center justify-center gap-2 h-12 rounded-xl bg-[var(--primary)] text-white font-bold text-sm">
+                <Icon name="material-symbols:call" class="text-lg" />
+                <span dir="ltr">{WHATSAPP_PHONE_DISPLAY}</span>
+            </a>
+            <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}`} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 h-12 rounded-xl bg-[#16b35e] text-white font-bold text-sm">
+                <Icon name="fa6-brands:whatsapp" class="text-lg" />
+                <span>{t.whatsapp}</span>
+            </a>
+        </div>
+    </aside>
 </div>
+
+<style>
+    .nav-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 95;
+    }
+    .nav-drawer-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgb(8 10 24 / 0.45);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        transition: opacity 0.3s ease;
+    }
+    .nav-drawer-sheet {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        inset-inline-end: 0;
+        width: min(24rem, 92vw);
+        display: flex;
+        flex-direction: column;
+        background: var(--float-panel-bg);
+        box-shadow: -20px 0 60px rgb(0 0 0 / 0.25);
+        border-start-start-radius: 1.5rem;
+        border-end-start-radius: 1.5rem;
+        transition: transform 0.42s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .nav-drawer.float-panel-closed {
+        pointer-events: none;
+        opacity: 1;
+        transform: none;
+    }
+    .nav-drawer.float-panel-closed .nav-drawer-backdrop { opacity: 0; }
+    .nav-drawer.float-panel-closed .nav-drawer-sheet { transform: translateX(105%); }
+    :global([dir="rtl"]) .nav-drawer.float-panel-closed .nav-drawer-sheet { transform: translateX(-105%); }
+
+    .drawer-link { transition: background 0.2s ease, opacity 0.4s ease, transform 0.4s ease; transition-delay: calc(var(--i) * 25ms); }
+    .nav-drawer.float-panel-closed .drawer-link { opacity: 0; transform: translateX(16px); }
+    .drawer-link:hover, .drawer-link.is-active { background: var(--btn-plain-bg-hover); }
+    .drawer-icon { background: var(--btn-regular-bg); color: var(--primary); }
+    .drawer-link.is-active .drawer-icon, .drawer-link:hover .drawer-icon { background: var(--primary); color: white; }
+    .drawer-lang { color: var(--btn-content); }
+    .drawer-lang.is-current { background: var(--card-bg); color: var(--primary); box-shadow: 0 4px 14px rgb(0 0 0 / 0.08); }
+
+    @media (prefers-reduced-motion: reduce) {
+        .nav-drawer-sheet, .drawer-link { transition: none; }
+    }
+</style>
+
+<script>
+import { setStoredLang } from "../../utils/lang-utils";
+import { type SiteLocale, switchLocaleInPath } from "../../utils/locale-utils";
+
+function setOpen(open: boolean) {
+    document.getElementById("nav-menu-panel")?.classList.toggle("float-panel-closed", !open);
+    document.getElementById("nav-menu-switch")?.setAttribute("aria-expanded", String(open));
+}
+
+function bindDrawer() {
+    const panel = document.getElementById("nav-menu-panel");
+    if (!panel || panel.dataset.bound) return;
+    panel.dataset.bound = "1";
+
+    document.getElementById("nav-menu-switch")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setOpen(panel.classList.contains("float-panel-closed"));
+    });
+    panel.querySelectorAll("[data-drawer-close], .drawer-link").forEach((el) => el.addEventListener("click", () => setOpen(false)));
+    panel.querySelectorAll<HTMLButtonElement>("[data-switch-lang]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const code = btn.dataset.switchLang as SiteLocale;
+            setStoredLang(code);
+            window.location.assign(switchLocaleInPath(`${window.location.pathname}${window.location.search}${window.location.hash}`, code));
+        });
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setOpen(false);
+    });
+}
+
+bindDrawer();
+</script>

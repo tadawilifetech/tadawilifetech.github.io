@@ -9,6 +9,11 @@ tags: ["Waterpulse", "Nasal Wash", "Sinus Rinse", "Home Care"]
 lang: en
 translationKey: waterpulse-nasal-wash-bottle
 draft: false
+group: "sleep"
+order: 60
+gallery: ["/uploads/products/waterpulse-nasal-wash-bottle-2.png","/uploads/products/waterpulse-nasal-wash-bottle-3.png","/uploads/products/waterpulse-nasal-wash-bottle-4.png"]
+downloads: [{"group":"Downloads","label":"Brochure PDF","file":"/uploads/products/waterpulse-nasal-wash-bottle-brochure.pdf"}]
+videos: [{"title":"Waterpulse Nasal Wash Bottle","youtube":"gXXssphAe9o"}]
 ---
 
 The Waterpulse YT-300 is a practical rinse bottle for regular nasal cleansing at home. It supports saline flow through the nasal passages to help remove mucus, dust, and allergens and improve breathing comfort.
@@ -22,14 +27,3 @@ The Waterpulse YT-300 is a practical rinse bottle for regular nasal cleansing at
 - Users wanting a straightforward manual nasal rinse option.
 - People managing daily congestion or seasonal allergy symptoms.
 - Families seeking a basic home sinus-care product.
-
-## Downloads
-- [Brochure PDF](/uploads/products/waterpulse-nasal-wash-bottle-brochure.pdf)
-
-## Gallery
-
-![Waterpulse Nasal Wash Bottle YT-300 2](/uploads/products/waterpulse-nasal-wash-bottle-2.png)
-
-![Waterpulse Nasal Wash Bottle YT-300 3](/uploads/products/waterpulse-nasal-wash-bottle-3.png)
-
-![Waterpulse Nasal Wash Bottle YT-300 4](/uploads/products/waterpulse-nasal-wash-bottle-4.png)

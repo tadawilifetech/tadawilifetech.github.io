@@ -1,0 +1,113 @@
+---
+import { Icon } from "astro-icon/components";
+import SmartForm from "@components/forms/SmartForm.tsx";
+import PageHero from "@components/pages/PageHero.astro";
+import { type SiteLocale, localizePath } from "@utils/locale-utils";
+import { url } from "@utils/url-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+
+const c = {
+	en: {
+		title: "Device Registration & Support", eyebrow: "Register Your Device",
+		lead: "Welcome to the Tadawi Life Tech Device Registration Portal.",
+		why: "Registering your device helps us maintain accurate product records and provide you with access to educational resources, product information, and future support services related to your device.",
+		perks: ["Accurate product records", "Educational resources", "Future support services"],
+		personal: "Personal Information", fullName: "Full Name", mobile: "Mobile Number", email: "Email Address", dob: "Date of Birth",
+		gender: "Gender", genders: ["Male", "Female"], height: "Height", weight: "Weight", country: "Country", city: "City",
+		device: "Device Information", brand: "Device Brand", type: "Device Type", types: ["CPAP", "Auto CPAP", "BiPAP", "Oxygen Concentrator", "Other"],
+		model: "Device Model", serial: "Serial Number", purchase: "Purchase Date",
+		consentTitle: "Consent", consent: "I confirm that the information provided above is accurate.",
+		submit: "Register Device",
+		thanksTitle: "Thank You",
+		thanks: ["Your device registration has been successfully submitted.", "Our team may contact you if additional information is required.", "You can also explore our educational resources through the Sleep Therapy Academy."],
+		academy: "Visit Sleep Therapy Academy",
+		labels: { required: "This field is required.", sending: "Sending…", whatsappHint: "Your registration is sent to our WhatsApp and email so we keep a record.", email: "Also send by email", again: "Register another device" },
+	},
+	ar: {
+		title: "تسجيل الجهاز والدعم", eyebrow: "سجّل جهازك",
+		lead: "مرحباً بك في بوابة تسجيل الأجهزة من تداوي لايف تك.",
+		why: "يساعدنا تسجيل جهازك على الاحتفاظ بسجلات دقيقة للمنتجات وتمكينك من الوصول إلى المصادر التعليمية ومعلومات المنتج وخدمات الدعم المستقبلية المتعلقة بجهازك.",
+		perks: ["سجلات دقيقة للمنتج", "مصادر تعليمية", "خدمات دعم مستقبلية"],
+		personal: "المعلومات الشخصية", fullName: "الاسم الكامل", mobile: "رقم الجوال", email: "البريد الإلكتروني", dob: "تاريخ الميلاد",
+		gender: "الجنس", genders: ["ذكر", "أنثى"], height: "الطول", weight: "الوزن", country: "الدولة", city: "المدينة",
+		device: "معلومات الجهاز", brand: "العلامة التجارية للجهاز", type: "نوع الجهاز", types: ["CPAP", "Auto CPAP", "BiPAP", "مكثّف الأكسجين", "أخرى"],
+		model: "طراز الجهاز", serial: "الرقم التسلسلي", purchase: "تاريخ الشراء",
+		consentTitle: "الموافقة", consent: "أؤكد أن المعلومات المقدمة أعلاه صحيحة.",
+		submit: "تسجيل الجهاز",
+		thanksTitle: "شكراً لك",
+		thanks: ["تم إرسال تسجيل جهازك بنجاح.", "قد يتواصل معك فريقنا إذا احتجنا إلى معلومات إضافية.", "يمكنك أيضاً استكشاف مصادرنا التعليمية في أكاديمية علاج النوم."],
+		academy: "زيارة أكاديمية علاج النوم",
+		labels: { required: "هذا الحقل مطلوب.", sending: "جارٍ الإرسال…", whatsappHint: "يُرسل التسجيل إلى واتساب والبريد الإلكتروني لدينا للاحتفاظ بسجل.", email: "أرسل أيضاً بالبريد الإلكتروني", again: "تسجيل جهاز آخر" },
+	},
+	fa: {
+		title: "ثبت دستگاه و پشتیبانی", eyebrow: "دستگاه خود را ثبت کنید",
+		lead: "به پورتال ثبت دستگاه تداوی لایف تک خوش آمدید.",
+		why: "ثبت دستگاه به ما کمک می‌کند سوابق دقیقی از محصولات نگه داریم و دسترسی شما به منابع آموزشی، اطلاعات محصول و خدمات پشتیبانی آینده مرتبط با دستگاهتان را فراهم کنیم.",
+		perks: ["سوابق دقیق محصول", "منابع آموزشی", "خدمات پشتیبانی آینده"],
+		personal: "اطلاعات فردی", fullName: "نام و نام خانوادگی", mobile: "شماره همراه", email: "آدرس ایمیل", dob: "تاریخ تولد",
+		gender: "جنسیت", genders: ["مرد", "زن"], height: "قد", weight: "وزن", country: "کشور", city: "شهر",
+		device: "اطلاعات دستگاه", brand: "برند دستگاه", type: "نوع دستگاه", types: ["CPAP", "Auto CPAP", "BiPAP", "اکسیژن‌ساز", "سایر"],
+		model: "مدل دستگاه", serial: "شماره سریال", purchase: "تاریخ خرید",
+		consentTitle: "تأیید", consent: "تأیید می‌کنم اطلاعات واردشده صحیح است.",
+		submit: "ثبت دستگاه",
+		thanksTitle: "سپاسگزاریم",
+		thanks: ["ثبت دستگاه شما با موفقیت ارسال شد.", "در صورت نیاز به اطلاعات بیشتر، تیم ما با شما تماس خواهد گرفت.", "همچنین می‌توانید منابع آموزشی ما را در آکادمی درمان خواب مشاهده کنید."],
+		academy: "ورود به آکادمی درمان خواب",
+		labels: { required: "این فیلد الزامی است.", sending: "در حال ارسال…", whatsappHint: "اطلاعات ثبت برای نگهداری سوابق به واتساپ و ایمیل ما ارسال می‌شود.", email: "ارسال با ایمیل", again: "ثبت دستگاه دیگر" },
+	},
+}[locale];
+
+const sections = [
+	{ title: c.personal, fields: [
+		{ name: "fullName", label: c.fullName, type: "text" as const, required: true },
+		{ name: "mobile", label: c.mobile, type: "tel" as const, required: true, placeholder: "+968" },
+		{ name: "email", label: c.email, type: "email" as const },
+		{ name: "dob", label: c.dob, type: "date" as const },
+		{ name: "gender", label: c.gender, type: "radio" as const, options: c.genders },
+		{ name: "height", label: c.height, type: "number" as const, suffix: "cm" },
+		{ name: "weight", label: c.weight, type: "number" as const, suffix: "kg" },
+		{ name: "country", label: c.country, type: "text" as const, placeholder: locale === "en" ? "Oman" : locale === "ar" ? "عُمان" : "عمان" },
+		{ name: "city", label: c.city, type: "text" as const },
+	] },
+	{ title: c.device, fields: [
+		{ name: "brand", label: c.brand, type: "radio" as const, options: ["Heyer", "Aeonmed"] },
+		{ name: "deviceType", label: c.type, type: "radio" as const, options: c.types, required: true },
+		{ name: "model", label: c.model, type: "radio" as const, options: ["Aeonmed AS100A", "Heyer 20A Pro", "Heyer BV30ST Pro"], required: true },
+		{ name: "serial", label: c.serial, type: "text" as const },
+		{ name: "purchaseDate", label: c.purchase, type: "date" as const },
+	] },
+	{ title: c.consentTitle, fields: [
+		{ name: "consent", label: c.consent, type: "consent" as const, required: true },
+	] },
+];
+---
+<PageHero icon="material-symbols:app-registration-rounded" eyebrow={c.eyebrow} title={c.title} lead={c.lead} />
+
+<section class="card-base reading-surface p-6 md:p-8 mb-5 grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-6 items-center" data-reveal>
+    <p class="text-75 leading-loose text-[1.02rem]">{c.why}</p>
+    <ul class="flex flex-col gap-2.5">
+        {c.perks.map((p, i) => (
+            <li class="flex items-center gap-3 font-bold text-90">
+                <span class="grid place-items-center w-9 h-9 rounded-xl bg-[var(--btn-regular-bg)] text-[var(--primary)]">
+                    <Icon name={["material-symbols:inventory-2-outline-rounded", "material-symbols:school-outline-rounded", "material-symbols:support-agent-rounded"][i]} class="text-xl" />
+                </span>
+                {p}
+            </li>
+        ))}
+    </ul>
+</section>
+
+<SmartForm
+    client:visible
+    formType="device-registration"
+    locale={locale}
+    heading={c.title}
+    sections={sections}
+    submitLabel={c.submit}
+    thankYou={{ title: c.thanksTitle, lines: c.thanks, link: { href: url(localizePath("/sleep-therapy-academy/", locale)), label: c.academy } }}
+    labels={c.labels}
+/>

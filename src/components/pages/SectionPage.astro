@@ -1,0 +1,82 @@
+---
+import { render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import SleepAssessment from "@components/assessment/SleepAssessment.tsx";
+import Markdown from "@components/misc/Markdown.astro";
+import Academy from "@components/pages/Academy.astro";
+import CommunityHealth from "@components/pages/CommunityHealth.astro";
+import DeviceRegistration from "@components/pages/DeviceRegistration.astro";
+import HealthcareProfessionals from "@components/pages/HealthcareProfessionals.astro";
+import OrthopedicCatalog from "@components/pages/OrthopedicCatalog.astro";
+import PageHero from "@components/pages/PageHero.astro";
+import TrainingResources from "@components/pages/TrainingResources.astro";
+import UnderstandingCpap from "@components/pages/UnderstandingCpap.astro";
+import type { SectionKey } from "@constants/site-nav";
+import { getSpecEntryByTranslationKey } from "@utils/content-utils";
+import { WHATSAPP_PHONE_RAW } from "@utils/contact";
+import { type SiteLocale, localizePath } from "@utils/locale-utils";
+import { url } from "@utils/url-utils";
+
+interface Props {
+	section: SectionKey;
+	locale: SiteLocale;
+}
+const { section, locale } = Astro.props;
+
+const assessment = {
+	en: { title: "Online Sleep Assessment", lead: "Answer six short steps — each step opens after you complete the previous one — and get your sleep apnea risk instantly." },
+	ar: { title: "تقييم النوم الإلكتروني", lead: "أجب عن ست خطوات قصيرة — تُفتح كل خطوة بعد إكمال السابقة — واحصل فوراً على تقدير خطر انقطاع النفس أثناء النوم." },
+	fa: { title: "ارزیابی آنلاین خواب", lead: "به شش مرحله کوتاه پاسخ دهید — هر مرحله پس از تکمیل مرحله قبل باز می‌شود — و فوراً ریسک آپنه خواب خود را ببینید." },
+}[locale];
+
+const evidence = {
+	en: { title: "Medical Evidence", lead: "Clinical studies and scientific references behind the therapies we provide.", soon: "Clinical evidence is being prepared", soonText: "We are curating clinical studies and scientific references for this section. Meanwhile, you can find clinical study documents on product pages such as the ONIRIS oral appliance.", oniris: "ONIRIS clinical studies", ask: "Ask our team" },
+	ar: { title: "الأدلة الطبية", lead: "الدراسات السريرية والمراجع العلمية التي تستند إليها العلاجات التي نقدمها.", soon: "يجري إعداد الأدلة السريرية", soonText: "نعمل على جمع الدراسات السريرية والمراجع العلمية لهذا القسم. في الأثناء يمكنك الاطلاع على مستندات الدراسات السريرية في صفحات المنتجات مثل جهاز ONIRIS.", oniris: "دراسات ONIRIS السريرية", ask: "اسأل فريقنا" },
+	fa: { title: "شواهد پزشکی", lead: "مطالعات بالینی و منابع علمی پشتوانه درمان‌هایی که ارائه می‌دهیم.", soon: "شواهد بالینی در حال آماده‌سازی است", soonText: "در حال گردآوری مطالعات بالینی و منابع علمی برای این بخش هستیم. در این فاصله می‌توانید مستندات مطالعات بالینی را در صفحات محصولاتی مانند ابزار دهانی ONIRIS ببینید.", oniris: "مطالعات بالینی ONIRIS", ask: "پرسش از تیم ما" },
+}[locale];
+
+let EvidenceContent: Awaited<ReturnType<typeof render>>["Content"] | null = null;
+if (section === "medical-evidence") {
+	const entry = await getSpecEntryByTranslationKey("medical-evidence", locale);
+	if (entry?.body?.trim()) EvidenceContent = (await render(entry)).Content;
+}
+---
+{section === "sleep-assessment" && (
+    <>
+        <PageHero icon="material-symbols:bedtime-outline-rounded" title={assessment.title} lead={assessment.lead} />
+        <SleepAssessment client:load locale={locale} />
+    </>
+)}
+{section === "sleep-therapy-academy" && <Academy locale={locale} />}
+{section === "understanding-cpap-therapy" && <UnderstandingCpap locale={locale} />}
+{section === "training-resources" && <TrainingResources locale={locale} />}
+{section === "medical-evidence" && (
+    <>
+        <PageHero icon="material-symbols:biotech-outline-rounded" title={evidence.title} lead={evidence.lead} />
+        {EvidenceContent ? (
+            <section class="card-base reading-surface px-6 md:px-10 py-8" data-reveal>
+                <Markdown class="markdown-content" data-pagefind-body><EvidenceContent /></Markdown>
+            </section>
+        ) : (
+            <section class="card-base reading-surface p-8 md:p-12 text-center flex flex-col items-center gap-4" data-reveal>
+                <span class="evidence-orbit" aria-hidden="true"><Icon name="material-symbols:biotech-outline-rounded" class="text-4xl" /></span>
+                <h2 class="text-2xl font-extrabold text-90">{evidence.soon}</h2>
+                <p class="text-75 max-w-2xl leading-loose">{evidence.soonText}</p>
+                <div class="flex flex-wrap justify-center gap-2 mt-2">
+                    <a href={url(localizePath("/products/oniris-mandibular-advancement-device/", locale))} class="btn-grad">{evidence.oniris}</a>
+                    <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}`} target="_blank" rel="noopener noreferrer" class="btn-soft">{evidence.ask}</a>
+                </div>
+            </section>
+        )}
+    </>
+)}
+{section === "healthcare-professionals" && <HealthcareProfessionals locale={locale} />}
+{section === "device-registration" && <DeviceRegistration locale={locale} />}
+{section === "community-health" && <CommunityHealth locale={locale} />}
+{section === "orthopedic-catalog" && <OrthopedicCatalog locale={locale} />}
+
+<style>
+    .evidence-orbit { position: relative; display: grid; place-items: center; width: 6rem; height: 6rem; border-radius: 999px; color: var(--primary); background: var(--btn-regular-bg); }
+    .evidence-orbit::after { content: ""; position: absolute; inset: -0.6rem; border-radius: inherit; border: 2px dashed color-mix(in oklch, var(--primary) 40%, transparent); animation: orbit-spin 14s linear infinite; }
+    @keyframes orbit-spin { to { transform: rotate(360deg); } }
+</style>

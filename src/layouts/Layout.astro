@@ -19,8 +19,9 @@ import {
 import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { stripLocaleFromPathname } from "../utils/locale-utils";
-import { pathsEqual, url } from "../utils/url-utils";
+import { isWideRoute, pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
+import "../styles/site.css";
 
 interface Props {
 	title?: string;
@@ -41,6 +42,7 @@ function isHomePath(pathname: string) {
 }
 
 const isHomePage = isHomePath(Astro.url.pathname);
+const isWidePage = isWideRoute(stripLocaleFromPathname(Astro.url.pathname));
 
 // defines global css variables
 // why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
@@ -225,7 +227,7 @@ const bannerOffset =
 		<link rel="alternate" type="application/rss+xml" title={`${profileConfig.name} — Products`} href={`${Astro.site}products.xml`}/>
 
 	</head>
-	<body class=" min-h-screen transition " class:list={[{"is-home": isHomePage, "enable-banner": enableBanner}]}
+	<body class=" min-h-screen transition " class:list={[{"is-home": isHomePage, "is-wide": isWidePage, "enable-banner": enableBanner}]}
 		  data-overlayscrollbars-initialize
 	>
 		<ConfigCarrier></ConfigCarrier>
@@ -367,17 +369,21 @@ html {
 	}
 }
 
-/* Hide sidebar on home page */
-.is-home #main-grid {
+/* Hide sidebar on home and full-width pages */
+.is-home #main-grid,
+.is-wide #main-grid {
 	grid-template-columns: 1fr !important;
 }
-.is-home #sidebar {
+.is-home #sidebar,
+.is-wide #sidebar {
 	display: none !important;
 }
-.is-home #swup-container {
+.is-home #swup-container,
+.is-wide #swup-container {
 	grid-column: span 1 !important;
 }
-.is-home .footer {
+.is-home .footer,
+.is-wide .footer {
 	grid-column: span 1 !important;
 }
 </style>
@@ -391,7 +397,7 @@ import {
 	// ClickScrollPlugin
 } from 'overlayscrollbars';
 import {getHue, getStoredTheme, setHue, setTheme} from "../utils/setting-utils";
-import {pathsEqual, url} from "../utils/url-utils";
+import {isWideRoute, pathsEqual, url} from "../utils/url-utils";
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_HOME,
@@ -616,6 +622,9 @@ const setup = () => {
 		} else {
 			bodyElement!.classList.remove('is-home');
 		}
+		let toPath = visit.to.url;
+		try { toPath = new URL(visit.to.url, window.location.origin).pathname; } catch (_error) { /* keep raw */ }
+		bodyElement!.classList.toggle('is-wide', isWideRoute(stripLocaleFromPathname(toPath)));
 
 		// increase the page height during page transition to prevent the scrolling animation from jumping
 		const heightExtend = document.getElementById('page-height-extend')
@@ -705,6 +714,43 @@ window.onresize = () => {
 	document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
 }
 
+</script>
+
+<script>
+/* Scroll-reveal for any element with [data-reveal] (optionally data-reveal-delay="ms") */
+const revealWindow = window as Window & { __tadawiRevealReady?: boolean };
+
+function initReveal() {
+	const els = document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-revealed)");
+	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+		els.forEach((el) => el.classList.add("is-revealed"));
+		return;
+	}
+	document.documentElement.classList.add("reveal-ready");
+	const io = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				if (!entry.isIntersecting) continue;
+				entry.target.classList.add("is-revealed");
+				io.unobserve(entry.target);
+			}
+		},
+		{ threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+	);
+	els.forEach((el) => {
+		if (el.dataset.revealDelay) el.style.setProperty("--reveal-delay", `${el.dataset.revealDelay}ms`);
+		io.observe(el);
+	});
+}
+
+initReveal();
+const bindRevealHooks = () => {
+	if (revealWindow.__tadawiRevealReady) return;
+	revealWindow.__tadawiRevealReady = true;
+	window.swup.hooks.on("page:view", initReveal);
+};
+if (window.swup?.hooks) bindRevealHooks();
+else document.addEventListener("swup:enable", bindRevealHooks);
 </script>
 
 <script>

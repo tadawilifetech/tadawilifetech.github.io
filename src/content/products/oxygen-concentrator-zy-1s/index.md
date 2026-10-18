@@ -9,6 +9,10 @@ tags: ["Oxygen Concentrator", "Portable Oxygen", "Respiratory Support", "ZY-1S"]
 lang: en
 translationKey: oxygen-concentrator-zy-1s
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/oxygen-concentrator-zy-1s-2.jpeg","/uploads/products/oxygen-concentrator-zy-1s-3.jpeg","/uploads/products/oxygen-concentrator-zy-1s-4.jpeg","/uploads/products/oxygen-concentrator-zy-1s-5.webp","/uploads/products/oxygen-concentrator-zy-1s-6.webp","/uploads/products/oxygen-concentrator-zy-1s-7.webp","/uploads/products/oxygen-concentrator-zy-1s-8.webp"]
+downloads: [{"group":"Downloads","label":"Brochure PDF","file":"/uploads/products/oxygen-concentrator-zy-1s-brochure.pdf"}]
 ---
 
 The ZY-1S is built to deliver portable oxygen therapy in a compact, handle-equipped form factor. It is positioned as a practical option for home use and everyday mobility where stable oxygen support and easy operation matter.
@@ -22,22 +26,3 @@ The ZY-1S is built to deliver portable oxygen therapy in a compact, handle-equip
 - Users needing a compact oxygen concentrator for home environments.
 - Respiratory support routines that benefit from portability.
 - Setups that need easier handling and visible front-panel information.
-
-## Downloads
-- [Brochure PDF](/uploads/products/oxygen-concentrator-zy-1s-brochure.pdf)
-
-## Gallery
-
-![Portable Oxygen Concentrator ZY-1S 2](/uploads/products/oxygen-concentrator-zy-1s-2.jpeg)
-
-![Portable Oxygen Concentrator ZY-1S 3](/uploads/products/oxygen-concentrator-zy-1s-3.jpeg)
-
-![Portable Oxygen Concentrator ZY-1S 4](/uploads/products/oxygen-concentrator-zy-1s-4.jpeg)
-
-![Portable Oxygen Concentrator ZY-1S 5](/uploads/products/oxygen-concentrator-zy-1s-5.webp)
-
-![Portable Oxygen Concentrator ZY-1S 6](/uploads/products/oxygen-concentrator-zy-1s-6.webp)
-
-![Portable Oxygen Concentrator ZY-1S 7](/uploads/products/oxygen-concentrator-zy-1s-7.webp)
-
-![Portable Oxygen Concentrator ZY-1S 8](/uploads/products/oxygen-concentrator-zy-1s-8.webp)

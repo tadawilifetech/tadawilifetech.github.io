@@ -9,6 +9,10 @@ tags: ["فرشاة تنظيف", "العناية بالأنابيب", "ملحق C
 lang: ar
 translationKey: cpap-tube-cleaning-brush
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-tube-cleaning-brush-2.webp","/uploads/products/cpap-tube-cleaning-brush-3.webp"]
+downloads: []
 ---
 
 صُمّمت هذه الفرشاة ذات الطرفين لتنظيف الأنابيب الطويلة والمكونات التنفسية الصغيرة بأداة واحدة. ويساعد استخدامها المنتظم في الحفاظ على جودة تدفق الهواء ونظافة المعدات.
@@ -22,9 +26,3 @@ draft: false
 - الصيانة الدورية لأنابيب CPAP وBiPAP.
 - المستخدمون الذين يغسلون الأنابيب بانتظام ويريدون تنظيفاً أعمق.
 - مجموعات العناية المنزلية التي تركز على نظافة المعدات.
-
-## معرض الصور
-
-![فرشاة تنظيف أنبوب CPAP 2](/uploads/products/cpap-tube-cleaning-brush-2.webp)
-
-![فرشاة تنظيف أنبوب CPAP 3](/uploads/products/cpap-tube-cleaning-brush-3.webp)

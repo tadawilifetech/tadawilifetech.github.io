@@ -9,6 +9,10 @@ tags: ["حصيرة CPAP", "حصيرة سيليكون", "حماية الجهاز"
 lang: ar
 translationKey: cpap-mat
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-mat-2.webp","/uploads/products/cpap-mat-3.jpg","/uploads/products/cpap-mat-4.jpg"]
+downloads: []
 ---
 
 توفر هذه الحصيرة قاعدة ثابتة لأجهزة CPAP وBiPAP على الطاولات الجانبية والأسطح العلاجية. وهي تساعد في امتصاص الاهتزاز وتقليل حركة الجهاز وحماية الأثاث من التكاثف أو الانسكابات.
@@ -22,11 +26,3 @@ draft: false
 - إعدادات PAP بجانب السرير مع المرطب.
 - المستخدمون الذين يريدون منطقة جهاز أكثر هدوءاً ونظافة.
 - المنازل والعيادات التي تحتاج إلى حماية إضافية للسطح.
-
-## معرض الصور
-
-![حصيرة سيليكون واقية لأجهزة CPAP 2](/uploads/products/cpap-mat-2.webp)
-
-![حصيرة سيليكون واقية لأجهزة CPAP 3](/uploads/products/cpap-mat-3.jpg)
-
-![حصيرة سيليكون واقية لأجهزة CPAP 4](/uploads/products/cpap-mat-4.jpg)

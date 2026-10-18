@@ -9,6 +9,10 @@ tags: ["چانه‌بند", "تنفس دهانی", "اکسسوری CPAP", "پش�
 lang: fa
 translationKey: cpap-chin-strap
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-chin-strap-2.avif","/uploads/products/cpap-chin-strap-3.avif"]
+downloads: []
 ---
 
 این چانه‌بند برای کمک به بسته ماندن دهان در خواب و افزایش راحتی در درمان PAP طراحی شده است. برای کاربرانی که از ماسک بینی یا نازال پیلُو استفاده می‌کنند و در خواب دهانشان باز می‌شود، بسیار کاربردی است.
@@ -22,9 +26,3 @@ draft: false
 - افرادی که با دهان باز می‌خوابند.
 - کاربران ماسک بینی یا نازال پیلُو که آب‌بندی بهتر می‌خواهند.
 - کسانی که به یک اکسسوری سبک برای راحتی بیشتر نیاز دارند.
-
-## گالری تصاویر
-
-![چانه‌بند CPAP 2](/uploads/products/cpap-chin-strap-2.avif)
-
-![چانه‌بند CPAP 3](/uploads/products/cpap-chin-strap-3.avif)

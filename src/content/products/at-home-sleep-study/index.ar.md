@@ -9,6 +9,10 @@ tags: ["دراسة النوم", "انقطاع التنفس", "OSA", "اختبا�
 lang: ar
 translationKey: at-home-sleep-study
 draft: false
+group: "sleep"
+order: 50
+gallery: []
+downloads: []
 ---
 
 ## لماذا قد تحتاج إلى دراسة النوم؟

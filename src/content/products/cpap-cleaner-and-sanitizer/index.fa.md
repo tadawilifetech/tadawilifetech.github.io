@@ -9,6 +9,10 @@ tags: ["تمیزکننده CPAP", "ضدعفونی", "تمیزکاری اوزون
 lang: fa
 translationKey: cpap-cleaner-and-sanitizer
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-cleaner-and-sanitizer-2.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-3.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-4.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-5.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-6.jpeg","/uploads/products/cpap-cleaner-and-sanitizer-7.jpeg"]
+downloads: []
 ---
 
 این دستگاه جمع‌وجور با استفاده از اوزون به ضدعفونی لوازم تنفسی و برخی وسایل کوچک روزمره کمک می‌کند. فرم قابل حمل و باتری شارژی آن، استفاده در منزل و سفر را ساده می‌کند.
@@ -22,17 +26,3 @@ draft: false
 - کاربرانی که یک گزینه قابل حمل برای ضدعفونی لوازم PAP می‌خواهند.
 - ست‌های سفری و چیدمان‌های جمع‌وجور خانگی.
 - افرادی که ماسک، تیوب، محفظه مرطوب‌ساز و اقلام کوچک مشابه را نگهداری می‌کنند.
-
-## گالری تصاویر
-
-![دستگاه تمیزکننده و ضدعفونی‌کننده CPAP با اوزون 2](/uploads/products/cpap-cleaner-and-sanitizer-2.jpeg)
-
-![دستگاه تمیزکننده و ضدعفونی‌کننده CPAP با اوزون 3](/uploads/products/cpap-cleaner-and-sanitizer-3.jpeg)
-
-![دستگاه تمیزکننده و ضدعفونی‌کننده CPAP با اوزون 4](/uploads/products/cpap-cleaner-and-sanitizer-4.jpeg)
-
-![دستگاه تمیزکننده و ضدعفونی‌کننده CPAP با اوزون 5](/uploads/products/cpap-cleaner-and-sanitizer-5.jpeg)
-
-![دستگاه تمیزکننده و ضدعفونی‌کننده CPAP با اوزون 6](/uploads/products/cpap-cleaner-and-sanitizer-6.jpeg)
-
-![دستگاه تمیزکننده و ضدعفونی‌کننده CPAP با اوزون 7](/uploads/products/cpap-cleaner-and-sanitizer-7.jpeg)

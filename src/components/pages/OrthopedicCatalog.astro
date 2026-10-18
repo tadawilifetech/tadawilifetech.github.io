@@ -1,0 +1,56 @@
+---
+import { Icon } from "astro-icon/components";
+import PageHero from "@components/pages/PageHero.astro";
+import { ORTHO_FAMILIES } from "@constants/product-groups";
+import { getSortedProducts } from "@utils/content-utils";
+import { WHATSAPP_PHONE_DISPLAY } from "@utils/contact";
+import { type SiteLocale, getEntryTranslationKey } from "@utils/locale-utils";
+import { getProductUrlBySlug, url } from "@utils/url-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+const products = (await getSortedProducts(locale)).filter((p) => p.data.group === "orthopedic").sort((a, b) => a.data.order - b.data.order);
+const c = {
+	en: { title: "Ortino Orthopedic Catalog", lead: "All Ortino braces with sizes and prices in Omani Rial.", print: "Print / Save as PDF", sizes: "Sizes", free: "Free size", view: "Details", note: "Prices in OMR. For orders and availability call or WhatsApp" },
+	ar: { title: "كتالوج Ortino لدعامات العظام", lead: "جميع دعامات Ortino مع المقاسات والأسعار بالريال العماني.", print: "طباعة / حفظ PDF", sizes: "المقاسات", free: "مقاس حر", view: "التفاصيل", note: "الأسعار بالريال العماني. للطلب والتوفر اتصل أو راسلنا عبر واتساب" },
+	fa: { title: "کاتالوگ بریس‌های ارتوپدی اورتینو", lead: "همه بریس‌های اورتینو با سایز و قیمت به ریال عمان.", print: "چاپ / ذخیره PDF", sizes: "سایزها", free: "فری سایز", view: "جزئیات", note: "قیمت‌ها به ریال عمان است. برای سفارش و موجودی تماس بگیرید یا در واتساپ پیام دهید" },
+}[locale];
+---
+<PageHero icon="material-symbols:menu-book-outline-rounded" title={c.title} lead={c.lead}>
+    <button type="button" onclick="window.print()" class="no-print mt-5 inline-flex items-center gap-2 h-11 px-5 rounded-full bg-white text-[#2b3bb8] font-bold text-sm">
+        <Icon name="material-symbols:print-outline-rounded" class="text-lg" /> {c.print}
+    </button>
+</PageHero>
+
+{ORTHO_FAMILIES.map((family) => {
+    const items = products.filter((p) => p.data.subcategory === family.key);
+    return (
+        <section class="mb-8 print-break">
+            <h2 class="flex items-center gap-3 text-xl md:text-2xl font-extrabold text-90 mb-4 px-1" data-reveal>
+                <span class="icon-badge"><Icon name={family.icon} class="text-2xl" /></span>
+                {family.label[locale]}
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {items.map((p) => (
+                    <a href={getProductUrlBySlug(getEntryTranslationKey(p), locale)} class="card-base lift-card flex gap-4 p-4 items-center" data-reveal>
+                        <img src={url(p.data.image)} alt={p.data.title} class="w-24 h-24 object-contain rounded-xl bg-white p-1.5 shrink-0" loading="lazy" />
+                        <div class="min-w-0 flex-1">
+                            <h3 class="font-extrabold text-90 leading-snug">{p.data.title}</h3>
+                            <div class="text-xl font-black text-[var(--primary)] mt-1" dir="ltr">{p.data.price}</div>
+                            <div class="text-xs text-50 mt-1">
+                                {c.sizes}: {p.data.sizes.length && p.data.sizes[0].size !== "Free size" ? p.data.sizes.map((s) => s.size).join(" · ") : c.free}
+                            </div>
+                        </div>
+                    </a>
+                ))}
+            </div>
+        </section>
+    );
+})}
+
+<p class="card-base p-5 text-sm text-75 flex items-center gap-2 mb-4">
+    <Icon name="material-symbols:info-outline-rounded" class="text-xl text-[var(--primary)] shrink-0" />
+    {c.note} <b dir="ltr">{WHATSAPP_PHONE_DISPLAY}</b>
+</p>

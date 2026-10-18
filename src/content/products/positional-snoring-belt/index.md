@@ -9,6 +9,11 @@ tags: ["Snoring Belt", "Positional Therapy", "Side Sleeping", "Sleep Support"]
 lang: en
 translationKey: positional-snoring-belt
 draft: false
+group: "sleep"
+order: 40
+gallery: ["/uploads/products/positional-snoring-belt-2.jpeg","/uploads/products/positional-snoring-belt-3.jpeg","/uploads/products/positional-snoring-belt-4.jpeg","/uploads/products/positional-snoring-belt-5.jpeg","/uploads/products/positional-snoring-belt-6.jpeg","/uploads/products/positional-snoring-belt-7.jpeg"]
+downloads: []
+videos: [{"title":"","src":"/uploads/videos/positional-snoring-belt.mp4","poster":"/uploads/videos/positional-snoring-belt-poster.webp"}]
 ---
 
 This positional belt is designed for users whose snoring or breathing disturbances worsen when sleeping on the back. Its ergonomic support encourages side sleeping to help improve airflow and sleep quality.
@@ -22,17 +27,3 @@ This positional belt is designed for users whose snoring or breathing disturbanc
 - People with positional snoring.
 - Users who need help maintaining a side-sleep posture.
 - Home-based positional therapy plans.
-
-## Gallery
-
-![Positional Snoring Belt 2](/uploads/products/positional-snoring-belt-2.jpeg)
-
-![Positional Snoring Belt 3](/uploads/products/positional-snoring-belt-3.jpeg)
-
-![Positional Snoring Belt 4](/uploads/products/positional-snoring-belt-4.jpeg)
-
-![Positional Snoring Belt 5](/uploads/products/positional-snoring-belt-5.jpeg)
-
-![Positional Snoring Belt 6](/uploads/products/positional-snoring-belt-6.jpeg)
-
-![Positional Snoring Belt 7](/uploads/products/positional-snoring-belt-7.jpeg)

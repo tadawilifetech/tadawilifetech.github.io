@@ -1,0 +1,272 @@
+---
+import { Icon } from "astro-icon/components";
+import type { SiteLocale } from "@utils/locale-utils";
+import { url } from "@utils/url-utils";
+
+interface Props {
+	images: string[];
+	title: string;
+	imageVideo?: string;
+	locale: SiteLocale;
+}
+
+const { images, title, imageVideo = "", locale } = Astro.props;
+const list = [...new Set(images.filter(Boolean))];
+const src = (p: string) => (p.startsWith("/") ? url(p) : p);
+const t = {
+	en: { zoom: "Click to zoom", play: "Watch video", prev: "Previous image", next: "Next image" },
+	ar: { zoom: "انقر للتكبير", play: "شاهد الفيديو", prev: "الصورة السابقة", next: "الصورة التالية" },
+	fa: { zoom: "برای بزرگنمایی کلیک کنید", play: "مشاهده ویدیو", prev: "تصویر قبلی", next: "تصویر بعدی" },
+}[locale];
+---
+{list.length > 0 && (
+<div class="product-gallery" data-gallery data-video={imageVideo ? src(imageVideo) : ""}>
+    <div class="pg-stage" data-stage>
+        <div class="pg-glow" aria-hidden="true"></div>
+        {list.map((img, i) => (
+            <img
+                src={src(img)}
+                alt={`${title}${i ? ` – ${i + 1}` : ""}`}
+                class:list={["pg-image", { "is-active": i === 0 }]}
+                data-index={i}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+                fetchpriority={i === 0 ? "high" : "auto"}
+            />
+        ))}
+        <video class="pg-video" data-video-el playsinline controls controlslist="nodownload" hidden></video>
+
+        <button type="button" class="pg-open" data-open aria-label={imageVideo ? t.play : t.zoom}>
+            <span class="pg-hint">
+                <Icon name={imageVideo ? "material-symbols:play-circle-rounded" : "material-symbols:zoom-in-rounded"} class="text-lg" />
+                {imageVideo ? t.play : t.zoom}
+            </span>
+        </button>
+
+        {list.length > 1 && (
+            <>
+                <button type="button" class="pg-arrow pg-arrow--prev" data-prev aria-label={t.prev}>
+                    <Icon name="material-symbols:chevron-left-rounded" class="rtl:rotate-180" />
+                </button>
+                <button type="button" class="pg-arrow pg-arrow--next" data-next aria-label={t.next}>
+                    <Icon name="material-symbols:chevron-right-rounded" class="rtl:rotate-180" />
+                </button>
+                <div class="pg-counter" dir="ltr"><span data-current>1</span> / {list.length}</div>
+            </>
+        )}
+    </div>
+
+    {list.length > 1 && (
+        <div class="pg-thumbs hide-scrollbar" role="tablist">
+            {list.map((img, i) => (
+                <button type="button" class:list={["pg-thumb", { "is-active": i === 0 }]} data-thumb={i} role="tab" aria-selected={i === 0 ? "true" : "false"} aria-label={`${title} ${i + 1}`}>
+                    <img src={src(img)} alt="" loading="lazy" decoding="async" />
+                </button>
+            ))}
+        </div>
+    )}
+</div>
+)}
+
+<style>
+    .product-gallery { display: flex; flex-direction: column; gap: 0.75rem; }
+    .pg-stage {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        border-radius: var(--radius-large);
+        overflow: hidden;
+        background:
+            radial-gradient(70% 60% at 50% 45%, white 0%, oklch(0.97 0.01 var(--hue)) 70%, oklch(0.93 0.02 var(--hue)) 100%);
+        border: 1px solid rgb(0 0 0 / 0.05);
+        touch-action: pan-y;
+    }
+    :global(.dark) .pg-stage {
+        background: radial-gradient(70% 60% at 50% 45%, oklch(0.32 0.02 var(--hue)) 0%, oklch(0.22 0.02 var(--hue)) 100%);
+        border-color: rgb(255 255 255 / 0.06);
+    }
+    @media (min-width: 768px) { .pg-stage { aspect-ratio: 5 / 4; } }
+    .pg-glow {
+        position: absolute;
+        inset: 18% 20%;
+        border-radius: 999px;
+        background: oklch(0.75 0.12 var(--hue) / 0.18);
+        filter: blur(50px);
+    }
+    .pg-image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 6%;
+        opacity: 0;
+        transform: scale(0.97);
+        transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        mix-blend-mode: multiply;
+    }
+    :global(.dark) .pg-image { mix-blend-mode: normal; }
+    .pg-image.is-active { opacity: 1; transform: none; }
+    .pg-stage:hover .pg-image.is-active { transform: scale(1.03); }
+    .pg-video { position: absolute; inset: 0; width: 100%; height: 100%; background: #000; object-fit: contain; z-index: 4; }
+    .pg-open { position: absolute; inset: 0; z-index: 2; cursor: zoom-in; }
+    .product-gallery[data-video]:not([data-video=""]) .pg-open { cursor: pointer; }
+    .pg-hint {
+        position: absolute;
+        bottom: 0.9rem;
+        inset-inline-start: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: white;
+        background: rgb(10 14 40 / 0.55);
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .pg-stage:hover .pg-hint, .product-gallery[data-video]:not([data-video=""]) .pg-hint { opacity: 1; transform: none; }
+    .pg-arrow {
+        position: absolute;
+        top: 50%;
+        z-index: 3;
+        display: grid;
+        place-items: center;
+        width: 2.6rem;
+        height: 2.6rem;
+        margin-top: -1.3rem;
+        border-radius: 999px;
+        font-size: 1.6rem;
+        color: var(--primary);
+        background: rgb(255 255 255 / 0.85);
+        box-shadow: 0 6px 18px rgb(0 0 0 / 0.12);
+        backdrop-filter: blur(6px);
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    :global(.dark) .pg-arrow { background: rgb(30 34 60 / 0.85); }
+    .pg-arrow:hover { transform: scale(1.08); }
+    .pg-arrow--prev { inset-inline-start: 0.75rem; }
+    .pg-arrow--next { inset-inline-end: 0.75rem; }
+    .pg-counter {
+        position: absolute;
+        top: 0.9rem;
+        inset-inline-end: 0.9rem;
+        z-index: 3;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: rgb(0 0 0 / 0.6);
+        background: rgb(255 255 255 / 0.75);
+    }
+    .pg-thumbs { display: flex; gap: 0.6rem; overflow-x: auto; padding: 0.15rem; }
+    .pg-thumb {
+        flex: 0 0 4.6rem;
+        height: 4.6rem;
+        border-radius: 0.9rem;
+        overflow: hidden;
+        background: white;
+        border: 2px solid transparent;
+        opacity: 0.65;
+        transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+    :global(.dark) .pg-thumb { background: oklch(0.28 0.02 var(--hue)); }
+    .pg-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 0.3rem; }
+    .pg-thumb:hover { opacity: 1; transform: translateY(-2px); }
+    .pg-thumb.is-active { opacity: 1; border-color: var(--primary); }
+</style>
+
+<script>
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import "photoswipe/style.css";
+
+function initGallery(root: HTMLElement) {
+    if (root.dataset.bound) return;
+    root.dataset.bound = "1";
+    const images = Array.from(root.querySelectorAll<HTMLImageElement>(".pg-image"));
+    const thumbs = Array.from(root.querySelectorAll<HTMLButtonElement>(".pg-thumb"));
+    const counter = root.querySelector<HTMLElement>("[data-current]");
+    const videoEl = root.querySelector<HTMLVideoElement>("[data-video-el]");
+    const videoSrc = root.dataset.video || "";
+    let current = 0;
+
+    const show = (i: number) => {
+        current = (i + images.length) % images.length;
+        images.forEach((img, k) => img.classList.toggle("is-active", k === current));
+        thumbs.forEach((th, k) => {
+            th.classList.toggle("is-active", k === current);
+            th.setAttribute("aria-selected", String(k === current));
+        });
+        thumbs[current]?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+        if (counter) counter.textContent = String(current + 1);
+        if (videoEl && !videoEl.hidden) {
+            videoEl.pause();
+            videoEl.hidden = true;
+        }
+    };
+
+    const rtl = () => document.documentElement.dir === "rtl";
+    root.querySelector("[data-prev]")?.addEventListener("click", () => show(current + (rtl() ? 1 : -1)));
+    root.querySelector("[data-next]")?.addEventListener("click", () => show(current + (rtl() ? -1 : 1)));
+    thumbs.forEach((th, k) => th.addEventListener("click", () => show(k)));
+
+    root.tabIndex = 0;
+    root.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") show(current + (rtl() ? 1 : -1));
+        if (e.key === "ArrowRight") show(current + (rtl() ? -1 : 1));
+    });
+
+    // Swipe
+    let startX = 0;
+    const stage = root.querySelector<HTMLElement>("[data-stage]");
+    stage?.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    stage?.addEventListener("touchend", (e) => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 45) show(current + (dx < 0 ? 1 : -1) * (rtl() ? -1 : 1));
+    });
+
+    const lightbox = new PhotoSwipeLightbox({
+        dataSource: images.map((img) => ({
+            src: img.currentSrc || img.src,
+            width: img.naturalWidth || 1600,
+            height: img.naturalHeight || 1600,
+            alt: img.alt,
+        })),
+        pswpModule: () => import("photoswipe"),
+        bgOpacity: 0.92,
+        wheelToZoom: true,
+        showHideAnimationType: "fade",
+    });
+    lightbox.addFilter("itemData", (data, index) => {
+        const img = images[index];
+        if (img?.naturalWidth) {
+            data.width = img.naturalWidth;
+            data.height = img.naturalHeight;
+        }
+        return data;
+    });
+    lightbox.init();
+
+    root.querySelector("[data-open]")?.addEventListener("click", () => {
+        if (videoSrc && videoEl) {
+            if (!videoEl.src) videoEl.src = videoSrc;
+            videoEl.hidden = false;
+            void videoEl.play();
+            return;
+        }
+        lightbox.loadAndOpen(current);
+    });
+}
+
+function initAll() {
+    document.querySelectorAll<HTMLElement>("[data-gallery]").forEach(initGallery);
+}
+initAll();
+document.addEventListener("astro:page-load", initAll);
+const bind = () => window.swup?.hooks.on("page:view", initAll);
+if (window.swup?.hooks) bind();
+else document.addEventListener("swup:enable", bind, { once: true });
+</script>

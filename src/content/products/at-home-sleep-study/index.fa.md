@@ -9,6 +9,10 @@ tags: ["مطالعه خواب", "آپنه خواب", "OSA", "آزمایش منز
 lang: fa
 translationKey: at-home-sleep-study
 draft: false
+group: "sleep"
+order: 50
+gallery: []
+downloads: []
 ---
 
 ## چرا ممکن است به آزمایش خواب نیاز داشته باشید؟

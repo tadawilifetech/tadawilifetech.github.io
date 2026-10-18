@@ -9,6 +9,10 @@ tags: ["أنبوب CPAP", "خرطوم 19 مم", "خرطوم", "موصل القن
 lang: ar
 translationKey: cpap-tube
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-tube-2.webp","/uploads/products/cpap-tube-3.avif","/uploads/products/cpap-tube-4.webp"]
+downloads: []
 ---
 
 صُمم هذا الأنبوب القياسي لتوفير تدفق هواء ثابت بين الجهاز والقناع. كما أن بنيته المرنة مناسبة للاستخدام اليومي مع الحفاظ على التوافق مع معظم إعدادات PAP القياسية.
@@ -22,11 +26,3 @@ draft: false
 - استبدال خرطوم CPAP أو BiPAP بشكل دوري.
 - المستخدمون الذين يحتاجون إلى توافق واسع مع الأقنعة القياسية.
 - الإعدادات المنزلية التي تحتاج إلى خرطوم يومي موثوق.
-
-## معرض الصور
-
-![أنبوب Heyer CPAP مقاس 19 مم 2](/uploads/products/cpap-tube-2.webp)
-
-![أنبوب Heyer CPAP مقاس 19 مم 3](/uploads/products/cpap-tube-3.avif)
-
-![أنبوب Heyer CPAP مقاس 19 مم 4](/uploads/products/cpap-tube-4.webp)

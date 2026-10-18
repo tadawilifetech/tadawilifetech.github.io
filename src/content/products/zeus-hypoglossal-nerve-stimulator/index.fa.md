@@ -9,6 +9,11 @@ tags: ["ZEUS", "کاهش خروپف", "TENS", "حمایت راه هوایی"]
 lang: fa
 translationKey: zeus-hypoglossal-nerve-stimulator
 draft: false
+group: "sleep"
+order: 35
+gallery: ["/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-4.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-5.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-6.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-7.webp"]
+downloads: [{"group":"دانلودها","label":"فایل محصول PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-1.pdf"},{"group":"دانلودها","label":"فایل محصول PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-2.pdf"},{"group":"دانلودها","label":"فایل محصول PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-3.pdf"},{"group":"دانلودها","label":"Thorax 2016 Pengo thorax journal article","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-paper-1.pdf"}]
+videos: [{"title":"Zeus","youtube":"uqZl9QQsvf0"}]
 ---
 
 ZEUS یک دستگاه خارجی کم‌حجم است که زیر چانه تحریک ملایمی ایجاد می‌کند تا به حفظ تون راه هوایی فوقانی در خواب کمک کند. این محصول برای کاربرانی طراحی شده که به‌دنبال گزینه‌ای غیرتهاجمی برای مدیریت خروپف هستند.
@@ -22,23 +27,3 @@ ZEUS یک دستگاه خارجی کم‌حجم است که زیر چانه تح
 - بزرگسالانی که راهکار بدون ماسک و بدون کاشت برای خروپف می‌خواهند.
 - کاربرانی که به گزینه کمکی مبتنی بر تحریک خارجی علاقه دارند.
 - مسیرهای درمان خروپف با راهنمایی متخصص.
-
-## دانلودها
-- [فایل محصول PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-1.pdf)
-- [فایل محصول PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-2.pdf)
-- [فایل محصول PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-3.pdf)
-- [Thorax 2016 Pengo thorax journal article](/uploads/products/zeus-hypoglossal-nerve-stimulator-paper-1.pdf)
-
-## گالری تصاویر
-
-![دستگاه تحریک عصب زیرزبانی ZEUS 1](/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp)
-
-![دستگاه تحریک عصب زیرزبانی ZEUS 3](/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp)
-
-![دستگاه تحریک عصب زیرزبانی ZEUS 4](/uploads/products/zeus-hypoglossal-nerve-stimulator-4.webp)
-
-![دستگاه تحریک عصب زیرزبانی ZEUS 5](/uploads/products/zeus-hypoglossal-nerve-stimulator-5.webp)
-
-![دستگاه تحریک عصب زیرزبانی ZEUS 6](/uploads/products/zeus-hypoglossal-nerve-stimulator-6.webp)
-
-![دستگاه تحریک عصب زیرزبانی ZEUS 7](/uploads/products/zeus-hypoglossal-nerve-stimulator-7.webp)

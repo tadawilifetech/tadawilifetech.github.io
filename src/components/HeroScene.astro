@@ -1,0 +1,117 @@
+---
+import HeroContent from "@components/home/HeroContent.astro";
+import type { SiteLocale } from "@utils/locale-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+---
+<!-- Night tint + Three.js layer over the banner photo -->
+<div class="hero-tint" aria-hidden="true"></div>
+<canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+<div class="hero-vignette" aria-hidden="true"></div>
+
+<!-- Desktop home hero copy; the home page renders a card version for small screens -->
+<div class="hero-overlay">
+    <div class="hero-overlay-inner">
+        <HeroContent locale={locale} variant="overlay" />
+    </div>
+</div>
+
+<style>
+    .hero-tint,
+    .hero-canvas,
+    .hero-vignette {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+    .hero-tint {
+        background:
+            linear-gradient(180deg, rgb(6 10 38 / 0.35) 0%, rgb(6 10 38 / 0.05) 40%, rgb(6 10 38 / 0.55) 100%),
+            radial-gradient(90% 70% at 70% 30%, rgb(70 110 255 / 0.18), transparent 70%);
+        mix-blend-mode: multiply;
+    }
+    .hero-canvas {
+        opacity: 0;
+        transition: opacity 1.2s ease;
+    }
+    :global(.hero-ready) .hero-canvas { opacity: 1; }
+    .hero-vignette {
+        background: linear-gradient(90deg, rgb(5 8 32 / 0.82) 0%, rgb(5 8 32 / 0.5) 38%, rgb(5 8 32 / 0) 70%);
+        opacity: 0;
+        transition: opacity 0.7s ease;
+    }
+    :global([dir="rtl"]) .hero-vignette {
+        background: linear-gradient(270deg, rgb(5 8 32 / 0.82) 0%, rgb(5 8 32 / 0.5) 38%, rgb(5 8 32 / 0) 70%);
+    }
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        display: none;
+        pointer-events: none;
+    }
+    .hero-overlay-inner {
+        position: absolute;
+        inset-inline: 0;
+        bottom: 5.5rem;
+        top: 6rem;
+        max-width: var(--page-width);
+        margin-inline: auto;
+        padding-inline: 2.5rem;
+        display: flex;
+        align-items: center;
+    }
+    .hero-overlay-inner > :global(*) { pointer-events: auto; }
+
+    @media (min-width: 1024px) {
+        :global(body.is-home) .hero-overlay { display: block; }
+        :global(body.is-home) .hero-vignette { opacity: 1; }
+    }
+</style>
+
+<script>
+type SceneHandle = { dispose(): void };
+
+declare global {
+    interface Window { __tadawiHeroScene?: SceneHandle }
+}
+
+function webglAvailable() {
+    try {
+        const c = document.createElement("canvas");
+        return !!(c.getContext("webgl2") || c.getContext("webgl"));
+    } catch {
+        return false;
+    }
+}
+
+async function bootHeroScene() {
+    const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement | null;
+    if (!canvas || window.__tadawiHeroScene || !webglAvailable()) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    if (saveData) return;
+    try {
+        const { createSleepScene } = await import("../scripts/sleep-scene");
+        window.__tadawiHeroScene = createSleepScene(canvas, {
+            reducedMotion,
+            rtl: document.documentElement.dir === "rtl",
+        });
+        document.getElementById("banner-wrapper")?.classList.add("hero-ready");
+    } catch (error) {
+        console.warn("Hero scene unavailable:", error);
+    }
+}
+
+const idle = (cb: () => void) => {
+    if (typeof window.requestIdleCallback === "function") window.requestIdleCallback(cb, { timeout: 1200 });
+    else setTimeout(cb, 300);
+};
+
+if (document.readyState === "complete") idle(bootHeroScene);
+else window.addEventListener("load", () => idle(bootHeroScene), { once: true });
+</script>

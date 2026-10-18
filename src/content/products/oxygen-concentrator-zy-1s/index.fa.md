@@ -9,6 +9,10 @@ tags: ["اکسیژن‌ساز", "اکسیژن پرتابل", "پشتیبانی �
 lang: fa
 translationKey: oxygen-concentrator-zy-1s
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/oxygen-concentrator-zy-1s-2.jpeg","/uploads/products/oxygen-concentrator-zy-1s-3.jpeg","/uploads/products/oxygen-concentrator-zy-1s-4.jpeg","/uploads/products/oxygen-concentrator-zy-1s-5.webp","/uploads/products/oxygen-concentrator-zy-1s-6.webp","/uploads/products/oxygen-concentrator-zy-1s-7.webp","/uploads/products/oxygen-concentrator-zy-1s-8.webp"]
+downloads: [{"group":"دانلودها","label":"بروشور PDF","file":"/uploads/products/oxygen-concentrator-zy-1s-brochure.pdf"}]
 ---
 
 ZY-1S برای ارائه اکسیژن‌تراپی قابل حمل در یک بدنه جمع‌وجور با دسته حمل طراحی شده است. این محصول برای استفاده خانگی و جابه‌جایی روزمره، زمانی که سادگی کار و پایداری پشتیبانی تنفسی مهم است، انتخابی کاربردی به‌شمار می‌آید.
@@ -22,22 +26,3 @@ ZY-1S برای ارائه اکسیژن‌تراپی قابل حمل در یک ب
 - کاربرانی که در منزل به اکسیژن‌ساز جمع‌وجور نیاز دارند.
 - روتین‌های پشتیبانی تنفسی که از قابل حمل بودن سود می‌برند.
 - چیدمان‌هایی که جابه‌جایی آسان و اطلاعات واضح پنل جلویی می‌خواهند.
-
-## دانلودها
-- [بروشور PDF](/uploads/products/oxygen-concentrator-zy-1s-brochure.pdf)
-
-## گالری تصاویر
-
-![اکسیژن‌ساز پرتابل ZY-1S 2](/uploads/products/oxygen-concentrator-zy-1s-2.jpeg)
-
-![اکسیژن‌ساز پرتابل ZY-1S 3](/uploads/products/oxygen-concentrator-zy-1s-3.jpeg)
-
-![اکسیژن‌ساز پرتابل ZY-1S 4](/uploads/products/oxygen-concentrator-zy-1s-4.jpeg)
-
-![اکسیژن‌ساز پرتابل ZY-1S 5](/uploads/products/oxygen-concentrator-zy-1s-5.webp)
-
-![اکسیژن‌ساز پرتابل ZY-1S 6](/uploads/products/oxygen-concentrator-zy-1s-6.webp)
-
-![اکسیژن‌ساز پرتابل ZY-1S 7](/uploads/products/oxygen-concentrator-zy-1s-7.webp)
-
-![اکسیژن‌ساز پرتابل ZY-1S 8](/uploads/products/oxygen-concentrator-zy-1s-8.webp)

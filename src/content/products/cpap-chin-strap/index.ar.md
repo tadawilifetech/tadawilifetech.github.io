@@ -9,6 +9,10 @@ tags: ["رباط الذقن", "التنفس الفموي", "ملحق CPAP", "د�
 lang: ar
 translationKey: cpap-chin-strap
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-chin-strap-2.avif","/uploads/products/cpap-chin-strap-3.avif"]
+downloads: []
 ---
 
 صُمّم هذا الرباط لدعم وضعية النوم مع فم مغلق وتحسين الراحة أثناء العلاج بأجهزة الضغط الإيجابي. وهو مفيد بشكل خاص لمستخدمي الأقنعة الأنفية أو وسائد الأنف الذين يفتحون الفم أثناء النوم.
@@ -22,9 +26,3 @@ draft: false
 - الأشخاص الذين ينامون وفمهم مفتوح.
 - مستخدمو الأقنعة الأنفية أو وسائد الأنف الذين يريدون إحكاماً أفضل.
 - المستخدمون الذين يبحثون عن ملحق خفيف لتحسين الراحة.
-
-## معرض الصور
-
-![رباط الذقن لأجهزة CPAP 2](/uploads/products/cpap-chin-strap-2.avif)
-
-![رباط الذقن لأجهزة CPAP 3](/uploads/products/cpap-chin-strap-3.avif)

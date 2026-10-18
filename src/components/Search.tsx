@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { FaChevronRight } from "react-icons/fa6";
-import { MdOutlineSearch } from "react-icons/md";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { applyStoredLanguage } from "@utils/lang-utils";
 import { url } from "@utils/url-utils.ts";
+import { useEffect, useRef, useState } from "react";
+import { FaChevronRight } from "react-icons/fa6";
+import { MdOutlineSearch } from "react-icons/md";
 import type { SearchResult } from "@/global";
 
 const fakeResult: SearchResult[] = [
@@ -70,7 +70,10 @@ export default function Search() {
 					? Promise.resolve(fakeResult)
 					: Promise.resolve([]);
 
-		if (!import.meta.env.DEV && (!pagefindLoadedRef.current || !window.pagefind)) {
+		if (
+			!import.meta.env.DEV &&
+			(!pagefindLoadedRef.current || !window.pagefind)
+		) {
 			console.error("Pagefind is not available in production environment.");
 		}
 
@@ -156,7 +159,7 @@ export default function Search() {
 		<>
 			<div
 				id="search-bar"
-				className="hidden lg:flex transition-all items-center h-11 ltr:mr-2 rtl:ml-2 rounded-lg bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10"
+				className="hidden transition-all items-center h-11 ltr:mr-2 rtl:ml-2 rounded-lg bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10"
 			>
 				<MdOutlineSearch
 					className="absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 transition my-auto text-black/30 dark:text-white/30"
@@ -174,11 +177,13 @@ export default function Search() {
 
 			<button
 				onClick={() =>
-					document.getElementById("search-panel")?.classList.toggle("float-panel-closed")
+					document
+						.getElementById("search-panel")
+						?.classList.toggle("float-panel-closed")
 				}
 				aria-label="Search Panel"
 				id="search-switch"
-				className="btn-plain scale-animation lg:!hidden rounded-lg w-11 h-11 active:scale-90"
+				className="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90"
 			>
 				<MdOutlineSearch className="text-[1.25rem]" aria-hidden="true" />
 			</button>
@@ -191,7 +196,7 @@ export default function Search() {
 			>
 				<div
 					id="search-bar-inside"
-					className="flex relative lg:hidden transition-all items-center h-11 rounded-xl bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10"
+					className="flex relative transition-all items-center h-11 rounded-xl bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10"
 				>
 					<MdOutlineSearch
 						className="absolute text-[1.25rem] pointer-events-none ltr:ml-3 rtl:mr-3 transition my-auto text-black/30 dark:text-white/30"
@@ -210,7 +215,7 @@ export default function Search() {
 					<a
 						key={`${item.url}-${item.meta.title}`}
 						href={item.url}
-						className="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]"
+						className="transition first-of-type:mt-2 group block rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]"
 					>
 						<div className="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]">
 							{item.meta.title}

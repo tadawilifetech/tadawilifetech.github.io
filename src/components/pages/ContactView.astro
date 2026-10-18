@@ -1,0 +1,191 @@
+---
+import { render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import Markdown from "@components/misc/Markdown.astro";
+import PageHero from "@components/pages/PageHero.astro";
+import { getSpecEntryByTranslationKey } from "@utils/content-utils";
+import {
+	CONTACT_EMAIL,
+	GOOGLE_MAPS_EMBED,
+	GOOGLE_MAPS_URL,
+	INSTAGRAM_ACCOUNTS,
+	WHATSAPP_PHONE_DISPLAY,
+	WHATSAPP_PHONE_RAW,
+} from "@utils/contact";
+import type { SiteLocale } from "@utils/locale-utils";
+
+interface Props {
+	locale: SiteLocale;
+}
+const { locale } = Astro.props;
+const page = await getSpecEntryByTranslationKey("contact", locale);
+const Content = page ? (await render(page)).Content : null;
+
+const t = {
+	en: {
+		title: "Contact Us", lead: "We welcome inquiries about our products, partnerships, and customer support.",
+		email: "Email", phone: "Phone", hours: "Working Hours", instagram: "Instagram", address: "Address", addressText: "Al Ghubrah, Muscat, Oman",
+		openMap: "Open in Google Maps", directions: "Get directions",
+		whyTitle: "Why Choose Tadawi Life Tech?",
+		why: "At Tadawi Life Tech, we focus on sleep health, respiratory care, and orthopedic solutions, providing not only medical equipment but also educational resources, practical guidance, and ongoing patient support.",
+		focusTitle: "Our Areas of Focus",
+		focus: ["Sleep Apnea & Sleep Health", "Home Sleep Testing Solutions", "CPAP & BiPAP Therapy", "Oral Appliance Therapy (MAD)", "Orthopedic & Rehabilitation Solutions", "Educational Resources & Patient Awareness"],
+		supportTitle: "Patient Support",
+		supportLead: "We are committed to helping patients and caregivers better understand their therapy and equipment through:",
+		support: ["Educational materials and training resources", "Product guidance and practical support", "Device registration and support services", "Frequently Asked Questions (FAQ)", "Ongoing assistance and follow-up support"],
+		formTitle: "Send us a message", formLead: "Your message opens in WhatsApp so our team can reply quickly.",
+		name: "Full Name", namePh: "Your name", emailLabel: "Email", phoneLabel: "Phone Number", subject: "Subject", subjectPh: "How can we help?", message: "Message", messagePh: "Write your message...", send: "Send via WhatsApp",
+	},
+	ar: {
+		title: "اتصل بنا", lead: "نرحب باستفساراتكم حول منتجاتنا والشراكات ودعم العملاء.",
+		email: "البريد الإلكتروني", phone: "الهاتف", hours: "ساعات العمل", instagram: "انستغرام", address: "العنوان", addressText: "الغبرة، مسقط، سلطنة عُمان",
+		openMap: "افتح في خرائط Google", directions: "احصل على الاتجاهات",
+		whyTitle: "لماذا تختار تداوي لايف تك؟",
+		why: "في تداوي لايف تك نركز على صحة النوم والرعاية التنفسية وحلول العظام، ولا نقدم المعدات الطبية فحسب، بل نقدم أيضاً مصادر تعليمية وإرشادات عملية ودعماً مستمراً للمرضى.",
+		focusTitle: "مجالات تركيزنا",
+		focus: ["انقطاع النفس أثناء النوم وصحة النوم", "حلول دراسة النوم المنزلية", "علاج CPAP و BiPAP", "العلاج بأجهزة الفم (MAD)", "حلول العظام وإعادة التأهيل", "المصادر التعليمية وتوعية المرضى"],
+		supportTitle: "دعم المرضى",
+		supportLead: "نلتزم بمساعدة المرضى ومقدمي الرعاية على فهم علاجهم ومعداتهم بشكل أفضل من خلال:",
+		support: ["مواد تعليمية ومصادر تدريبية", "إرشاد حول المنتجات ودعم عملي", "تسجيل الأجهزة وخدمات الدعم", "الأسئلة الشائعة", "مساعدة مستمرة ومتابعة"],
+		formTitle: "أرسل لنا رسالة", formLead: "تُفتح رسالتك في واتساب ليتمكن فريقنا من الرد بسرعة.",
+		name: "الاسم الكامل", namePh: "اسمك", emailLabel: "البريد الإلكتروني", phoneLabel: "رقم الهاتف", subject: "الموضوع", subjectPh: "كيف يمكننا مساعدتك؟", message: "الرسالة", messagePh: "اكتب رسالتك...", send: "أرسل عبر واتساب",
+	},
+	fa: {
+		title: "تماس با ما", lead: "از پرسش‌های شما درباره محصولات، همکاری‌ها و پشتیبانی مشتریان استقبال می‌کنیم.",
+		email: "ایمیل", phone: "تلفن", hours: "ساعات کاری", instagram: "اینستاگرام", address: "آدرس", addressText: "الغبره، مسقط، عمان",
+		openMap: "باز کردن در گوگل مپ", directions: "مسیریابی",
+		whyTitle: "چرا تداوی لایف تک؟",
+		why: "در تداوی لایف تک بر سلامت خواب، مراقبت تنفسی و راهکارهای ارتوپدی تمرکز داریم و علاوه بر تجهیزات پزشکی، منابع آموزشی، راهنمایی‌های کاربردی و پشتیبانی مستمر از بیماران ارائه می‌دهیم.",
+		focusTitle: "حوزه‌های تمرکز ما",
+		focus: ["آپنه خواب و سلامت خواب", "راهکارهای تست خواب در منزل", "درمان CPAP و BiPAP", "درمان با ابزار دهانی (MAD)", "راهکارهای ارتوپدی و توانبخشی", "منابع آموزشی و آگاهی‌بخشی به بیماران"],
+		supportTitle: "پشتیبانی بیماران",
+		supportLead: "متعهدیم به بیماران و مراقبان کمک کنیم درمان و تجهیزات خود را بهتر بشناسند، از طریق:",
+		support: ["مطالب آموزشی و منابع تمرینی", "راهنمایی محصول و پشتیبانی کاربردی", "ثبت دستگاه و خدمات پشتیبانی", "سوالات متداول (FAQ)", "همراهی و پیگیری مستمر"],
+		formTitle: "برای ما پیام بفرستید", formLead: "پیام شما در واتساپ باز می‌شود تا تیم ما سریع پاسخ دهد.",
+		name: "نام کامل", namePh: "نام شما", emailLabel: "ایمیل", phoneLabel: "شماره تلفن", subject: "موضوع", subjectPh: "چطور می‌توانیم کمک کنیم؟", message: "پیام", messagePh: "پیام خود را بنویسید...", send: "ارسال با واتساپ",
+	},
+}[locale];
+
+const focusIcons = ["material-symbols:bedtime-outline-rounded", "material-symbols:home-health-outline-rounded", "material-symbols:air-rounded", "material-symbols:dentistry-outline", "material-symbols:accessibility-new-rounded", "material-symbols:school-outline-rounded"];
+---
+<PageHero icon="material-symbols:call-outline-rounded" title={t.title} lead={t.lead} />
+
+{Content && (
+    <section class="card-base reading-surface px-6 md:px-10 py-7 mb-5" data-reveal>
+        <Markdown><Content /></Markdown>
+    </section>
+)}
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+    <a href={`mailto:${CONTACT_EMAIL}`} class="contact-card card-base lift-card group" data-reveal>
+        <span class="contact-icon"><Icon name="material-symbols:mail-outline-rounded" class="text-2xl" /></span>
+        <span class="contact-label">{t.email}</span>
+        <span class="text-[var(--primary)] text-sm font-bold break-all" dir="ltr">{CONTACT_EMAIL}</span>
+    </a>
+    <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="contact-card card-base lift-card group" data-reveal data-reveal-delay="70">
+        <span class="contact-icon"><Icon name="material-symbols:call-outline-rounded" class="text-2xl" /></span>
+        <span class="contact-label">{t.phone}</span>
+        <span class="text-[var(--primary)] text-sm font-bold" dir="ltr">{WHATSAPP_PHONE_DISPLAY}</span>
+    </a>
+    <div class="contact-card card-base lift-card group" data-reveal data-reveal-delay="140">
+        <span class="contact-icon"><Icon name="material-symbols:schedule-outline-rounded" class="text-2xl" /></span>
+        <span class="contact-label">{t.hours}</span>
+        <span class="text-90 text-sm font-semibold flex flex-col" dir="ltr"><span>9:00 – 13:00</span><span>16:00 – 19:00</span></span>
+    </div>
+    <div class="contact-card card-base lift-card group" data-reveal data-reveal-delay="210">
+        <span class="contact-icon"><Icon name="fa6-brands:instagram" class="text-2xl" /></span>
+        <span class="contact-label">{t.instagram}</span>
+        <span class="flex flex-col gap-1">
+            {INSTAGRAM_ACCOUNTS.map((account) => (
+                <a href={`https://instagram.com/${account}`} target="_blank" rel="noopener noreferrer" class="text-[var(--primary)] text-sm font-bold hover:underline" dir="ltr">@{account}</a>
+            ))}
+        </span>
+    </div>
+</div>
+
+<!-- Address + Google Map (Website.md item 7) -->
+<section class="card-base overflow-hidden mb-5 grid grid-cols-1 lg:grid-cols-[1fr_1.6fr]" data-reveal>
+    <div class="p-6 md:p-8 flex flex-col gap-4 justify-center">
+        <span class="contact-icon"><Icon name="material-symbols:location-on-outline-rounded" class="text-2xl" /></span>
+        <div>
+            <div class="contact-label">{t.address}</div>
+            <p class="text-xl font-extrabold text-90 mt-1">{t.addressText}</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer" class="btn-grad"><Icon name="material-symbols:map-outline-rounded" class="text-lg" /> {t.openMap}</a>
+            <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer" class="btn-soft"><Icon name="material-symbols:directions-outline-rounded" class="text-lg" /> {t.directions}</a>
+        </div>
+    </div>
+    <div class="relative min-h-[18rem] lg:min-h-[22rem] bg-[var(--btn-regular-bg)]">
+        <iframe src={GOOGLE_MAPS_EMBED} title={t.address} loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="absolute inset-0 w-full h-full border-0" allowfullscreen></iframe>
+    </div>
+</section>
+
+<!-- Why choose us (Website.md item 8) -->
+<section class="card-base reading-surface p-6 md:p-10 mb-5" data-reveal>
+    <h2 class="section-title">{t.whyTitle}</h2>
+    <p class="section-lead mt-3 text-[1.02rem]">{t.why}</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        <div>
+            <h3 class="font-extrabold text-90 text-lg mb-4">{t.focusTitle}</h3>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {t.focus.map((f, i) => (
+                    <li class="flex items-center gap-3 rounded-xl p-3 bg-[var(--btn-regular-bg)] text-sm font-semibold text-90">
+                        <Icon name={focusIcons[i]} class="text-xl text-[var(--primary)] shrink-0" /> {f}
+                    </li>
+                ))}
+            </ul>
+        </div>
+        <div>
+            <h3 class="font-extrabold text-90 text-lg mb-2">{t.supportTitle}</h3>
+            <p class="text-sm text-50 mb-4">{t.supportLead}</p>
+            <ul class="flex flex-col gap-2.5">
+                {t.support.map((s) => (
+                    <li class="flex items-center gap-3 text-sm font-semibold text-90">
+                        <span class="grid place-items-center w-7 h-7 rounded-full bg-[#16a34a]/10 text-[#16a34a] shrink-0"><Icon name="material-symbols:check-rounded" /></span>
+                        {s}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- WhatsApp contact form -->
+<section class="card-base px-6 md:px-10 py-8 md:py-10" data-reveal>
+    <h2 class="text-xl font-extrabold text-90 mb-1">{t.formTitle}</h2>
+    <p class="text-50 text-sm mb-6">{t.formLead}</p>
+    <form id="contact-form" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <label class="block"><span class="field-label">{t.name}</span><input type="text" id="cf-name" required class="field-input" placeholder={t.namePh} /></label>
+        <label class="block"><span class="field-label">{t.emailLabel}</span><input type="email" id="cf-email" required class="field-input" dir="ltr" placeholder="your@email.com" /></label>
+        <label class="block"><span class="field-label">{t.phoneLabel}</span><input type="tel" id="cf-phone" class="field-input" dir="ltr" placeholder="+968 ..." /></label>
+        <label class="block"><span class="field-label">{t.subject}</span><input type="text" id="cf-subject" required class="field-input" placeholder={t.subjectPh} /></label>
+        <label class="block sm:col-span-2"><span class="field-label">{t.message}</span><textarea id="cf-message" rows="5" required class="field-input" placeholder={t.messagePh}></textarea></label>
+        <div class="sm:col-span-2"><button type="submit" class="btn-whatsapp"><Icon name="fa6-brands:whatsapp" class="text-lg" /> {t.send}</button></div>
+    </form>
+</section>
+
+<style>
+    .contact-card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; padding: 1.4rem; }
+    .contact-icon { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 1rem; color: var(--primary); background: var(--btn-regular-bg); transition: background 0.25s ease, color 0.25s ease, transform 0.3s ease; }
+    .contact-card:hover .contact-icon { background: var(--primary); color: white; transform: rotate(-6deg); }
+    .contact-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(0 0 0 / 0.45); }
+    :global(.dark) .contact-label { color: rgb(255 255 255 / 0.45); }
+</style>
+
+<script is:inline define:vars={{ whatsappPhoneRaw: WHATSAPP_PHONE_RAW }}>
+    (function () {
+        var form = document.getElementById('contact-form');
+        if (!form || form.dataset.bound) return;
+        form.dataset.bound = '1';
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!form.reportValidity()) return;
+            var v = function (id) { return document.getElementById(id).value.trim(); };
+            var text = '*New Contact Message*\n\n*Name:* ' + v('cf-name') + '\n*Email:* ' + v('cf-email') + '\n'
+                + (v('cf-phone') ? '*Phone:* ' + v('cf-phone') + '\n' : '')
+                + '*Subject:* ' + v('cf-subject') + '\n\n*Message:*\n' + v('cf-message');
+            window.open('https://api.whatsapp.com/send?phone=' + whatsappPhoneRaw + '&text=' + encodeURIComponent(text), '_blank', 'noopener,noreferrer');
+        });
+    })();
+</script>

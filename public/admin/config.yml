@@ -362,6 +362,30 @@ collections:
           - label: Content
             name: body
             widget: markdown
+      - label: Medical Evidence
+        name: medical_evidence
+        file: src/content/spec/medical-evidence.md
+        preview_path: en/medical-evidence/
+        fields:
+          - { label: Translation Key, name: translationKey, widget: hidden, default: medical-evidence }
+          - { label: Language Code, name: lang, widget: hidden, default: en }
+          - { label: Content, name: body, widget: markdown, required: false }
+      - label: Medical Evidence (Arabic)
+        name: medical_evidence_ar
+        file: src/content/spec/medical-evidence.ar.md
+        preview_path: ar/medical-evidence/
+        fields:
+          - { label: Translation Key, name: translationKey, widget: hidden, default: medical-evidence }
+          - { label: Language Code, name: lang, widget: hidden, default: ar }
+          - { label: Content, name: body, widget: markdown, required: false }
+      - label: Medical Evidence (Persian)
+        name: medical_evidence_fa
+        file: src/content/spec/medical-evidence.fa.md
+        preview_path: fa/medical-evidence/
+        fields:
+          - { label: Translation Key, name: translationKey, widget: hidden, default: medical-evidence }
+          - { label: Language Code, name: lang, widget: hidden, default: fa }
+          - { label: Content, name: body, widget: markdown, required: false }
 
   - name: products_en
     label: "Products (English)"
@@ -424,6 +448,68 @@ collections:
         name: price
         widget: string
         required: false
+      - label: Product Group
+        name: group
+        widget: select
+        options: [{ label: "Sleep Apnea Products", value: "sleep" }, { label: "Orthopedic Braces", value: "orthopedic" }]
+        default: sleep
+      - label: Orthopedic Sub-category
+        name: subcategory
+        widget: select
+        required: false
+        options: [{ label: "Back & Spine", value: "back-spine" }, { label: "Knee", value: "knee" }, { label: "Foot & Ankle", value: "foot-ankle" }, { label: "Hand & Wrist", value: "hand-wrist" }]
+      - label: Sort Order
+        name: order
+        widget: number
+        required: false
+        default: 50
+      - label: Gallery Images
+        name: gallery
+        widget: list
+        required: false
+        field: { label: Image, name: image, widget: image }
+      - label: Video on main image click (file)
+        name: imageVideo
+        widget: file
+        required: false
+      - label: Videos (shown before the description)
+        name: videos
+        widget: list
+        required: false
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: YouTube link or ID, name: youtube, widget: string, required: false }
+          - { label: Video file, name: src, widget: file, required: false }
+          - { label: Poster image, name: poster, widget: image, required: false }
+          - { label: Stop at second (cut ending), name: end, widget: number, value_type: float, required: false }
+      - label: Downloads
+        name: downloads
+        widget: list
+        required: false
+        hint: Files with the same group are shown together in one drop-down list.
+        fields:
+          - { label: Group, name: group, widget: string, required: false }
+          - { label: Label, name: label, widget: string }
+          - { label: File, name: file, widget: file }
+      - label: Sizes
+        name: sizes
+        widget: list
+        required: false
+        fields:
+          - { label: Size, name: size, widget: string }
+          - { label: Range, name: range, widget: string }
+      - label: Size measurement label
+        name: sizeLabel
+        widget: string
+        required: false
+      - label: FAQ
+        name: faq
+        widget: list
+        required: false
+        hint: Shown under the product description.
+        fields:
+          - { label: Question, name: q, widget: string }
+          - { label: Answer, name: a, widget: text }
       - label: Tags
         name: tags
         widget: list
@@ -506,6 +592,68 @@ collections:
         name: price
         widget: string
         required: false
+      - label: Product Group
+        name: group
+        widget: select
+        options: [{ label: "Sleep Apnea Products", value: "sleep" }, { label: "Orthopedic Braces", value: "orthopedic" }]
+        default: sleep
+      - label: Orthopedic Sub-category
+        name: subcategory
+        widget: select
+        required: false
+        options: [{ label: "Back & Spine", value: "back-spine" }, { label: "Knee", value: "knee" }, { label: "Foot & Ankle", value: "foot-ankle" }, { label: "Hand & Wrist", value: "hand-wrist" }]
+      - label: Sort Order
+        name: order
+        widget: number
+        required: false
+        default: 50
+      - label: Gallery Images
+        name: gallery
+        widget: list
+        required: false
+        field: { label: Image, name: image, widget: image }
+      - label: Video on main image click (file)
+        name: imageVideo
+        widget: file
+        required: false
+      - label: Videos (shown before the description)
+        name: videos
+        widget: list
+        required: false
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: YouTube link or ID, name: youtube, widget: string, required: false }
+          - { label: Video file, name: src, widget: file, required: false }
+          - { label: Poster image, name: poster, widget: image, required: false }
+          - { label: Stop at second (cut ending), name: end, widget: number, value_type: float, required: false }
+      - label: Downloads
+        name: downloads
+        widget: list
+        required: false
+        hint: Files with the same group are shown together in one drop-down list.
+        fields:
+          - { label: Group, name: group, widget: string, required: false }
+          - { label: Label, name: label, widget: string }
+          - { label: File, name: file, widget: file }
+      - label: Sizes
+        name: sizes
+        widget: list
+        required: false
+        fields:
+          - { label: Size, name: size, widget: string }
+          - { label: Range, name: range, widget: string }
+      - label: Size measurement label
+        name: sizeLabel
+        widget: string
+        required: false
+      - label: FAQ
+        name: faq
+        widget: list
+        required: false
+        hint: Shown under the product description.
+        fields:
+          - { label: Question, name: q, widget: string }
+          - { label: Answer, name: a, widget: text }
       - label: Tags
         name: tags
         widget: list
@@ -588,6 +736,68 @@ collections:
         name: price
         widget: string
         required: false
+      - label: Product Group
+        name: group
+        widget: select
+        options: [{ label: "Sleep Apnea Products", value: "sleep" }, { label: "Orthopedic Braces", value: "orthopedic" }]
+        default: sleep
+      - label: Orthopedic Sub-category
+        name: subcategory
+        widget: select
+        required: false
+        options: [{ label: "Back & Spine", value: "back-spine" }, { label: "Knee", value: "knee" }, { label: "Foot & Ankle", value: "foot-ankle" }, { label: "Hand & Wrist", value: "hand-wrist" }]
+      - label: Sort Order
+        name: order
+        widget: number
+        required: false
+        default: 50
+      - label: Gallery Images
+        name: gallery
+        widget: list
+        required: false
+        field: { label: Image, name: image, widget: image }
+      - label: Video on main image click (file)
+        name: imageVideo
+        widget: file
+        required: false
+      - label: Videos (shown before the description)
+        name: videos
+        widget: list
+        required: false
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: YouTube link or ID, name: youtube, widget: string, required: false }
+          - { label: Video file, name: src, widget: file, required: false }
+          - { label: Poster image, name: poster, widget: image, required: false }
+          - { label: Stop at second (cut ending), name: end, widget: number, value_type: float, required: false }
+      - label: Downloads
+        name: downloads
+        widget: list
+        required: false
+        hint: Files with the same group are shown together in one drop-down list.
+        fields:
+          - { label: Group, name: group, widget: string, required: false }
+          - { label: Label, name: label, widget: string }
+          - { label: File, name: file, widget: file }
+      - label: Sizes
+        name: sizes
+        widget: list
+        required: false
+        fields:
+          - { label: Size, name: size, widget: string }
+          - { label: Range, name: range, widget: string }
+      - label: Size measurement label
+        name: sizeLabel
+        widget: string
+        required: false
+      - label: FAQ
+        name: faq
+        widget: list
+        required: false
+        hint: Shown under the product description.
+        fields:
+          - { label: Question, name: q, widget: string }
+          - { label: Answer, name: a, widget: text }
       - label: Tags
         name: tags
         widget: list

@@ -9,6 +9,10 @@ tags: ["Chin Strap", "Mouth Breathing", "CPAP Accessory", "Mask Support"]
 lang: en
 translationKey: cpap-chin-strap
 draft: false
+group: "sleep"
+order: 50
+gallery: ["/uploads/products/cpap-chin-strap-2.avif","/uploads/products/cpap-chin-strap-3.avif"]
+downloads: []
 ---
 
 This chin strap is designed to support a closed-mouth sleeping posture and improve comfort during PAP therapy. It is especially useful for nasal and pillow mask users who experience mouth opening during sleep.
@@ -22,9 +26,3 @@ This chin strap is designed to support a closed-mouth sleeping posture and impro
 - People who sleep with an open mouth.
 - Nasal or pillow mask users who want better seal performance.
 - Users looking for a lightweight accessory to improve comfort.
-
-## Gallery
-
-![CPAP Chin Strap 2](/uploads/products/cpap-chin-strap-2.avif)
-
-![CPAP Chin Strap 3](/uploads/products/cpap-chin-strap-3.avif)

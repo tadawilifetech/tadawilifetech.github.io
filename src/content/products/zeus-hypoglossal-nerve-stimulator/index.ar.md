@@ -9,6 +9,11 @@ tags: ["ZEUS", "تخفيف الشخير", "TENS", "دعم مجرى الهواء"
 lang: ar
 translationKey: zeus-hypoglossal-nerve-stimulator
 draft: false
+group: "sleep"
+order: 35
+gallery: ["/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-4.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-5.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-6.webp","/uploads/products/zeus-hypoglossal-nerve-stimulator-7.webp"]
+downloads: [{"group":"التنزيلات","label":"ملف المنتج PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-1.pdf"},{"group":"التنزيلات","label":"ملف المنتج PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-2.pdf"},{"group":"التنزيلات","label":"ملف المنتج PDF","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-document-3.pdf"},{"group":"التنزيلات","label":"Thorax 2016 Pengo thorax journal article","file":"/uploads/products/zeus-hypoglossal-nerve-stimulator-paper-1.pdf"}]
+videos: [{"title":"Zeus","youtube":"uqZl9QQsvf0"}]
 ---
 
 ZEUS جهاز خارجي صغير يطبّق تحفيزاً لطيفاً أسفل الذقن للمساعدة في دعم توتر مجرى الهواء العلوي أثناء النوم. وهو موجه لمن يبحثون عن خيار غير جراحي لإدارة الشخير بمفهوم مدعوم بالأبحاث.
@@ -22,23 +27,3 @@ ZEUS جهاز خارجي صغير يطبّق تحفيزاً لطيفاً أسف�
 - البالغون الذين يبحثون عن حل للشخير بلا قناع ولا زراعة.
 - المستخدمون المهتمون بخيار مساعد للنوم يعتمد على التحفيز الخارجي.
 - مسارات علاج الشخير بإشراف مختص.
-
-## التنزيلات
-- [ملف المنتج PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-1.pdf)
-- [ملف المنتج PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-2.pdf)
-- [ملف المنتج PDF](/uploads/products/zeus-hypoglossal-nerve-stimulator-document-3.pdf)
-- [Thorax 2016 Pengo thorax journal article](/uploads/products/zeus-hypoglossal-nerve-stimulator-paper-1.pdf)
-
-## معرض الصور
-
-![جهاز ZEUS لتحفيز العصب تحت اللسان 1](/uploads/products/zeus-hypoglossal-nerve-stimulator-1.webp)
-
-![جهاز ZEUS لتحفيز العصب تحت اللسان 3](/uploads/products/zeus-hypoglossal-nerve-stimulator-3.webp)
-
-![جهاز ZEUS لتحفيز العصب تحت اللسان 4](/uploads/products/zeus-hypoglossal-nerve-stimulator-4.webp)
-
-![جهاز ZEUS لتحفيز العصب تحت اللسان 5](/uploads/products/zeus-hypoglossal-nerve-stimulator-5.webp)
-
-![جهاز ZEUS لتحفيز العصب تحت اللسان 6](/uploads/products/zeus-hypoglossal-nerve-stimulator-6.webp)
-
-![جهاز ZEUS لتحفيز العصب تحت اللسان 7](/uploads/products/zeus-hypoglossal-nerve-stimulator-7.webp)

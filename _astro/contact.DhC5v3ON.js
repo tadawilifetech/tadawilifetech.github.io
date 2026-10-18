@@ -1,0 +1,1 @@
+const s="96891235160",a="info@tadawilifetech.com",o="https://tadawi-assistant-api.miladsoft.workers.dev";function n(t){return`https://api.whatsapp.com/send?phone=${s}&text=${encodeURIComponent(t)}`}export{o as A,a as C,s as W,n as b};

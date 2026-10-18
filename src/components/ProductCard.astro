@@ -1,8 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
-import { getEntryTranslationKey } from "../utils/locale-utils";
 import { getImageFit } from "../utils/image-fit";
+import { getEntryTranslationKey } from "../utils/locale-utils";
 import { url as siteUrl } from "../utils/url-utils";
 import WishlistButton from "./WishlistButton";
 
@@ -18,24 +18,8 @@ interface Props {
 	style: string;
 	lang?: string;
 }
-const {
-	entry,
-	title,
-	url,
-	image,
-	description,
-	price,
-	style,
-	lang = "en",
-} = Astro.props;
+const { entry, title, url, image, description, price, style } = Astro.props;
 const className = Astro.props.class;
-
-const viewDetailsText: Record<string, string> = {
-	en: "View Details",
-	ar: "عرض التفاصيل",
-	fa: "مشاهده جزئیات",
-};
-const viewDetails = viewDetailsText[lang] ?? viewDetailsText.en;
 
 const category = entry.data.category || "";
 const productId = getEntryTranslationKey(entry);
@@ -49,40 +33,22 @@ const imgFit = await getImageFit(hasCover ? image : null);
 	style={style}
 >
 	{hasCover && (
-		<a href={url} aria-label={title} class="product-img-link relative block overflow-hidden aspect-[4/3]" style={`background:${imgFit.bg}`}>
-			<!-- Category badge -->
-			{category && (
-				<span class="product-category-badge absolute top-3 start-3 z-20 px-2.5 py-1 text-xs font-semibold rounded-full
-					bg-[oklch(0.5_0.15_var(--hue)/0.88)] text-white backdrop-blur-sm shadow-sm
-">
-					{category}
-				</span>
-			)}
-
-
-			<!-- Image with parallax -->
-			<div class="product-img-container absolute inset-0 overflow-hidden">
+		<a href={url} aria-label={title} class="product-img-link block p-2 pb-0">
+			<span class="product-img-tile relative block overflow-hidden aspect-[4/3]" style={`background:${imgFit.bg}`}>
 				<img
 					src={image.startsWith("/") ? siteUrl(image) : image}
 					alt={title}
 					loading="lazy"
 					decoding="async"
-					class:list={["product-img w-full h-full object-center", imgFit.fit === "contain" ? "object-contain p-[7%]" : "object-cover"]}
+					class:list={["product-img absolute inset-0 w-full h-full object-center", imgFit.fit === "contain" ? "object-contain p-[8%]" : "object-cover"]}
 				/>
-			</div>
-
-			<!-- View detail label on hover -->
-			<div class="absolute bottom-3 inset-x-0 z-20 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-				<span class="flex items-center gap-1 text-white text-xs font-medium px-3 py-1 rounded-full bg-black/60">
-					<Icon name="material-symbols:open-in-new-rounded" class="text-sm" />
-					<span>{viewDetails}</span>
-				</span>
-			</div>
+			</span>
 		</a>
 	)}
 
 	<!-- Card info -->
-	<div class="product-info flex flex-col flex-1 px-5 pt-4 pb-5 bg-[var(--card-bg)] transition-colors duration-300">
+	<div class="product-info flex flex-col flex-1 px-5 pt-4 pb-5">
+		{category && <span class="product-category text-xs font-semibold text-[var(--primary)] mb-1.5 truncate">{category}</span>}
 		<a
 			href={url}
 			class="product-title block font-bold mb-2 text-[1.05rem] md:text-[1.1rem] leading-snug text-90 line-clamp-2
@@ -118,5 +84,20 @@ const imgFit = await getImageFit(hasCover ? image : null);
 		transition: box-shadow 0.2s ease;
 	}
 	.product-card:hover { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-	.product-img-link { border-bottom: 1px solid rgb(0 0 0 / 0.05); }
+	.product-img-tile {
+		border-radius: calc(var(--radius-large) - 0.5rem);
+		box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.05);
+	}
+	/* The inset outline sits above the photo so the tile edge stays crisp on any backdrop */
+	.product-img-tile::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06);
+		pointer-events: none;
+	}
+	:global(.dark) .product-img-tile::after { box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); }
+	/* Soften bright studio backdrops so white photos don't glare on the dark theme */
+	:global(.dark) .product-img-tile { filter: brightness(0.92); }
 </style>

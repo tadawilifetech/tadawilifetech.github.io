@@ -25,7 +25,7 @@ const callLabel = { en: "Call us", ar: "اتصل بنا", fa: "تماس" }[curre
     <div class:list={[
         className,
         "card-base nav-shell !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between gap-2 px-3 md:px-4"]}>
-        <a href={href('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-2 md:px-3 font-bold active:scale-95 shrink-0" aria-label={siteConfig.title}>
+        <a href={href('/')} class="rounded-lg h-[3.25rem] px-2 md:px-3 flex items-center shrink-0" aria-label={siteConfig.title}>
             <img src={url('/logo-tadawi.svg')} alt="Tadawi Life Tech" class="block h-7 w-auto max-w-[8.5rem] md:h-8" loading="eager" decoding="async" />
         </a>
 
@@ -35,7 +35,7 @@ const callLabel = { en: "Call us", ar: "اتصل بنا", fa: "تماس" }[curre
                     const group = NAV_GROUPS[entry.group];
                     return (
                         <div class="nav-dropdown relative" data-nav-group={entry.group}>
-                            <button type="button" class="nav-link btn-plain scale-animation rounded-lg h-11 px-3 font-bold gap-1" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="nav-link btn-plain rounded-xl h-10 px-3 font-semibold gap-1" aria-haspopup="true" aria-expanded="false">
                                 <span>{group.label[currentLocale]}</span>
                                 <Icon name="material-symbols:keyboard-arrow-down-rounded" class="nav-chevron text-[1.1rem] transition-transform" />
                             </button>
@@ -58,7 +58,7 @@ const callLabel = { en: "Call us", ar: "اتصل بنا", fa: "تماس" }[curre
                     );
                 }
                 return (
-                    <a href={href(entry.href)} class="nav-link btn-plain scale-animation rounded-lg h-11 px-3 font-bold" data-nav-key={entry.key}>
+                    <a href={href(entry.href)} class="nav-link btn-plain rounded-xl h-10 px-3 font-semibold" data-nav-key={entry.key}>
                         <span>{entry.label[currentLocale]}</span>
                     </a>
                 );
@@ -66,25 +66,19 @@ const callLabel = { en: "Call us", ar: "اتصل بنا", fa: "تماس" }[curre
         </nav>
 
         <div class="flex items-center">
-            <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="nav-phone hidden lg:inline-flex items-center gap-2 h-10 rounded-full ps-1.5 pe-3.5 me-1 text-sm font-bold" aria-label={`${callLabel} ${WHATSAPP_PHONE_DISPLAY}`}>
-                <span class="nav-phone-icon flex h-7 w-7 items-center justify-center rounded-full">
-                    <Icon name="material-symbols:call" class="text-[1rem]" />
-                </span>
-                <span dir="ltr">{WHATSAPP_PHONE_DISPLAY}</span>
-            </a>
-            <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 lg:!hidden" aria-label={`${callLabel} ${WHATSAPP_PHONE_DISPLAY}`}>
+            <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="nav-icon btn-plain rounded-xl h-10 w-10 !hidden xl:!flex" aria-label={`${callLabel} ${WHATSAPP_PHONE_DISPLAY}`} title={WHATSAPP_PHONE_DISPLAY}>
                 <Icon name="material-symbols:call-outline-rounded" class="text-[1.25rem]" />
             </a>
             <Search client:load></Search>
             <CartPanel client:load locale={currentLocale}></CartPanel>
-            <LanguageSwitcher client:load locale={currentLocale}></LanguageSwitcher>
+            <div class="hidden xl:block"><LanguageSwitcher client:load locale={currentLocale}></LanguageSwitcher></div>
             {!siteConfig.themeColor.fixed && (
                     <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
                         <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
                     </button>
             )}
             <LightDarkSwitch client:load></LightDarkSwitch>
-            <button aria-label={menuLabel} aria-controls="nav-menu-panel" aria-expanded="false" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 xl:!hidden" id="nav-menu-switch">
+            <button aria-label={menuLabel} aria-controls="nav-menu-panel" aria-expanded="false" class="nav-icon btn-plain rounded-xl h-10 w-10 xl:!hidden" id="nav-menu-switch">
                 <Icon name="material-symbols:menu-rounded" class="text-[1.4rem]"></Icon>
             </button>
         </div>
@@ -120,42 +114,9 @@ const callLabel = { en: "Call us", ar: "اتصل بنا", fa: "تماس" }[curre
         font-size: 0.93rem;
         padding-inline: 0.6rem;
     }
-    .nav-phone { white-space: nowrap; }
     .nav-link.is-active {
         color: var(--primary);
-    }
-    .nav-link.is-active::after {
-        content: "";
-        position: absolute;
-        inset-inline: 0.9rem;
-        bottom: 0.3rem;
-        height: 2px;
-        border-radius: 2px;
-        background: var(--primary);
-    }
-    .nav-phone {
-        color: var(--primary);
-        background: color-mix(in oklch, var(--primary) 10%, transparent);
-        border: 1px solid color-mix(in oklch, var(--primary) 22%, transparent);
-        transition: background 0.2s ease;
-    }
-    .nav-phone:hover {
-        background: color-mix(in oklch, var(--primary) 18%, transparent);
-    }
-    .nav-phone-icon {
-        background: var(--primary);
-        color: white;
-        animation: phone-ring 4s ease-in-out infinite;
-    }
-    @keyframes phone-ring {
-        0%, 88%, 100% { transform: rotate(0); }
-        90% { transform: rotate(-14deg); }
-        92% { transform: rotate(14deg); }
-        94% { transform: rotate(-10deg); }
-        96% { transform: rotate(8deg); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-        .nav-phone-icon { animation: none; }
+        background: color-mix(in oklch, var(--primary) 9%, transparent);
     }
 </style>
 

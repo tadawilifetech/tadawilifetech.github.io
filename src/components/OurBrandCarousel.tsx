@@ -4,7 +4,17 @@ import type { CSSProperties } from "react";
 interface Props {
 	className?: string;
 	animationDelay?: string;
+	locale?: "en" | "ar" | "fa";
 }
+
+const heading = {
+	en: { eyebrow: "Our brands", title: "Trusted brands we work with" },
+	ar: { eyebrow: "علاماتنا التجارية", title: "علامات موثوقة نتعامل معها" },
+	fa: {
+		eyebrow: "برندهای ما",
+		title: "برندهای معتبری که با آن‌ها همکاری می‌کنیم",
+	},
+};
 
 const brands = [
 	{ name: "Aeonmed", src: "/our-brand/Aeonmed.png" },
@@ -21,7 +31,9 @@ const brands = [
 export default function OurBrandCarousel({
 	className = "",
 	animationDelay,
+	locale = "en",
 }: Props) {
+	const t = heading[locale] ?? heading.en;
 	const [emblaRef] = useEmblaCarousel({
 		align: "start",
 		dragFree: true,
@@ -35,12 +47,8 @@ export default function OurBrandCarousel({
 		>
 			<div className="mb-5 md:mb-6 flex items-end justify-between gap-4">
 				<div>
-					<p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--primary)]">
-						Our Brand
-					</p>
-					<h2 className="mt-2 text-2xl md:text-3xl font-bold text-90">
-						Trusted Brands We Work With
-					</h2>
+					<p className="section-eyebrow">{t.eyebrow}</p>
+					<h2 className="section-title mt-2">{t.title}</h2>
 				</div>
 			</div>
 

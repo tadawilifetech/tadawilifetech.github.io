@@ -183,7 +183,7 @@ export default function Search() {
 				}
 				aria-label="Search Panel"
 				id="search-switch"
-				className="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90"
+				className="btn-plain rounded-xl w-10 h-10"
 			>
 				<MdOutlineSearch className="text-[1.25rem]" aria-hidden="true" />
 			</button>

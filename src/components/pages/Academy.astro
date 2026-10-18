@@ -104,9 +104,6 @@ const c = {
         <p class="text-lg md:text-xl leading-loose text-90">{c.intro}</p>
     </div>
     <a href={url(localizePath("/sleep-assessment/", locale))} class="apnea-card group relative overflow-hidden rounded-[var(--radius-large)] p-7 md:p-8 text-white flex flex-col gap-4" data-reveal data-reveal-delay="120">
-        <span class="apnea-wave" aria-hidden="true">
-            <svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 30 Q 25 5 50 30 T 100 30 T 150 30 T 200 30 T 250 30 T 300 30" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
-        </span>
         <span class="grid place-items-center w-14 h-14 rounded-2xl bg-white/15"><Icon name="material-symbols:bedtime-outline-rounded" class="text-3xl" /></span>
         <span class="text-2xl font-extrabold">{c.apneaTitle}</span>
         <span class="opacity-85 leading-relaxed flex-1">{c.apnea}</span>
@@ -143,8 +140,6 @@ const c = {
 
 <style>
     .apnea-card { background: oklch(0.36 0.15 268); }
-    .apnea-wave { position: absolute; inset-inline: 0; bottom: 1.2rem; height: 3.5rem; opacity: 0.18; color: white; }
-    .apnea-wave svg { width: 200%; height: 100%; animation: wave-slide 6s linear infinite; }
     @keyframes wave-slide { to { transform: translateX(-50%); } }
     .notice-card { background: oklch(0.96 0.04 85); color: oklch(0.38 0.08 70); border: 1px solid oklch(0.88 0.08 85); }
     :global(.dark) .notice-card { background: oklch(0.27 0.04 80); color: oklch(0.88 0.08 85); border-color: oklch(0.38 0.06 80); }

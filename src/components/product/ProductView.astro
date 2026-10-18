@@ -118,12 +118,12 @@ const groupHref = url(localizePath(`/?group=${d.group}${family ? `&family=${fami
                 </div>
             )}
 
-            <div class="flex flex-wrap gap-2">
-                <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}&text=${inquiryText}`} target="_blank" rel="noopener noreferrer" class="btn-whatsapp flex-1">
+            <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2">
+                <a href={`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_RAW}&text=${inquiryText}`} target="_blank" rel="noopener noreferrer" class="btn-whatsapp whitespace-nowrap">
                     <Icon name="fa6-brands:whatsapp" class="text-lg" /> {t.inquire}
                 </a>
                 {d.videos.length > 0 && (
-                    <a href="#product-video" class="btn-soft">
+                    <a href="#product-video" class="btn-soft whitespace-nowrap">
                         <Icon name="material-symbols:play-circle-outline-rounded" class="text-lg" /> {t.watch}
                     </a>
                 )}

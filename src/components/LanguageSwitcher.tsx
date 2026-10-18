@@ -70,7 +70,7 @@ export default function LanguageSwitcher({ locale = "en" }: Props) {
 				aria-haspopup="menu"
 				aria-expanded={open}
 				onClick={() => setOpen((v) => !v)}
-				className="lang-pill flex items-center gap-1 h-10 rounded-full ps-2.5 pe-2 mx-0.5 text-sm font-bold transition active:scale-95"
+				className="btn-plain flex items-center gap-1 h-10 rounded-xl px-2.5 text-sm font-bold"
 			>
 				<MdTranslate className="text-[1.15rem]" aria-hidden="true" />
 				<span className="hidden sm:inline">{shortLabel[locale]}</span>

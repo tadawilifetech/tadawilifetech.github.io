@@ -18,31 +18,20 @@
 	position: relative;
 	isolation: isolate;
 }
-.reading-surface::before {
-	content: "";
-	position: absolute;
-	inset-inline-end: -2rem;
-	bottom: -1.5rem;
-	width: min(26rem, 70%);
-	aspect-ratio: 3 / 1;
-	background: url("/logo-tadawi.svg") no-repeat center / contain;
-	opacity: 0.045;
-	transform: rotate(-8deg);
-	pointer-events: none;
-	z-index: -1;
-}
+/* A single small mark in the bottom corner keeps the brand present without sitting behind the text */
 .reading-surface::after {
 	content: "";
 	position: absolute;
 	inset-inline-end: 1.25rem;
-	top: 1.25rem;
-	width: 7rem;
+	bottom: 1rem;
+	width: 5.5rem;
 	aspect-ratio: 3 / 1;
 	background: url("/logo-tadawi.svg") no-repeat center / contain;
-	opacity: 0.035;
+	opacity: 0.06;
 	pointer-events: none;
 	z-index: -1;
 }
+@media (max-width: 767px) { .reading-surface::after { display: none; } }
 :root.dark .reading-surface::before,
 :root.dark .reading-surface::after {
 	filter: brightness(2.2) grayscale(1);
@@ -328,7 +317,6 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 	border-radius: var(--radius-large);
 	overflow: hidden;
 	background: #070b1f;
-	box-shadow: 0 18px 44px rgb(10 15 50 / 0.28);
 }
 
 /* ---------- AI assistant ---------- */
@@ -370,7 +358,8 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 }
 .ai-launcher-label { font-size: 0.92rem; white-space: nowrap; }
 @media (max-width: 640px) {
-	.ai-launcher { right: 1rem; bottom: 1rem; padding-inline-end: 0.35rem; }
+	.ai-launcher { right: 1rem; bottom: 1rem; height: 3.25rem; padding: 0.25rem; }
+	.ai-launcher-orb { width: 2.75rem; height: 2.75rem; font-size: 1.25rem; }
 	.ai-launcher-label { display: none; }
 }
 .ai-panel {

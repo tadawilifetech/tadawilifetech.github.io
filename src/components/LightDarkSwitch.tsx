@@ -65,7 +65,7 @@ export default function LightDarkSwitch() {
 			<button
 				aria-label="Light/Dark Mode"
 				role="menuitem"
-				className="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90"
+				className="relative btn-plain rounded-xl h-10 w-10"
 				id="scheme-switch"
 				onClick={toggleScheme}
 				onMouseEnter={() => {

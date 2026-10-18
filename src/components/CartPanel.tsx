@@ -235,7 +235,7 @@ export default function CartPanel({ locale = "en" }: Props) {
 			{/* Trigger button */}
 			<button
 				aria-label={ui.cart}
-				className="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90"
+				className="btn-plain rounded-xl h-10 w-10"
 				onClick={() => setOpen((v) => !v)}
 				type="button"
 			>

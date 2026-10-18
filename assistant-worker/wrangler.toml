@@ -3,6 +3,10 @@ main = "index.js"
 compatibility_date = "2026-01-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Free Workers AI model access for the assistant (no API key needed)
+[ai]
+binding = "AI"
+
 [vars]
 SITE_URL = "https://tadawilifetech.com"
 FORMS_TO_EMAIL = "info@tadawilifetech.com"
@@ -15,6 +19,6 @@ FORMS_FROM_EMAIL = "Tadawi Website <forms@tadawilifetech.com>"
 
 # Deploy:
 #   cd assistant-worker && npm install
-#   npx wrangler secret put ANTHROPIC_API_KEY
+#   npx wrangler login
 #   npx wrangler secret put RESEND_API_KEY      (optional – emails form submissions)
 #   npx wrangler deploy

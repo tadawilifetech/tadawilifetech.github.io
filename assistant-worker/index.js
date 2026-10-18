@@ -1,13 +1,18 @@
 /**
  * Cloudflare Worker – Tadawi AI assistant + form intake API
  *
- * Secrets (wrangler secret put …):
- *   ANTHROPIC_API_KEY  – Claude API key (required for /chat)
- *   RESEND_API_KEY     – Resend API key (optional, emails form submissions)
- * Vars (wrangler.toml):
+ * The assistant runs on Cloudflare Workers AI (free daily allowance, no API key):
+ * the static GitHub Pages site posts questions here, the worker retrieves the most
+ * relevant site content and streams the model's answer back.
+ *
+ * Bindings / vars (wrangler.toml):
+ *   AI                 – Workers AI binding (required for /chat)
+ *   AI_MODEL           – optional model override
  *   SITE_URL           – https://tadawilifetech.com (knowledge base source)
  *   FORMS_TO_EMAIL     – inbox that receives referrals / device registrations
  *   FORMS_FROM_EMAIL   – verified Resend sender
+ * Secrets (wrangler secret put …):
+ *   RESEND_API_KEY     – Resend API key (optional, emails form submissions)
  * Optional KV binding:
  *   FORMS              – keeps a copy of every submission
  *
@@ -15,18 +20,20 @@
  *   POST /chat   { locale, messages: [{ role, content }] }  → text/event-stream of {"t": "..."} chunks
  *   POST /forms  { type, locale, data }                     → { ok: true, id }
  */
-import Anthropic from "@anthropic-ai/sdk";
+import { buildContext } from "./retrieval.js";
 
-const MODEL = "claude-opus-5-5";
+const MODELS = ["@cf/meta/llama-3.3-70b-instruct-fp8-fast", "@cf/google/gemma-3-12b-it"];
 const ALLOWED_ORIGINS = [
 	"https://tadawilifetech.com",
 	"https://www.tadawilifetech.com",
+	"https://tadawilifetech.github.io",
 	"http://localhost:4321",
 	"http://localhost:4322",
 	"http://localhost:4323",
 ];
 const LOCALES = ["en", "ar", "fa"];
-const MAX_TURNS = 16;
+const LANGUAGE = { en: "English", ar: "Arabic", fa: "Persian (Farsi)" };
+const MAX_TURNS = 10;
 const MAX_CHARS = 2000;
 const RATE_LIMIT = 30; // requests per IP per 10 minutes (per isolate)
 
@@ -61,30 +68,78 @@ function rateLimited(ip) {
 
 async function loadKnowledgeBase(env, locale) {
 	const cached = kbCache.get(locale);
-	if (cached && Date.now() - cached.at < 30 * 60 * 1000) return cached.text;
+	if (cached && Date.now() - cached.at < 30 * 60 * 1000) return cached.kb;
 	const res = await fetch(`${env.SITE_URL || "https://tadawilifetech.com"}/assistant-kb/${locale}.json`, {
 		cf: { cacheTtl: 1800 },
 	});
 	if (!res.ok) throw new Error(`Knowledge base unavailable (${res.status})`);
 	const kb = await res.json();
-	// Deterministic serialization keeps the cached prompt prefix byte-stable.
-	const text = JSON.stringify(kb);
-	kbCache.set(locale, { at: Date.now(), text });
-	return text;
+	kbCache.set(locale, { at: Date.now(), kb });
+	return kb;
 }
 
-const INSTRUCTIONS = `You are the Tadawi Life Tech assistant on tadawilifetech.com. Tadawi Life Tech is based in Al Ghubrah, Muscat, Oman, and provides sleep health, respiratory care and orthopedic solutions: CPAP/BiPAP devices and masks, home sleep testing, oral appliances (MAD), positional therapy, oxygen concentrators, nasal care, Ortino orthopedic braces, plus education and patient support.
+function systemPrompt(locale, context) {
+	return `You are the official virtual assistant of Tadawi Life Tech (tadawilifetech.com), a medical-equipment company in Al Ghubrah, Muscat, Oman, specialising in sleep apnea therapy (CPAP/BiPAP devices, masks and accessories, home sleep testing, oral appliances, positional therapy), respiratory care and Ortino orthopedic braces.
 
-Help visitors quickly find answers so they don't have to search the site.
-- Answer in the visitor's language (the conversation locale is given below). Keep replies short: 2–6 sentences or a compact list.
-- Use only the knowledge base for product facts, prices (OMR) and links. If something is not in it, say so and offer WhatsApp/phone contact.
-- When you mention a product or page, link it with markdown using the exact relative URL from the knowledge base, e.g. [Heyer Auto CPAP](/en/products/heyer-auto-cpap-machine/).
-- You are not a doctor. Never diagnose or prescribe. For symptoms such as loud snoring, breathing pauses or daytime sleepiness, suggest the free online Sleep Assessment and seeing a physician. For emergencies, tell the person to contact emergency services.
-- For orders, availability or anything needing a person, point to WhatsApp +968 91235160 or the Contact page.
-- Latency-sensitive; begin your visible answer immediately.`;
+Your job: give visitors clear, accurate, genuinely helpful answers so they don't need to search the site, and guide them to the right product or next step.
+
+Language and tone
+- Always reply in ${LANGUAGE[locale]}, even if the context below is in another language. Use natural, fluent, professional wording — warm, confident and concise, like an experienced clinical product specialist.
+- Keep answers focused: usually 3–7 sentences, or a short bulleted list when comparing options. Use **bold** for product names or key points. No headings, no tables.
+
+Facts and links
+- Use ONLY the reference material below for product names, features, prices (OMR) and URLs. Never invent products, prices, specifications, stock or delivery times. If the answer isn't in the material, say so briefly and offer WhatsApp/phone.
+- Every time you name a product, article or page, the name itself MUST be the markdown link, using its exact relative URL from the material: write [Product name](/${locale === "en" ? "" : `${locale}/`}products/...) — never the bare name, never bold instead of a link, and never the name followed by the same link in parentheses.
+- Recommend at most 3 products; for comparisons use a short bullet per product: link — price — one line on who it suits.
+- When the visitor's need is unclear (e.g. "which device is right for me?"), give a short helpful overview of the options and ask one focused follow-up question.
+
+Medical safety
+- You are not a doctor. Do not diagnose, prescribe or set CPAP pressures. Explain general information, then recommend a physician or sleep specialist where appropriate.
+- For possible sleep apnea symptoms (loud snoring, breathing pauses, choking at night, daytime sleepiness), suggest the free online Sleep Assessment and a home sleep test.
+- For emergencies (chest pain, severe breathing difficulty), tell the person to call emergency services immediately.
+
+Orders and contact
+- For purchase, availability, delivery, prices not listed, or anything needing a person: WhatsApp/phone ${"+968 91235160"} or the Contact page.
+
+Reference material
+${context}`;
+}
+
+/** Workers AI streams SSE lines `data: {"response":"…"}`; newer models may use OpenAI-style deltas. */
+async function pipeModelStream(stream, send) {
+	const reader = stream.getReader();
+	const decoder = new TextDecoder();
+	let buffer = "";
+	let produced = false;
+	while (true) {
+		const { value, done } = await reader.read();
+		if (done) break;
+		buffer += decoder.decode(value, { stream: true });
+		const lines = buffer.split("\n");
+		buffer = lines.pop() ?? "";
+		for (const raw of lines) {
+			const line = raw.trim();
+			if (!line.startsWith("data:")) continue;
+			const payload = line.slice(5).trim();
+			if (!payload || payload === "[DONE]") continue;
+			let data;
+			try {
+				data = JSON.parse(payload);
+			} catch {
+				continue;
+			}
+			const chunk = data.response ?? data.choices?.[0]?.delta?.content ?? "";
+			if (chunk) {
+				produced = true;
+				await send({ t: chunk });
+			}
+		}
+	}
+	return produced;
+}
 
 async function handleChat(request, env, origin) {
-	if (!env.ANTHROPIC_API_KEY) return json({ error: "Assistant not configured" }, 503, origin);
+	if (!env.AI) return json({ error: "Assistant not configured" }, 503, origin);
 	const body = await request.json().catch(() => null);
 	const locale = LOCALES.includes(body?.locale) ? body.locale : "en";
 	const raw = Array.isArray(body?.messages) ? body.messages.slice(-MAX_TURNS) : [];
@@ -97,7 +152,11 @@ async function handleChat(request, env, origin) {
 	}
 
 	const kb = await loadKnowledgeBase(env, locale);
-	const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
+	// Retrieve with the latest question plus the previous user turn, so follow-ups keep their topic.
+	const userTurns = messages.filter((m) => m.role === "user").map((m) => m.content);
+	const query = userTurns.slice(-2).join(" ");
+	const system = systemPrompt(locale, buildContext(kb, query));
+	const models = env.AI_MODEL ? [env.AI_MODEL, ...MODELS] : MODELS;
 
 	const encoder = new TextEncoder();
 	const { readable, writable } = new TransformStream();
@@ -106,34 +165,24 @@ async function handleChat(request, env, origin) {
 
 	(async () => {
 		try {
-			const stream = client.beta.messages.stream({
-				model: MODEL,
-				max_tokens: 4000,
-				betas: ["server-side-fallback-2026-07-01"],
-				fallbacks: "default",
-				output_config: { effort: "low" },
-				system: [
-					{ type: "text", text: INSTRUCTIONS },
-					// Stable per-locale knowledge base, cached across conversations.
-					{ type: "text", text: `Knowledge base (JSON):\n${kb}`, cache_control: { type: "ephemeral", ttl: "1h" } },
-					{ type: "text", text: `Conversation locale: ${locale}` },
-				],
-				messages,
-			});
-			for await (const event of stream) {
-				if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-					await send({ t: event.delta.text });
+			let answered = false;
+			for (const model of models) {
+				try {
+					const stream = await env.AI.run(model, {
+						messages: [{ role: "system", content: system }, ...messages],
+						stream: true,
+						max_tokens: 900,
+						temperature: 0.3,
+					});
+					answered = await pipeModelStream(stream, send);
+					if (answered) break;
+				} catch (error) {
+					console.error(`model ${model} failed`, error);
 				}
 			}
-			const final = await stream.finalMessage();
-			if (final.stop_reason === "refusal") {
-				await send({ refusal: true });
-			}
-			await send({ done: true });
-		} catch (error) {
-			if (error instanceof Anthropic.RateLimitError) await send({ error: "busy" });
-			else if (error instanceof Anthropic.APIError) await send({ error: `api_${error.status ?? "error"}` });
-			else await send({ error: "unavailable" });
+			await send(answered ? { done: true } : { error: "unavailable" });
+		} catch {
+			await send({ error: "unavailable" });
 		} finally {
 			await writer.close();
 		}

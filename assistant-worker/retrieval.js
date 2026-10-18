@@ -21,9 +21,9 @@ export function normalize(s) {
 
 const STOP = new Set(
 	(
-		"the a an and or of to in on for is are be it this that with my me i you your do does can how what which who " +
-		"از به با در که این آن را و یا برای است هست هستند می من شما ما چه چی چطور چگونه آیا یک های ها کدام " +
-		"في من على عن إلى الى هل ما هو هي أن ان او أو مع هذا هذه كيف لي انا أنا"
+		"the a an and or of to in on for is are be it this that with my me i you your do does can how what which who types type kind kinds options " +
+		"از به با در که این آن را و یا برای است هست هستند می من شما ما چه چی چطور چگونه آیا یک های ها کدام انواع نوع مدل مدلهای " +
+		"في من على عن إلى الى هل ما هو هي أن ان او أو مع هذا هذه كيف لي انا أنا أنواع انواع نوع خيارات"
 	)
 		.split(" ")
 		.map(normalize),

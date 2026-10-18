@@ -547,6 +547,13 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 :root.dark .ai-footer { color: rgb(255 255 255 / 0.45); }
 .ai-human { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 800; font-size: 0.8rem; color: #0ea85a; }
 
+/* ---------- Partner logos (transparent, no white tiles) ---------- */
+.brand-tile .brand-logo { transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease; }
+.brand-tile:hover .brand-logo { transform: scale(1.05); }
+/* Dark mode: keep brand colours, lift dark inks so they stay readable */
+:root.dark .brand-tile .brand-logo { filter: brightness(1.3) saturate(1.1); }
+:root.dark .brand-tile .brand-logo--ink { filter: invert(1) hue-rotate(180deg) brightness(1.05) saturate(1.3); }
+
 /* ---------- Video player ---------- */
 .video-play-btn {
 	display: grid;

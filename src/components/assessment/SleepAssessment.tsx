@@ -729,7 +729,7 @@ export default function SleepAssessment({
 					<div
 						className="p-6 md:p-10 grid md:grid-cols-[auto_1fr] gap-8 items-center"
 						style={{
-							background: `radial-gradient(80% 120% at 0% 0%, ${color}22, transparent 60%)`,
+							background: `${color}14`,
 						}}
 					>
 						<div

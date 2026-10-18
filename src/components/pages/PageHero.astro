@@ -27,18 +27,15 @@ const { icon, eyebrow, title, lead } = Astro.props;
 
 <style>
     .page-hero {
-        background: linear-gradient(125deg, oklch(0.3 0.12 272) 0%, oklch(0.42 0.17 265) 45%, oklch(0.55 0.14 228) 100%);
-        box-shadow: 0 20px 50px oklch(0.35 0.15 268 / 0.3);
+        background: oklch(0.36 0.15 268);
     }
-    .page-hero-orb { position: absolute; border-radius: 999px; filter: blur(40px); opacity: 0.55; animation: hero-float 14s ease-in-out infinite; }
+    .page-hero-orb { display: none; position: absolute; border-radius: 999px; filter: blur(40px); opacity: 0.55; animation: hero-float 14s ease-in-out infinite; }
     .page-hero-orb--a { width: 18rem; height: 18rem; inset-inline-end: -4rem; top: -6rem; background: oklch(0.72 0.14 215); }
     .page-hero-orb--b { width: 14rem; height: 14rem; inset-inline-start: 30%; bottom: -8rem; background: oklch(0.6 0.2 290); animation-delay: -6s; }
     .page-hero-grid {
         position: absolute;
         inset: 0;
-        background-image: radial-gradient(rgb(255 255 255 / 0.16) 1px, transparent 1px);
-        background-size: 22px 22px;
-        mask-image: linear-gradient(120deg, transparent 20%, black 70%);
+        display: none;
     }
     .page-hero-logo { position: absolute; inset-inline-end: 2rem; bottom: 1.2rem; height: 2.4rem; opacity: 0.18; filter: brightness(0) invert(1); }
     .page-hero-icon {

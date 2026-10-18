@@ -1,6 +1,5 @@
 ---
 import { Icon } from "astro-icon/components";
-import { WHATSAPP_PHONE_DISPLAY, WHATSAPP_PHONE_RAW } from "@utils/contact";
 import { type SiteLocale, localizePath } from "@utils/locale-utils";
 import { url } from "@utils/url-utils";
 
@@ -12,31 +11,22 @@ interface Props {
 const { locale, variant } = Astro.props;
 const t = {
 	en: {
-		eyebrow: "Sleep Health · Respiratory Care · Orthopedics",
 		title: ["Breathe better.", "Sleep deeper.", "Live fully."],
-		sub: "CPAP & BiPAP therapy, home sleep testing, oral appliances and orthopedic braces — with education and real support from our team in Oman.",
+		sub: "Sleep apnea and orthopedic care, with real support from our team in Oman.",
 		cta1: "Take the Sleep Assessment",
 		cta2: "Explore Products",
-		call: "Call us",
-		badges: ["Home sleep testing", "Device registration & support", "Delivery across Oman"],
 	},
 	ar: {
-		eyebrow: "صحة النوم · الرعاية التنفسية · العظام",
 		title: ["تنفّس بشكل أفضل.", "نَم بعمق.", "عِش بحيوية."],
-		sub: "علاج CPAP و BiPAP، دراسات النوم المنزلية، أجهزة الفك ودعامات العظام — مع التثقيف والدعم الحقيقي من فريقنا في عُمان.",
+		sub: "حلول انقطاع النفس أثناء النوم والعظام، مع دعم حقيقي من فريقنا في عُمان.",
 		cta1: "ابدأ تقييم النوم",
 		cta2: "تصفّح المنتجات",
-		call: "اتصل بنا",
-		badges: ["دراسة النوم في المنزل", "تسجيل الأجهزة والدعم", "توصيل في جميع أنحاء عُمان"],
 	},
 	fa: {
-		eyebrow: "سلامت خواب · مراقبت تنفسی · ارتوپدی",
 		title: ["بهتر نفس بکشید.", "عمیق‌تر بخوابید.", "کامل‌تر زندگی کنید."],
-		sub: "درمان CPAP و BiPAP، تست خواب در منزل، ابزارهای دهانی و بریس‌های ارتوپدی — همراه با آموزش و پشتیبانی واقعی از تیم ما در عمان.",
+		sub: "راهکارهای آپنه خواب و ارتوپدی، با پشتیبانی واقعی از تیم ما در عمان.",
 		cta1: "شروع ارزیابی خواب",
 		cta2: "مشاهده محصولات",
-		call: "تماس",
-		badges: ["تست خواب در منزل", "ثبت دستگاه و پشتیبانی", "ارسال در سراسر عمان"],
 	},
 }[locale];
 const isOverlay = variant === "overlay";
@@ -44,10 +34,6 @@ const isOverlay = variant === "overlay";
 const TitleTag = isOverlay ? "p" : "h2";
 ---
 <div class:list={["hero-content", isOverlay ? "hero-content--overlay" : "hero-content--card"]}>
-    <p class="hero-eyebrow">
-        <span class="hero-pulse"></span>
-        {t.eyebrow}
-    </p>
     <TitleTag class="hero-title">
         {t.title.map((line, i) => <span class="hero-line" style={`--d:${i}`}><span>{line}</span></span>)}
     </TitleTag>
@@ -61,16 +47,7 @@ const TitleTag = isOverlay ? "p" : "h2";
             <Icon name="material-symbols:grid-view-outline-rounded" class="text-xl" />
             <span>{t.cta2}</span>
         </a>
-        <a href={`tel:+${WHATSAPP_PHONE_RAW}`} class="hero-btn hero-btn--phone" aria-label={`${t.call} ${WHATSAPP_PHONE_DISPLAY}`}>
-            <Icon name="material-symbols:call" class="text-xl" />
-            <span dir="ltr">{WHATSAPP_PHONE_DISPLAY}</span>
-        </a>
     </div>
-    <ul class="hero-badges">
-        {t.badges.map((b) => (
-            <li><Icon name="material-symbols:check-circle-rounded" class="text-base" /> {b}</li>
-        ))}
-    </ul>
 </div>
 
 <style>
@@ -81,52 +58,19 @@ const TitleTag = isOverlay ? "p" : "h2";
         max-width: none;
         border-radius: var(--radius-large);
         padding: 1.75rem 1.4rem;
-        background:
-            radial-gradient(120% 90% at 100% 0%, oklch(0.55 0.16 250 / 0.55), transparent 60%),
-            linear-gradient(160deg, oklch(0.26 0.08 268), oklch(0.17 0.05 265));
-        box-shadow: 0 18px 40px rgb(20 24 70 / 0.35);
-    }
-    .hero-eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        padding: 0.4rem 0.85rem;
-        border-radius: 999px;
-        background: rgb(255 255 255 / 0.12);
-        border: 1px solid rgb(255 255 255 / 0.2);
-        backdrop-filter: blur(10px);
-        margin-bottom: 1.1rem;
-    }
-    .hero-pulse {
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 999px;
-        background: #7ff3ff;
-        box-shadow: 0 0 0 0 rgb(127 243 255 / 0.7);
-        animation: hero-pulse 2.4s infinite;
-    }
-    @keyframes hero-pulse {
-        0% { box-shadow: 0 0 0 0 rgb(127 243 255 / 0.7); }
-        70% { box-shadow: 0 0 0 10px rgb(127 243 255 / 0); }
-        100% { box-shadow: 0 0 0 0 rgb(127 243 255 / 0); }
+        background: oklch(0.24 0.08 268);
     }
     .hero-title {
         font-weight: 800;
-        line-height: 1.08;
+        line-height: 1.15;
         font-size: clamp(2rem, 3.6vw, 3.4rem);
         letter-spacing: -0.02em;
         text-shadow: 0 4px 30px rgb(0 0 30 / 0.35);
     }
     .hero-content--overlay .hero-title { font-size: clamp(2rem, min(3.4vw, 6.2vh), 3.4rem); }
-    .hero-content--overlay .hero-btn--phone { display: none; }
     @media (max-height: 860px) {
-        .hero-content--overlay .hero-badges { display: none; }
-        .hero-content--overlay .hero-eyebrow { margin-bottom: 0.7rem; }
-        .hero-content--overlay .hero-sub { margin-top: 0.7rem; font-size: 0.95rem; }
-        .hero-content--overlay .hero-actions { margin-top: 1rem; }
+        .hero-content--overlay .hero-sub { margin-top: 0.9rem; }
+        .hero-content--overlay .hero-actions { margin-top: 1.4rem; }
     }
     @media (max-height: 720px) {
         .hero-content--overlay .hero-sub { display: none; }
@@ -139,28 +83,25 @@ const TitleTag = isOverlay ? "p" : "h2";
         animation-delay: calc(250ms + var(--d) * 120ms);
     }
     .hero-line:nth-child(2) > span {
-        background: linear-gradient(90deg, #9fd8ff, #7ff3ff 40%, #c9b8ff);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+        color: #9fd8ff;
     }
     @keyframes hero-rise {
         from { transform: translateY(110%); opacity: 0; }
         to { transform: none; opacity: 1; }
     }
     .hero-sub {
-        margin-top: 1rem;
-        font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+        margin-top: 1.25rem;
+        font-size: clamp(1rem, 1.2vw, 1.12rem);
         line-height: 1.7;
-        color: rgb(255 255 255 / 0.82);
-        max-width: 34rem;
+        color: rgb(255 255 255 / 0.78);
+        max-width: 28rem;
         animation: hero-fade 1s ease 0.6s both;
     }
     .hero-actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.65rem;
-        margin-top: 1.5rem;
+        gap: 0.75rem;
+        margin-top: 2rem;
         animation: hero-fade 1s ease 0.75s both;
     }
     .hero-btn {
@@ -177,7 +118,7 @@ const TitleTag = isOverlay ? "p" : "h2";
     .hero-btn:hover { transform: translateY(-2px); }
     .hero-btn:active { transform: scale(0.97); }
     .hero-btn--primary {
-        background: linear-gradient(135deg, #5b7bff, #34c6ff);
+        background: #4a63f0;
         box-shadow: 0 10px 30px rgb(52 120 255 / 0.45);
     }
     .hero-btn--primary:hover { box-shadow: 0 14px 38px rgb(52 120 255 / 0.6); }
@@ -187,23 +128,11 @@ const TitleTag = isOverlay ? "p" : "h2";
         backdrop-filter: blur(10px);
     }
     .hero-btn--ghost:hover { background: rgb(255 255 255 / 0.2); }
-    .hero-btn--phone { background: rgb(0 0 0 / 0.25); border: 1px solid rgb(255 255 255 / 0.18); }
-    .hero-badges {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem 1.1rem;
-        margin-top: 1.4rem;
-        font-size: 0.82rem;
-        color: rgb(255 255 255 / 0.78);
-        animation: hero-fade 1s ease 0.9s both;
-    }
-    .hero-badges li { display: inline-flex; align-items: center; gap: 0.35rem; }
-    .hero-badges :global(svg) { color: #7ff3ff; }
     @keyframes hero-fade {
         from { opacity: 0; transform: translateY(12px); }
         to { opacity: 1; transform: none; }
     }
     @media (prefers-reduced-motion: reduce) {
-        .hero-line > span, .hero-sub, .hero-actions, .hero-badges, .hero-pulse { animation: none; }
+        .hero-line > span, .hero-sub, .hero-actions { animation: none; }
     }
 </style>

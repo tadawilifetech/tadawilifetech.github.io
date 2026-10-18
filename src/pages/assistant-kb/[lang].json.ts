@@ -4,7 +4,7 @@ import {
 	INSTAGRAM_ACCOUNTS,
 	WHATSAPP_PHONE_DISPLAY,
 } from "@utils/contact";
-import { getSortedProducts } from "@utils/content-utils";
+import { getSortedPosts, getSortedProducts } from "@utils/content-utils";
 import {
 	getEntryTranslationKey,
 	localizePath,
@@ -13,15 +13,34 @@ import {
 } from "@utils/locale-utils";
 import type { APIRoute, GetStaticPaths } from "astro";
 
+/** Markdown body → compact plain text (headings and bullets kept as short lines). */
+function plainText(markdown: string | undefined, max: number) {
+	const text = (markdown ?? "")
+		.replace(/```[\s\S]*?```/g, " ")
+		.replace(/<[^>]+>/g, " ")
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+		.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+		.replace(/^#+\s*/gm, "")
+		.replace(/^\s*[-*]\s+/gm, "• ")
+		.replace(/[*_`>|]/g, "")
+		.replace(/\n{2,}/g, "\n")
+		.replace(/[ \t]+/g, " ")
+		.trim();
+	return text.length > max ? `${text.slice(0, max).replace(/\s+\S*$/, "")}…` : text;
+}
+
 export const getStaticPaths = (() =>
 	SUPPORTED_LOCALES.map((lang) => ({
 		params: { lang },
 	}))) satisfies GetStaticPaths;
 
-/** Compact knowledge base for the AI assistant (server prompt + offline search). */
+/** Knowledge base for the AI assistant: the worker retrieves from it per question; the widget searches it offline. */
 export const GET: APIRoute = async ({ params }) => {
 	const locale = params.lang as SiteLocale;
-	const products = await getSortedProducts(locale);
+	const [products, posts] = await Promise.all([
+		getSortedProducts(locale),
+		getSortedPosts(locale),
+	]);
 	products.sort(
 		(a, b) =>
 			a.data.group.localeCompare(b.data.group) || a.data.order - b.data.order,
@@ -49,7 +68,14 @@ export const GET: APIRoute = async ({ params }) => {
 			category: entry.data.category,
 			group: entry.data.group,
 			summary: entry.data.description,
-			faq: entry.data.faq.slice(0, 4),
+			details: plainText(entry.body, 1400),
+			faq: entry.data.faq,
+		})),
+		articles: posts.map((entry) => ({
+			title: entry.data.title,
+			url: localizePath(`/posts/${getEntryTranslationKey(entry)}/`, locale),
+			summary: entry.data.description,
+			details: plainText(entry.body, 2400),
 		})),
 	};
 

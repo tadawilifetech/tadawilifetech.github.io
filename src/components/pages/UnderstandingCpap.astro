@@ -273,8 +273,7 @@ const toc = [...c.topics.map(([id, , title]) => [id, title]), ["sleep-study-repo
         height: 5rem;
         border-radius: 1.4rem;
         color: white;
-        background: linear-gradient(140deg, oklch(0.5 0.17 var(--h)), oklch(0.65 0.13 calc(var(--h) - 40)));
-        box-shadow: 0 12px 26px oklch(0.45 0.15 var(--h) / 0.3);
+        background: oklch(0.52 0.16 var(--h));
     }
     .ahi-scale { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
     @media (max-width: 640px) { .ahi-scale { grid-template-columns: repeat(2, 1fr); } }

@@ -53,18 +53,9 @@ export default function AddToCartButton({ id, title, price, url, locale = "en" }
 		<div
 			className="relative overflow-hidden rounded-[var(--radius-large)] onload-animation"
 			style={{
-				background: "linear-gradient(135deg, oklch(0.22 0.02 var(--hue)) 0%, oklch(0.18 0.03 var(--hue)) 100%)",
+				background: "oklch(0.2 0.025 var(--hue))",
 			}}
 		>
-			{/* Decorative glow */}
-			<div
-				className="absolute -top-16 -end-16 w-48 h-48 rounded-full pointer-events-none"
-				style={{ background: "oklch(0.70 0.18 var(--hue))", opacity: 0.12, filter: "blur(40px)" }}
-			/>
-			<div
-				className="absolute -bottom-12 -start-12 w-36 h-36 rounded-full pointer-events-none"
-				style={{ background: "oklch(0.65 0.20 var(--hue))", opacity: 0.10, filter: "blur(32px)" }}
-			/>
 
 			<div className="relative z-10 p-6 md:p-7">
 				{/* Header row */}

@@ -207,7 +207,7 @@ function YouTubeStage({
 						}
 						loading="lazy"
 					/>
-					<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
+					<div className="absolute inset-0 bg-black/35" />
 					<div className="absolute inset-0 grid place-items-center">
 						<span className="video-play-btn">
 							{ended ? <MdReplay /> : <MdPlayArrow />}
@@ -306,7 +306,7 @@ function FileStage({
 			{!started && (
 				<button
 					type="button"
-					className="absolute inset-0 grid place-items-center bg-gradient-to-t from-black/50 to-transparent"
+					className="absolute inset-0 grid place-items-center bg-black/30"
 					aria-label={ui.play}
 					onClick={() => {
 						setStarted(true);

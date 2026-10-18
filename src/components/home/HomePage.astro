@@ -147,7 +147,7 @@ const card = (entry: CollectionEntry<"products">, i: number) => ({
     {t.quick.map((q, i) => {
         const inner = (
             <>
-                <span class="icon-badge transition group-hover:scale-110"><Icon name={q.icon} class="text-2xl" /></span>
+                <span class="icon-badge"><Icon name={q.icon} class="text-2xl" /></span>
                 <span class="flex flex-col min-w-0">
                     <span class="font-extrabold text-90 leading-tight">{q.title}</span>
                     <span class="text-xs md:text-sm text-50 mt-0.5">{q.text}</span>
@@ -186,7 +186,7 @@ const card = (entry: CollectionEntry<"products">, i: number) => ({
                         <span class="block text-xl md:text-2xl font-extrabold leading-tight">{PRODUCT_GROUPS[g].label[locale]}</span>
                         <span class="block text-sm opacity-80 mt-1.5 leading-snug">{PRODUCT_GROUPS[g].tagline[locale]}</span>
                     </span>
-                    <img src={url(groupImages[g])} alt="" class="group-tab-img relative z-10 w-24 h-24 md:w-32 md:h-32 object-contain shrink-0" loading="lazy" />
+                    <img src={url(groupImages[g])} alt="" class="group-tab-img relative z-10 w-24 h-24 md:w-32 md:h-32 object-cover shrink-0" loading="lazy" />
                 </button>
             );
         })}
@@ -310,24 +310,22 @@ const card = (entry: CollectionEntry<"products">, i: number) => ({
 <OurBrandCarousel client:visible className="mb-4" />
 
 <style>
-    .group-tab { color: var(--deep-text); background: var(--card-bg); border: 1.5px solid transparent; transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.35s ease, border-color 0.3s ease; }
+    .group-tab { color: var(--deep-text); background: var(--card-bg); border: 1.5px solid transparent; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); transition: border-color 0.2s ease; }
     :global(.dark) .group-tab { color: rgb(255 255 255 / 0.9); }
-    .group-tab:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgb(30 40 90 / 0.12); }
-    .group-tab-bg { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease; background: radial-gradient(120% 120% at 100% 0%, oklch(0.62 0.16 230) 0%, oklch(0.45 0.17 268) 55%, oklch(0.3 0.12 272) 100%); }
-    .group-tab[aria-selected="true"] { color: white; box-shadow: 0 18px 40px oklch(0.45 0.17 268 / 0.35); }
+    .group-tab:hover { border-color: color-mix(in oklch, var(--primary) 40%, transparent); }
+    .group-tab-bg { position: absolute; inset: 0; opacity: 0; background: oklch(0.45 0.17 268); }
+    .group-tab[aria-selected="true"] { color: white; }
     .group-tab[aria-selected="true"] .group-tab-bg { opacity: 1; }
-    .group-tab-img { filter: drop-shadow(0 10px 18px rgb(0 0 0 / 0.18)); transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); border-radius: 1rem; background: white; padding: 0.4rem; }
-    .group-tab:hover .group-tab-img { transform: rotate(-4deg) scale(1.06); }
-    .family-tab { border: 1.5px solid transparent; transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; }
-    .family-tab:hover { transform: translateY(-2px); }
-    .family-tab[aria-pressed="true"] { border-color: var(--primary); box-shadow: 0 10px 28px oklch(0.55 0.15 268 / 0.18); }
+    .group-tab-img { border-radius: 1rem; background: white; }
+    .family-tab { border: 1.5px solid transparent; transition: border-color 0.2s ease; }
+    .family-tab:hover { border-color: color-mix(in oklch, var(--primary) 30%, transparent); }
+    .family-tab[aria-pressed="true"] { border-color: var(--primary); }
     [data-product-item] > :global(*) { width: 100%; }
     [data-product-item][hidden] { display: none !important; }
-    .catalog-cta { background: linear-gradient(120deg, oklch(0.42 0.17 268), oklch(0.55 0.15 235)); box-shadow: 0 16px 40px oklch(0.45 0.17 268 / 0.3); }
+    .catalog-cta { background: oklch(0.45 0.17 268); }
     .catalog-cta::after { content: ""; position: absolute; inset-inline-end: -3rem; top: -3rem; width: 14rem; height: 14rem; border-radius: 999px; background: rgb(255 255 255 / 0.08); }
     .journey-num { font-size: 2rem; font-weight: 900; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px color-mix(in oklch, var(--primary) 45%, transparent); }
-    .academy-card::after { content: ""; position: absolute; inset-inline-end: -2.5rem; bottom: -2.5rem; width: 8rem; height: 8rem; border-radius: 999px; background: color-mix(in oklch, var(--primary) 8%, transparent); transition: transform 0.5s ease; }
-    .academy-card:hover::after { transform: scale(1.5); }
+    .academy-card::after { content: ""; position: absolute; inset-inline-end: -2.5rem; bottom: -2.5rem; width: 8rem; height: 8rem; border-radius: 999px; background: color-mix(in oklch, var(--primary) 8%, transparent); }
 </style>
 
 <script>

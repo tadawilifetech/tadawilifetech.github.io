@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components";
 import type { SiteLocale } from "@utils/locale-utils";
 import { url } from "@utils/url-utils";
+import { getImageFit } from "@utils/image-fit";
 
 interface Props {
 	images: string[];
@@ -13,6 +14,7 @@ interface Props {
 const { images, title, imageVideo = "", locale } = Astro.props;
 const list = [...new Set(images.filter(Boolean))];
 const src = (p: string) => (p.startsWith("/") ? url(p) : p);
+const fits = await Promise.all(list.map((p) => getImageFit(p)));
 const t = {
 	en: { zoom: "Click to zoom", play: "Watch video", prev: "Previous image", next: "Next image" },
 	ar: { zoom: "انقر للتكبير", play: "شاهد الفيديو", prev: "الصورة السابقة", next: "الصورة التالية" },
@@ -22,12 +24,12 @@ const t = {
 {list.length > 0 && (
 <div class="product-gallery" data-gallery data-video={imageVideo ? src(imageVideo) : ""}>
     <div class="pg-stage" data-stage>
-        <div class="pg-glow" aria-hidden="true"></div>
         {list.map((img, i) => (
             <img
                 src={src(img)}
                 alt={`${title}${i ? ` – ${i + 1}` : ""}`}
-                class:list={["pg-image", { "is-active": i === 0 }]}
+                class:list={["pg-image", `pg-image--${fits[i].fit}`, { "is-active": i === 0 }]}
+                style={`background:${fits[i].bg}`}
                 data-index={i}
                 loading={i === 0 ? "eager" : "lazy"}
                 decoding="async"
@@ -60,7 +62,7 @@ const t = {
         <div class="pg-thumbs hide-scrollbar" role="tablist">
             {list.map((img, i) => (
                 <button type="button" class:list={["pg-thumb", { "is-active": i === 0 }]} data-thumb={i} role="tab" aria-selected={i === 0 ? "true" : "false"} aria-label={`${title} ${i + 1}`}>
-                    <img src={src(img)} alt="" loading="lazy" decoding="async" />
+                    <img src={src(img)} alt="" loading="lazy" decoding="async" class={`pg-thumb-img--${fits[i].fit}`} style={`background:${fits[i].bg}`} />
                 </button>
             ))}
         </div>
@@ -75,38 +77,29 @@ const t = {
         aspect-ratio: 1 / 1;
         border-radius: var(--radius-large);
         overflow: hidden;
-        background:
-            radial-gradient(70% 60% at 50% 45%, white 0%, oklch(0.97 0.01 var(--hue)) 70%, oklch(0.93 0.02 var(--hue)) 100%);
+        background: #fff;
         border: 1px solid rgb(0 0 0 / 0.05);
         touch-action: pan-y;
     }
     :global(.dark) .pg-stage {
-        background: radial-gradient(70% 60% at 50% 45%, oklch(0.32 0.02 var(--hue)) 0%, oklch(0.22 0.02 var(--hue)) 100%);
+        background: #fff;
         border-color: rgb(255 255 255 / 0.06);
     }
     @media (min-width: 768px) { .pg-stage { aspect-ratio: 5 / 4; } }
-    .pg-glow {
-        position: absolute;
-        inset: 18% 20%;
-        border-radius: 999px;
-        background: oklch(0.75 0.12 var(--hue) / 0.18);
-        filter: blur(50px);
-    }
     .pg-image {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain;
-        padding: 6%;
+        object-fit: cover;
+        object-position: center;
+        box-sizing: border-box;
         opacity: 0;
         transform: scale(0.97);
         transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        mix-blend-mode: multiply;
     }
-    :global(.dark) .pg-image { mix-blend-mode: normal; }
+    .pg-image--contain { object-fit: contain; padding: 7%; }
     .pg-image.is-active { opacity: 1; transform: none; }
-    .pg-stage:hover .pg-image.is-active { transform: scale(1.03); }
     .pg-video { position: absolute; inset: 0; width: 100%; height: 100%; background: #000; object-fit: contain; z-index: 4; }
     .pg-open { position: absolute; inset: 0; z-index: 2; cursor: zoom-in; }
     .product-gallery[data-video]:not([data-video=""]) .pg-open { cursor: pointer; }
@@ -171,11 +164,11 @@ const t = {
         background: white;
         border: 2px solid transparent;
         opacity: 0.65;
-        transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        transition: opacity 0.2s ease, border-color 0.2s ease;
     }
-    :global(.dark) .pg-thumb { background: oklch(0.28 0.02 var(--hue)); }
-    .pg-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 0.3rem; }
-    .pg-thumb:hover { opacity: 1; transform: translateY(-2px); }
+    .pg-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .pg-thumb img.pg-thumb-img--contain { object-fit: contain; padding: 0.3rem; box-sizing: border-box; }
+    .pg-thumb:hover { opacity: 1; }
     .pg-thumb.is-active { opacity: 1; border-color: var(--primary); }
 </style>
 

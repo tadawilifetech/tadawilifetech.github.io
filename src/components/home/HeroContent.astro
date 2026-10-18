@@ -113,19 +113,15 @@ const TitleTag = isOverlay ? "p" : "h2";
         border-radius: 999px;
         font-weight: 700;
         font-size: 0.92rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        transition: background 0.2s ease;
     }
-    .hero-btn:hover { transform: translateY(-2px); }
-    .hero-btn:active { transform: scale(0.97); }
     .hero-btn--primary {
         background: #4a63f0;
-        box-shadow: 0 10px 30px rgb(52 120 255 / 0.45);
     }
-    .hero-btn--primary:hover { box-shadow: 0 14px 38px rgb(52 120 255 / 0.6); }
+    .hero-btn--primary:hover { background: #3b52d8; }
     .hero-btn--ghost {
         background: rgb(255 255 255 / 0.12);
         border: 1px solid rgb(255 255 255 / 0.28);
-        backdrop-filter: blur(10px);
     }
     .hero-btn--ghost:hover { background: rgb(255 255 255 / 0.2); }
     @keyframes hero-fade {

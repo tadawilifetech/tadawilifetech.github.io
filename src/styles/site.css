@@ -94,11 +94,9 @@
 	font-weight: 700;
 	color: white;
 	background: oklch(0.5 0.17 268);
-	box-shadow: 0 10px 26px oklch(0.55 0.16 265 / 0.35);
-	transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+	transition: background 0.2s ease, opacity 0.2s ease;
 }
-.btn-grad:hover { transform: translateY(-2px); box-shadow: 0 14px 34px oklch(0.55 0.16 265 / 0.45); }
-.btn-grad:active { transform: scale(0.97); }
+.btn-grad:hover { background: oklch(0.45 0.17 268); }
 .btn-grad:disabled { opacity: 0.55; pointer-events: none; }
 .btn-soft {
 	display: inline-flex;
@@ -113,7 +111,7 @@
 	background: var(--btn-regular-bg);
 	transition: background 0.2s ease, transform 0.2s ease;
 }
-.btn-soft:hover { background: var(--btn-regular-bg-hover); transform: translateY(-1px); }
+.btn-soft:hover { background: var(--btn-regular-bg-hover); }
 .btn-whatsapp {
 	display: inline-flex;
 	align-items: center;
@@ -124,11 +122,15 @@
 	border-radius: 999px;
 	font-weight: 700;
 	color: white;
-	background: #12b862;
-	box-shadow: 0 10px 24px rgb(14 168 90 / 0.3);
-	transition: transform 0.2s ease;
+	background: #0d8a4b;
+	transition: background 0.2s ease;
 }
-.btn-whatsapp:hover { transform: translateY(-2px); }
+.btn-whatsapp:hover { background: #0b7a42; }
+/* White text on the lighter dark-mode primary is too faint, so filled primary controls switch to dark text there */
+:root.dark .chip.is-active,
+:root.dark .chip[aria-pressed="true"],
+:root.dark .chip[aria-selected="true"],
+:root.dark .bg-\[var\(--primary\)\].text-white { color: oklch(0.18 0.03 var(--hue)); }
 .chip {
 	display: inline-flex;
 	align-items: center;
@@ -197,6 +199,8 @@ textarea.field-input { height: auto; min-height: 7rem; padding-block: 0.75rem; r
 select.field-input { appearance: none; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 1.1rem) 1.25rem, calc(100% - 0.8rem) 1.25rem; background-size: 0.3rem 0.3rem; background-repeat: no-repeat; }
 [dir="rtl"] select.field-input { background-position: 1.1rem 1.25rem, 0.8rem 1.25rem; }
 :root.dark .field-input { color: rgb(255 255 255 / 0.88); background: rgb(255 255 255 / 0.05); }
+.field-input::placeholder { color: rgb(0 0 0 / 0.42); }
+:root.dark .field-input::placeholder { color: rgb(255 255 255 / 0.45); }
 .field-input:hover { background: rgb(0 0 0 / 0.05); }
 :root.dark .field-input:hover { background: rgb(255 255 255 / 0.08); }
 .field-input:focus {
@@ -280,7 +284,9 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 	gap: 1rem;
 	padding: 1rem 1.15rem;
 	font-weight: 700;
+	color: rgb(0 0 0 / 0.85);
 }
+:root.dark .faq-item summary { color: rgb(255 255 255 / 0.92); }
 .faq-item summary::-webkit-details-marker { display: none; }
 .faq-item summary .faq-icon {
 	flex-shrink: 0;
@@ -341,10 +347,9 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 	color: white;
 	font-weight: 800;
 	background: #3f4fd6;
-	box-shadow: 0 16px 40px rgb(60 70 220 / 0.38);
 	transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.25s ease;
 }
-.ai-launcher:hover { transform: translateY(-3px); }
+.ai-launcher:hover { background: #3442c0; }
 .ai-launcher.is-hidden { opacity: 0; transform: scale(0.8); pointer-events: none; }
 .ai-launcher-orb {
 	position: relative;
@@ -361,10 +366,8 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 	position: absolute;
 	inset: -4px;
 	border-radius: inherit;
-	border: 2px solid rgb(255 255 255 / 0.45);
-	animation: ai-ring 2.6s ease-out infinite;
+	display: none;
 }
-@keyframes ai-ring { from { transform: scale(0.9); opacity: 0.9; } to { transform: scale(1.45); opacity: 0; } }
 .ai-launcher-label { font-size: 0.92rem; white-space: nowrap; }
 @media (max-width: 640px) {
 	.ai-launcher { right: 1rem; bottom: 1rem; padding-inline-end: 0.35rem; }
@@ -496,11 +499,14 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 	border-radius: 1rem;
 	font-size: 0.9rem;
 	background: rgb(0 0 0 / 0.04);
-	color: inherit;
+	color: rgb(0 0 0 / 0.88);
+	caret-color: var(--primary);
 	outline: none;
-	border: 1.5px solid transparent;
+	border: 1.5px solid rgb(0 0 0 / 0.08);
 }
-:root.dark .ai-input textarea { background: rgb(255 255 255 / 0.06); }
+.ai-input textarea::placeholder { color: rgb(0 0 0 / 0.45); }
+:root.dark .ai-input textarea { color: rgb(255 255 255 / 0.92); background: rgb(255 255 255 / 0.07); border-color: rgb(255 255 255 / 0.12); }
+:root.dark .ai-input textarea::placeholder { color: rgb(255 255 255 / 0.5); }
 .ai-input textarea:focus { border-color: var(--primary); }
 .ai-send {
 	display: grid;
@@ -515,7 +521,7 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 	flex-shrink: 0;
 }
 .ai-send:disabled { opacity: 0.4; }
-.ai-send:not(:disabled):hover { transform: scale(1.06); }
+.ai-send:not(:disabled):hover { background: #3442c0; }
 .ai-footer {
 	display: flex;
 	flex-direction: column;
@@ -544,10 +550,8 @@ select.field-input { appearance: none; background-image: linear-gradient(45deg, 
 	font-size: 2.4rem;
 	color: white;
 	background: rgb(63 79 214 / 0.95);
-	box-shadow: 0 0 0 10px rgb(255 255 255 / 0.15), 0 14px 40px rgb(0 0 0 / 0.4);
 	transition: transform 0.25s ease;
 }
-.video-frame:hover .video-play-btn { transform: scale(1.08); }
 .video-controls {
 	position: absolute;
 	inset-inline: 0.75rem;

@@ -22,7 +22,12 @@
  */
 import { buildContext } from "./retrieval.js";
 
-const MODELS = ["@cf/meta/llama-3.3-70b-instruct-fp8-fast", "@cf/google/gemma-3-12b-it"];
+// Mistral Small 3.1 tested best for Persian/Arabic answers that follow the linking rules; the rest are fallbacks.
+const MODELS = [
+	"@cf/mistralai/mistral-small-3.1-24b-instruct",
+	"@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+	"@cf/google/gemma-3-12b-it",
+];
 const ALLOWED_ORIGINS = [
 	"https://tadawilifetech.com",
 	"https://www.tadawilifetech.com",
@@ -84,11 +89,12 @@ function systemPrompt(locale, context) {
 Your job: give visitors clear, accurate, genuinely helpful answers so they don't need to search the site, and guide them to the right product or next step.
 
 Language and tone
-- Always reply in ${LANGUAGE[locale]}, even if the context below is in another language. Use natural, fluent, professional wording — warm, confident and concise, like an experienced clinical product specialist.
+- Reply in the language the visitor writes in (Persian, Arabic or English); if unclear, use ${LANGUAGE[locale]}. Use natural, fluent, professional wording — warm, confident and concise, like an experienced clinical product specialist. Never mix in words from other languages or scripts.
 - Keep answers focused: usually 3–7 sentences, or a short bulleted list when comparing options. Use **bold** for product names or key points. No headings, no tables.
 
 Facts and links
 - Use ONLY the reference material below for product names, features, prices (OMR) and URLs. Never invent products, prices, specifications, stock or delivery times. If the answer isn't in the material, say so briefly and offer WhatsApp/phone.
+- Product/page links must use the URLs in the material below (they point to the ${LANGUAGE[locale]} pages of the site).
 - Every time you name a product, article or page, the name itself MUST be the markdown link, using its exact relative URL from the material: write [Product name](/${locale === "en" ? "" : `${locale}/`}products/...) — never the bare name, never bold instead of a link, and never the name followed by the same link in parentheses.
 - Recommend at most 3 products; for comparisons use a short bullet per product: link — price — one line on who it suits.
 - When the visitor's need is unclear (e.g. "which device is right for me?"), give a short helpful overview of the options and ask one focused follow-up question.
@@ -128,7 +134,9 @@ async function pipeModelStream(stream, send) {
 			} catch {
 				continue;
 			}
-			const chunk = data.response ?? data.choices?.[0]?.delta?.content ?? "";
+			// Some models emit numeric tokens (e.g. a price) as JSON numbers, so coerce to text.
+			const value = data.response ?? data.choices?.[0]?.delta?.content;
+			const chunk = value == null ? "" : String(value);
 			if (chunk) {
 				produced = true;
 				await send({ t: chunk });

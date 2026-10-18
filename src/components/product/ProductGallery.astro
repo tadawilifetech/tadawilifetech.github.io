@@ -134,13 +134,11 @@ const t = {
         border-radius: 999px;
         font-size: 1.6rem;
         color: var(--primary);
-        background: rgb(255 255 255 / 0.85);
-        box-shadow: 0 6px 18px rgb(0 0 0 / 0.12);
-        backdrop-filter: blur(6px);
-        transition: transform 0.2s ease, opacity 0.2s ease;
+        background: #fff;
+        border: 1px solid rgb(0 0 0 / 0.12);
+        transition: background 0.2s ease, opacity 0.2s ease;
     }
-    :global(.dark) .pg-arrow { background: rgb(30 34 60 / 0.85); }
-    .pg-arrow:hover { transform: scale(1.08); }
+    .pg-arrow:hover { background: oklch(0.96 0.02 268); }
     .pg-arrow--prev { inset-inline-start: 0.75rem; }
     .pg-arrow--next { inset-inline-end: 0.75rem; }
     .pg-counter {

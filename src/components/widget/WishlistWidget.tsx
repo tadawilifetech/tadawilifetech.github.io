@@ -26,7 +26,7 @@ export default function WishlistWidget({ products, emptyText }: Props) {
 
 	if (items.length === 0) {
 		return (
-			<div className="text-sm text-black/30 dark:text-white/30 px-1">
+			<div className="text-sm text-black/50 dark:text-white/55 px-1">
 				{emptyText}
 			</div>
 		);
@@ -50,7 +50,7 @@ export default function WishlistWidget({ products, emptyText }: Props) {
 						onClick={() => toggleWishlist(item.id)}
 						className="opacity-0 group-hover:opacity-100 transition-opacity
 							w-6 h-6 flex-shrink-0 inline-flex items-center justify-center rounded-full
-							text-black/30 dark:text-white/30 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+							text-black/50 dark:text-white/55 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40"
 						aria-label="Remove from wishlist"
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">

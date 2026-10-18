@@ -89,8 +89,7 @@ export default function AddToCartButton({ id, title, price, url, locale = "en" }
 						onClick={handleAdd}
 						className={[
 							"relative inline-flex items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 font-semibold text-sm transition-all duration-200",
-							"shadow-lg shadow-black/30 active:scale-[0.97]",
-							added
+														added
 								? "bg-green-500 text-white"
 								: "bg-white text-[oklch(0.25_0.03_var(--hue))] hover:bg-white/90",
 						].join(" ")}
